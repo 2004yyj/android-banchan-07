@@ -6,7 +6,7 @@ import com.woowahan.ordering.domain.model.Cart
 fun CartEntity.toModel(): Cart {
     return Cart(
         id = id,
-        name = name,
+        title = title,
         thumbnail = thumbnail,
         price = price,
         count = count,
@@ -18,7 +18,7 @@ fun CartEntity.toModel(): Cart {
 fun Cart.toEntity(): CartEntity {
     return CartEntity(
         id = id,
-        name = name,
+        title = title,
         thumbnail = thumbnail,
         price = price,
         count = count,

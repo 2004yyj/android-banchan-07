@@ -6,7 +6,7 @@ import com.woowahan.ordering.domain.model.Recently
 fun Recently.toEntity(): RecentlyEntity {
     return RecentlyEntity(
         detailHash,
-        name,
+        title,
         thumbnail,
         price,
         discountPrice,
@@ -17,7 +17,7 @@ fun Recently.toEntity(): RecentlyEntity {
 fun RecentlyEntity.toModel(): Recently {
     return Recently(
         detailHash,
-        name,
+        title,
         thumbnail,
         price,
         discountPrice,
