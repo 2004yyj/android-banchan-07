@@ -5,7 +5,7 @@ import com.woowahan.ordering.domain.model.SimpleOrder
 
 fun SimpleOrder.toEntity(): SimpleOrderEntity {
     return SimpleOrderEntity(
-        name,
+        title,
         deliveryTime,
         thumbnail,
         totalPrice,
@@ -15,7 +15,7 @@ fun SimpleOrder.toEntity(): SimpleOrderEntity {
 
 fun SimpleOrderEntity.toModel(): SimpleOrder {
     return SimpleOrder(
-        name,
+        title,
         deliveryTime,
         thumbnail,
         totalPrice,

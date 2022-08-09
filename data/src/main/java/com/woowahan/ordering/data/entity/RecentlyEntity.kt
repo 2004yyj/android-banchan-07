@@ -9,7 +9,7 @@ import java.util.*
 data class RecentlyEntity(
     @PrimaryKey(autoGenerate = false)
     val detailHash: String,
-    val name: String,
+    val title: String,
     val thumbnail: String,
     val price: Long,
     val discountPrice: Long,
