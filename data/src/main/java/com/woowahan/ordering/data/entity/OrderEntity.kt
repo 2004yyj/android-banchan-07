@@ -3,7 +3,7 @@ package com.woowahan.ordering.data.entity
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "Order")
+@Entity(tableName = "Orders")
 data class OrderEntity(
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0,
