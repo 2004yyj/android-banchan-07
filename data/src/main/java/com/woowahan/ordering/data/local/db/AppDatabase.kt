@@ -5,6 +5,7 @@ import androidx.room.RoomDatabase
 import com.woowahan.ordering.data.entity.CartEntity
 import com.woowahan.ordering.data.entity.OrderEntity
 import com.woowahan.ordering.data.entity.RecentlyEntity
+import com.woowahan.ordering.data.local.dao.CartDao
 
 @Database(
     entities = [
@@ -15,4 +16,5 @@ import com.woowahan.ordering.data.entity.RecentlyEntity
     version = 1
 )
 abstract class AppDatabase: RoomDatabase() {
+    abstract fun cartDao(): CartDao
 }
