@@ -12,7 +12,7 @@ fun <T: Fragment> FragmentManager.add(
     arguments: Bundle = Bundle()
 ) {
     beginTransaction().apply {
-        val constructor = fragmentClass.getConstructor(Function::class.java)
+        val constructor = fragmentClass.getConstructor()
         val fragment: Fragment = constructor.newInstance()
         fragment.arguments = arguments
         add(containerViewId, fragment, tag)
