@@ -11,7 +11,7 @@ interface OrderDao {
     fun insertOrder(order: OrderEntity)
 
     @Query(
-        "SELECT c.name, c.thumbnail, o.deliveryTime, total(c.price) as totalPrice, count(o.deliveryTime) as productCount " +
+        "SELECT c.title, c.thumbnail, o.deliveryTime, total(c.price) as totalPrice, count(o.deliveryTime) as productCount " +
                 "FROM Orders as o LEFT JOIN Cart as c ON o.id = c.orderId " +
                 "GROUP BY o.deliveryTime ORDER BY o.deliveryTime DESC"
     )
