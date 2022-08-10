@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="android.view.View"/>
         <variable
             name="count"
             type="Integer" />
@@ -13,7 +14,7 @@
         android:layout_height="wrap_content">
 
         <ImageButton
-            android:id="@+id/imageButton"
+            android:id="@+id/ibt_cart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
@@ -30,12 +31,13 @@
             android:gravity="center"
             android:textSize="8sp"
             android:padding="2dp"
+            android:visibility="@{count > 0 ? View.VISIBLE : View.INVISIBLE}"
             android:background="@drawable/bg_toolbar_cart_menu_count"
             android:textColor="@color/white"
             android:fontFamily="@font/outfit"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="4dp"
-            app:layout_constraintEnd_toEndOf="@+id/imageButton"
+            app:layout_constraintEnd_toEndOf="@+id/ibt_cart"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
