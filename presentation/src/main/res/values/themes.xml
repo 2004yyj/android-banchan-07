@@ -10,6 +10,10 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="Divider">
+        <item name="android:background">@color/line</item>
+    </style>
+
     <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.ActionBar">
         <item name="android:fontFamily">@font/outfit</item>
         <item name="android:textStyle">bold</item>

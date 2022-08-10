@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="tabs">
+        <item>@string/best</item>
+        <item>@string/main</item>
+        <item>@string/soup</item>
+        <item>@string/side</item>
+    </string-array>
+</resources>
