@@ -1,11 +1,13 @@
 package com.woowahan.ordering.di
 
 import com.woowahan.ordering.data.datasource.CartDataSource
+import com.woowahan.ordering.data.datasource.FoodDataSource
 import com.woowahan.ordering.data.datasource.OrderDataSource
 import com.woowahan.ordering.data.datasource.RecentlyDataSource
 import com.woowahan.ordering.data.local.datasource.CartDataSourceImpl
 import com.woowahan.ordering.data.local.datasource.OrderDataSourceImpl
 import com.woowahan.ordering.data.local.datasource.RecentlyDataSourceImpl
+import com.woowahan.ordering.data.remote.datasource.FoodDataSourceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -22,4 +24,7 @@ abstract class DataSourceModule {
 
     @Binds
     abstract fun bindsRecentlyDataSource(recentlyDataSourceImpl: RecentlyDataSourceImpl): RecentlyDataSource
+
+    @Binds
+    abstract fun bindsFoodDataSource(foodDataSourceImpl: FoodDataSourceImpl): FoodDataSource
 }
