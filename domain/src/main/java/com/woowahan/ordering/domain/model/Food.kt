@@ -9,7 +9,7 @@ data class Food(
     val description: String,
     val price: Long,
     val discountedPrice: Long,
-    val badge: List<String>,
+    val badge: List<String>?,
     var discountRate: Int = 0,
     var isAdded: Boolean = false
 )

@@ -15,5 +15,5 @@ data class FoodEntity(
     val price: String?,
     @SerializedName("s_price")
     val discountedPrice: String,
-    val badge: List<String>
+    val badge: List<String>?
 )
