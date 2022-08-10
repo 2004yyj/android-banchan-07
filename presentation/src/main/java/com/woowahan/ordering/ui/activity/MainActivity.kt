@@ -1,9 +1,9 @@
-package com.woowahan.ordering
+package com.woowahan.ordering.ui.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.databinding.DataBindingUtil
+import com.woowahan.ordering.R
 import com.woowahan.ordering.databinding.ActionCartBinding
 import com.woowahan.ordering.databinding.ActionOrderBinding
 import com.woowahan.ordering.databinding.ActivityMainBinding
