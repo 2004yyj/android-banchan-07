@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.android.material.tabs.TabLayoutMediator
 import com.woowahan.ordering.R
 import com.woowahan.ordering.databinding.FragmentHomeBinding
 import com.woowahan.ordering.ui.adapter.home.ViewPagerAdapter
@@ -42,6 +43,8 @@ class HomeFragment : Fragment() {
         ))
     }
 
+    private lateinit var tabLayoutMediator: TabLayoutMediator
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -55,8 +58,19 @@ class HomeFragment : Fragment() {
 
         initViewPager()
     }
+
     private fun initViewPager() = with(binding) {
+        val tabs = resources.getStringArray(R.array.tabs)
+
         vpHome.adapter = adapter
+        tabLayoutMediator = TabLayoutMediator(tlHome, vpHome) { tab, position ->
+            tab.text = tabs[position]
+        }
+        tabLayoutMediator.attach()
     }
+
+    override fun onDestroy() {
+        tabLayoutMediator.detach()
+        super.onDestroy()
     }
 }
