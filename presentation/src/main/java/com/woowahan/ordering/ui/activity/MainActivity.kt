@@ -43,5 +43,8 @@ class MainActivity : AppCompatActivity() {
         orderBinding.ibtOrder.setOnClickListener {
             // 주문내역
         }
+        supportFragmentManager.addOnBackStackChangedListener {
+            // 툴바 분기처리
+        }
     }
 }
