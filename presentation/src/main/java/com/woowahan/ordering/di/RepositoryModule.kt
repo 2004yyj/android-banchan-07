@@ -1,9 +1,11 @@
 package com.woowahan.ordering.di
 
 import com.woowahan.ordering.data.repository.CartRepositoryImpl
+import com.woowahan.ordering.data.repository.FoodRepositoryImpl
 import com.woowahan.ordering.data.repository.OrderRepositoryImpl
 import com.woowahan.ordering.data.repository.RecentlyRepositoryImpl
 import com.woowahan.ordering.domain.repository.CartRepository
+import com.woowahan.ordering.domain.repository.FoodRepository
 import com.woowahan.ordering.domain.repository.OrderRepository
 import com.woowahan.ordering.domain.repository.RecentlyRepository
 import dagger.Binds
@@ -22,4 +24,7 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun bindsRecentlyRepository(recentlyRepositoryImpl: RecentlyRepositoryImpl): RecentlyRepository
+
+    @Binds
+    abstract fun bindsFoodRepository(foodRepositoryImpl: FoodRepositoryImpl): FoodRepository
 }
