@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import com.woowahan.ordering.databinding.FragmentBestBinding
 
 class BestFragment(
-    private val onDetailClick: (hash: String) -> Unit
+    private val onDetailClick: (title: String, hash: String) -> Unit
 ) : Fragment() {
 
     private lateinit var binding: FragmentBestBinding
@@ -22,7 +22,7 @@ class BestFragment(
     }
 
     companion object {
-        fun newInstance(onDetailClick: (hash: String) -> Unit) =
+        fun newInstance(onDetailClick: (title: String, hash: String) -> Unit) =
             BestFragment(onDetailClick)
     }
 }

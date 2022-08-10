@@ -7,11 +7,10 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.woowahan.ordering.databinding.FragmentOtherDishBinding
-import com.woowahan.ordering.domain.model.Menu
 import com.woowahan.ordering.ui.fragment.home.other.kind.OtherKind
 
 class OtherDishFragment(
-    private val onDetailClick: (hash: String) -> Unit
+    private val onDetailClick: (title: String, hash: String) -> Unit
 ) : Fragment() {
 
     private lateinit var binding: FragmentOtherDishBinding
@@ -33,7 +32,7 @@ class OtherDishFragment(
     companion object {
         private const val OTHER_KIND = "otherKind"
 
-        fun newInstance(onDetailClick: (hash: String) -> Unit, otherKind: OtherKind) =
+        fun newInstance(onDetailClick: (title: String, hash: String) -> Unit, otherKind: OtherKind) =
             OtherDishFragment(onDetailClick).apply {
                 arguments = bundleOf(OTHER_KIND to otherKind)
             }
