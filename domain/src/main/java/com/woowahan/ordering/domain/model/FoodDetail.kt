@@ -7,6 +7,7 @@ data class FoodDetail(
     val point: Long,
     val deliveryInfo: String,
     val deliveryFee: String,
-    val prices: List<Long>,
+    val price: Long,
+    val discountPrice: Long,
     val detailSection: List<String>
 )
