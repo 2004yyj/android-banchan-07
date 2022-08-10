@@ -7,6 +7,7 @@ import com.woowahan.ordering.R
 import com.woowahan.ordering.databinding.ActionCartBinding
 import com.woowahan.ordering.databinding.ActionOrderBinding
 import com.woowahan.ordering.databinding.ActivityMainBinding
+import com.woowahan.ordering.ui.util.add
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -20,8 +21,14 @@ class MainActivity : AppCompatActivity() {
         orderBinding = ActionOrderBinding.inflate(layoutInflater)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
+        initFragment()
         initToolbar()
         initListener()
+    }
+
+    private fun initFragment() = with(binding) {
+        val id = binding.fcvMain.id
+        val fragmentManager = supportFragmentManager
     }
 
     private fun initToolbar() = with(binding) {
