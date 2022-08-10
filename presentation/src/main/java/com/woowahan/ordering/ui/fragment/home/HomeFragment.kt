@@ -7,10 +7,40 @@ import android.view.View
 import android.view.ViewGroup
 import com.woowahan.ordering.R
 import com.woowahan.ordering.databinding.FragmentHomeBinding
+import com.woowahan.ordering.ui.adapter.home.ViewPagerAdapter
+import com.woowahan.ordering.ui.fragment.home.best.BestFragment
+import com.woowahan.ordering.ui.fragment.home.main.MainDishFragment
+import com.woowahan.ordering.ui.fragment.home.other.OtherDishFragment
+import com.woowahan.ordering.ui.fragment.home.other.kind.OtherKind
 
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
+
+    private val bestFragment = BestFragment.newInstance { title, hash ->
+        // BestFragment 에서 디테일 클릭 시
+    }
+
+    private val mainDishFragment = MainDishFragment.newInstance { title, hash ->
+        // MainDishFragment 에서 디테일 클릭 시
+    }
+
+    private val soupDishFragment = OtherDishFragment.newInstance({ title, hash ->
+        // SoupDishFragment 에서 디테일 클릭 시
+    }, OtherKind.Soup)
+
+    private val sideDishFragment = OtherDishFragment.newInstance({ title, hash ->
+        // SideDishFragment 에서 디테일 클릭 시
+    }, OtherKind.Side)
+
+    private val adapter by lazy {
+        ViewPagerAdapter(this, listOf(
+            bestFragment,
+            mainDishFragment,
+            soupDishFragment,
+            sideDishFragment
+        ))
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -22,5 +52,11 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        initViewPager()
+    }
+    private fun initViewPager() = with(binding) {
+        vpHome.adapter = adapter
+    }
     }
 }
