@@ -6,5 +6,5 @@ data class ListResponse<T>(
     @SerializedName("status_code")
     val statusCode: Int,
     @SerializedName("body")
-    val body: T
+    val body: List<T>
 )
