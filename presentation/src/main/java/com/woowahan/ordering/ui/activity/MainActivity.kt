@@ -7,6 +7,7 @@ import com.woowahan.ordering.R
 import com.woowahan.ordering.databinding.ActionCartBinding
 import com.woowahan.ordering.databinding.ActionOrderBinding
 import com.woowahan.ordering.databinding.ActivityMainBinding
+import com.woowahan.ordering.ui.fragment.home.HomeFragment
 import com.woowahan.ordering.ui.util.add
 
 class MainActivity : AppCompatActivity() {
@@ -29,6 +30,7 @@ class MainActivity : AppCompatActivity() {
     private fun initFragment() = with(binding) {
         val id = binding.fcvMain.id
         val fragmentManager = supportFragmentManager
+        fragmentManager.add(HomeFragment::class.java, id, "HomeFragment")
     }
 
     private fun initToolbar() = with(binding) {
