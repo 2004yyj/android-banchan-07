@@ -13,7 +13,9 @@ class GetBestListUseCase(
         emit(Result.Loading)
         try {
             val cartList = cartRepository.getCart().map { it.detailHash }
-            val bestList = foodRepository.getBestList().forEach {
+            val bestList = foodRepository.getBestList()
+
+            bestList.forEach {
                 it.items.forEach { food ->
                     food.isAdded = cartList.contains(food.detailHash)
                 }

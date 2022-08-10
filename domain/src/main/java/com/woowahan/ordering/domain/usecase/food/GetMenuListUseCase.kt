@@ -19,7 +19,9 @@ class GetMenuListUseCase(
                 is Menu.Main -> foodRepository.getMainList()
                 is Menu.Soup -> foodRepository.getSoupList()
                 is Menu.Side -> foodRepository.getSideList()
-            }.forEach { food ->
+            }
+
+            result.forEach { food ->
                 food.isAdded = cartList.contains(food.detailHash)
             }
 
