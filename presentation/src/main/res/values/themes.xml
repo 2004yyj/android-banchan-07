@@ -10,6 +10,11 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.ActionBar">
+        <item name="android:fontFamily">@font/outfit</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="Heading" parent="TextAppearance.AppCompat.Headline">
         <item name="android:fontWeight">400</item>
         <item name="android:textSize">@dimen/size_heading</item>
