@@ -1,6 +1,7 @@
 package com.woowahan.ordering.domain.model
 
 data class FoodDetail(
+    val hash: String,
     val topImage: String,
     val thumbImages: List<String>,
     val productDescription: String,
