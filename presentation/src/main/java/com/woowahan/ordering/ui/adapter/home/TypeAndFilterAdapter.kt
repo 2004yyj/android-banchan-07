@@ -13,11 +13,14 @@ class TypeAndFilterAdapter :
     RecyclerView.Adapter<TypeAndFilterAdapter.TypeAndFilterViewHolder>() {
 
     private var onItemSelected: (SortType) -> Unit = {}
-    private var onListTypeChanged: (Boolean) -> Unit = {}
+    private var onListTypeChangeClicked: (Boolean) -> Unit = {}
 
-    fun setOnTypeChanged(onItemSelected: (SortType) -> Unit, onListTypeChanged: (Boolean) -> Unit) {
+    fun setOnItemSelected(onItemSelected: (SortType) -> Unit) {
         this.onItemSelected = onItemSelected
-        this.onListTypeChanged = onListTypeChanged
+    }
+
+    fun setOnListTypeChangeClicked(onListTypeChangeClicked: (Boolean) -> Unit) {
+        this.onListTypeChangeClicked = onListTypeChangeClicked
     }
 
     inner class TypeAndFilterViewHolder(
