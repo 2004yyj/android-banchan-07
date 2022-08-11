@@ -34,6 +34,10 @@ class TypeAndFilterAdapter :
                 SortType.RateDesc
             )
 
+            binding.cbViewType.setOnCheckedChangeListener { buttonView, isChecked ->
+                onListTypeChangeClicked(isChecked)
+            }
+
             val adapter = FilterAdapter(itemView.context, R.array.spinner)
             binding.spFilter.adapter = adapter
             binding.spFilter.onItemSelectedListener =

@@ -8,11 +8,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ConcatAdapter
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.woowahan.ordering.databinding.FragmentMainDishBinding
 import com.woowahan.ordering.domain.model.Menu
-import com.woowahan.ordering.ui.adapter.home.FoodLinearAdapter
+import com.woowahan.ordering.ui.adapter.home.FoodAdapter
+import com.woowahan.ordering.ui.adapter.home.FoodAdapter.FoodItemViewType
 import com.woowahan.ordering.ui.adapter.home.HeaderAdapter
+import com.woowahan.ordering.ui.adapter.home.TypeAndFilterAdapter
 import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader
+import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader.Companion.GRID
 import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader.Companion.VERTICAL
 import com.woowahan.ordering.ui.dialog.CartBottomSheet
 import com.woowahan.ordering.ui.viewmodel.MainDishViewModel
@@ -29,7 +34,20 @@ class MainDishFragment(
     private lateinit var binding: FragmentMainDishBinding
     private val viewModel by viewModels<MainDishViewModel>()
 
-    private val foodAdapter by lazy { FoodLinearAdapter() }
+    private val typeAndFilterAdapter by lazy { TypeAndFilterAdapter() }
+    private val foodAdapter by lazy { FoodAdapter() }
+
+    private val gridDecoration = ItemSpacingDecoratorWithHeader(
+        spacing = 18.dp,
+        removeSpacePosition = listOf(0, 1),
+        GRID
+    )
+
+    private val linearDecoration = ItemSpacingDecoratorWithHeader(
+        spacing = 18.dp,
+        removeSpacePosition = listOf(0, 1),
+        VERTICAL
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -66,14 +84,44 @@ class MainDishFragment(
 
     private fun initRecyclerView() = with(binding) {
         val headerAdapter = HeaderAdapter("모두가 좋아하는\n든든한 메인 요리")
-        val concatAdapter = ConcatAdapter(headerAdapter, foodAdapter)
-        val decoration = ItemSpacingDecoratorWithHeader(
-            spacing = 18.dp,
-            removeSpacePosition = listOf(0),
-            VERTICAL
-        )
+        val concatAdapter = ConcatAdapter(headerAdapter, typeAndFilterAdapter, foodAdapter)
+
+        typeAndFilterAdapter.setOnItemSelected {
+            
+        }
+
+        typeAndFilterAdapter.setOnListTypeChangeClicked {
+            if (!it) {
+                foodAdapter.viewTypeChange(FoodItemViewType.GridItem)
+                rvMainDish.removeItemDecoration(linearDecoration)
+                rvMainDish.addItemDecoration(gridDecoration)
+                setGridLayoutManager(concatAdapter)
+            }
+            else {
+                foodAdapter.viewTypeChange(FoodItemViewType.LinearItem)
+                rvMainDish.removeItemDecoration(gridDecoration)
+                rvMainDish.addItemDecoration(linearDecoration)
+                setLinearLayoutManager()
+            }
+        }
         rvMainDish.adapter = concatAdapter
-        rvMainDish.addItemDecoration(decoration)
+        rvMainDish.addItemDecoration(gridDecoration)
+        setGridLayoutManager(concatAdapter)
+    }
+
+    private fun setGridLayoutManager(concatAdapter: ConcatAdapter) = with(binding) {
+        val layoutManager = GridLayoutManager(context, 2)
+        layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                val adapter = concatAdapter.getWrappedAdapterAndPosition(position).first
+                return if (adapter is FoodAdapter) 1 else 2
+            }
+        }
+        rvMainDish.layoutManager = layoutManager
+    }
+
+    private fun setLinearLayoutManager() = with(binding) {
+        rvMainDish.layoutManager = LinearLayoutManager(context)
     }
 
     companion object {
