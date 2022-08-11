@@ -17,6 +17,7 @@
             android:textColor="@color/black"
             android:buttonTint="@color/white"
             android:buttonTintMode="multiply"
+            android:background="@android:color/transparent"
             android:button="@drawable/bg_linear_grid_selector"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
