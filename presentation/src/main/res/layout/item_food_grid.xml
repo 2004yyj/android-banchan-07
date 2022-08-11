@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="food"
+            type="com.woowahan.ordering.domain.model.Food" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="@dimen/image_large_size"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_food"
+            android:layout_width="@dimen/image_large_size"
+            android:layout_height="@dimen/image_large_size"
+            android:image="@{food.image}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:background="@color/black" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_add_cart"
+            style="@style/RoundedButton"
+            android:layout_width="@dimen/rounded_button_size"
+            android:layout_height="@dimen/rounded_button_size"
+            android:layout_marginHorizontal="@dimen/space_horizontal"
+            android:layout_marginVertical="@dimen/space_vertical"
+            app:icon="@drawable/ic_cart_disabled"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_food"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            style="@style/Body2"
+            android:text="@{food.title}"
+            android:ellipsize="marquee"
+            android:maxLines="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_text_vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_food"
+            tools:text="오리 주물럭_반조리" />
+
+        <TextView
+            android:id="@+id/tv_description"
+            style="@style/Caption"
+            android:text="@{food.description}"
+            android:ellipsize="marquee"
+            android:maxLines="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_title"
+            tools:text="감칠맛 나는 매콤한 양념" />
+
+        <TextView
+            android:id="@+id/tv_discount_rate"
+            android:text="@{@string/discount_rate_format(food.discountRate)}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/Body2"
+            android:textColor="@color/primary_accent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_description"
+            tools:text="20%" />
+
+        <TextView
+            android:id="@+id/tv_discount_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/Body2"
+            android:layout_marginStart="@dimen/space_text_horizontal"
+            app:layout_constraintStart_toEndOf="@id/tv_discount_rate"
+            app:layout_constraintTop_toBottomOf="@+id/tv_description"
+            android:text="@{@string/currency_format(food.discountedPrice)}"
+            tools:text="10,000원" />
+
+        <TextView
+            android:id="@+id/tv_original_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/Caption"
+            app:layout_constraintStart_toStartOf="parent"
+            android:lineThrough="@{true}"
+            android:text="@{@string/currency_format(food.price)}"
+            app:layout_constraintTop_toBottomOf="@id/tv_discount_price"
+            tools:text="13000원" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
