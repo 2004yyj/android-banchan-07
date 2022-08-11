@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="foodItem"
+            type="com.woowahan.ordering.domain.model.Food" />
+
+        <variable
+            name="count"
+            type="Integer" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_add_cart_title"
+            style="@style/Body2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_vertical"
+            android:text="@string/cart_bottom_sheet_title"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btn_cancel"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/bottom_sheet_cancel_button_text"
+            android:textColor="@color/black"
+            android:textSize="@dimen/size_body2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_food"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="@dimen/space_horizontal"
+            android:layout_marginTop="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_add_cart_title"
+            tools:src="@drawable/ic_launcher_background" />
+
+        <TextView
+            android:id="@+id/tv_food_title"
+            style="@style/Body2.Bold"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/space_horizontal"
+            android:text="@{foodItem.title}"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toTopOf="@+id/tv_discount_rate"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@id/iv_food"
+            app:layout_constraintTop_toTopOf="@id/iv_food"
+            tools:text="오리주물럭" />
+
+        <TextView
+            android:id="@+id/tv_discount_rate"
+            style="@style/Body2.Bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/space_horizontal"
+            android:text="@{@string/discount_rate_format(foodItem.discountRate)}"
+            android:textColor="@color/primary_accent"
+            app:layout_constraintBottom_toBottomOf="@id/iv_food"
+            app:layout_constraintStart_toEndOf="@id/iv_food"
+            app:layout_constraintTop_toBottomOf="@+id/tv_food_title"
+            tools:text="10%" />
+
+        <TextView
+            android:id="@+id/tv_discount_price"
+            style="@style/Body2.Bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@{@string/currency_format(foodItem.discountedPrice)}"
+            android:textColor="@color/black"
+            app:layout_constraintBaseline_toBaselineOf="@id/tv_discount_rate"
+            app:layout_constraintStart_toEndOf="@id/tv_discount_rate"
+            tools:text="12,640원" />
+
+        <TextView
+            android:id="@+id/tv_original_price"
+            style="@style/Body2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@{@string/currency_format(foodItem.price)}"
+            android:textColor="@color/gray_default"
+            app:layout_constraintBaseline_toBaselineOf="@id/tv_discount_rate"
+            app:layout_constraintStart_toEndOf="@id/tv_discount_price"
+            tools:text="15,800원" />
+
+        <TextView
+            android:id="@+id/tv_total_price"
+            style="@style/Body2.Bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/space_horizontal"
+            android:layout_marginVertical="@dimen/space_vertical"
+            android:textColor="@color/black"
+            app:layout_constraintBaseline_toBaselineOf="@id/tv_count"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="12,460원" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_minus"
+            style="@style/RoundedButton"
+            android:layout_width="@dimen/rounded_button_size"
+            android:layout_height="@dimen/rounded_button_size"
+            android:layout_marginHorizontal="@dimen/space_horizontal"
+            app:icon="@drawable/ic_minus"
+            app:layout_constraintBottom_toBottomOf="@id/btn_plus"
+            app:layout_constraintEnd_toStartOf="@id/tv_count"
+            app:layout_constraintTop_toTopOf="@id/btn_plus" />
+
+        <TextView
+            android:id="@+id/tv_count"
+            style="@style/Subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/space_horizontal"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@id/btn_plus"
+            app:layout_constraintEnd_toStartOf="@id/btn_plus"
+            app:layout_constraintTop_toTopOf="@id/btn_plus"
+            tools:text="1" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_plus"
+            style="@style/RoundedButton"
+            android:layout_width="@dimen/rounded_button_size"
+            android:layout_height="@dimen/rounded_button_size"
+            android:layout_marginHorizontal="@dimen/space_horizontal"
+            android:layout_marginVertical="@dimen/space_vertical"
+            app:icon="@drawable/ic_plus"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_food" />
+
+        <Button
+            android:id="@+id/btn_add_cart"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/space_horizontal"
+            android:layout_marginVertical="@dimen/space_vertical"
+            android:backgroundTint="@color/primary_main"
+            android:paddingHorizontal="@dimen/space_horizontal"
+            android:paddingVertical="@dimen/space_vertical"
+            android:text="@{@string/bottom_sheet_add_button(count)}"
+            android:textColor="@color/white"
+            android:textSize="@dimen/size_subtitle"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_plus" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
