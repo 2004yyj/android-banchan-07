@@ -9,7 +9,9 @@ import com.woowahan.ordering.databinding.ActionOrderBinding
 import com.woowahan.ordering.databinding.ActivityMainBinding
 import com.woowahan.ordering.ui.fragment.home.HomeFragment
 import com.woowahan.ordering.ui.util.add
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var cartBinding: ActionCartBinding

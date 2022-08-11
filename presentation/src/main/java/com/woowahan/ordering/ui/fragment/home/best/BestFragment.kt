@@ -9,7 +9,9 @@ import androidx.recyclerview.widget.ConcatAdapter
 import com.woowahan.ordering.databinding.FragmentBestBinding
 import com.woowahan.ordering.ui.adapter.home.BestFoodAdapter
 import com.woowahan.ordering.ui.adapter.home.HeaderAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class BestFragment(
     private val onDetailClick: (title: String, hash: String) -> Unit
 ) : Fragment() {
