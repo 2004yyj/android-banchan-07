@@ -4,7 +4,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.woowahan.ordering.databinding.ItemFoodBestBinding
 import com.woowahan.ordering.domain.model.Best
 import com.woowahan.ordering.domain.model.Food
-import com.woowahan.ordering.ui.adapter.home.FoodGridAdapter
+import com.woowahan.ordering.ui.adapter.home.FoodAdapter
 import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader
 import com.woowahan.ordering.util.dp
 
@@ -15,7 +15,7 @@ class ItemFoodBestViewHolder(
     private val decoration = ItemSpacingDecoratorWithHeader(8.dp)
 
     fun bind(best: Best, onDetailClick: (String, String) -> Unit, onCartClick: (Food) -> Unit) {
-        val adapter = FoodGridAdapter()
+        val adapter = FoodAdapter()
         adapter.submitList(best.items)
         adapter.setOnClick(onDetailClick, onCartClick)
 
