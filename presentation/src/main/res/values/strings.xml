@@ -8,4 +8,9 @@
     <string name="main">든든한 메인요리</string>
     <string name="soup">뜨끈한 국물요리</string>
     <string name="side">정갈한 밑반찬</string>
+    <string name="cart_bottom_sheet_title">장바구니에 담기</string>
+    <string name="bottom_sheet_cancel_button_text">취소</string>
+    <string name="bottom_sheet_add_button">%d개 담기</string>
+    <string name="discount_rate_format">%d%%</string>
+    <string name="currency_format">%,d원</string>
 </resources>
