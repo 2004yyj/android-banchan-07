@@ -5,10 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ConcatAdapter
 import com.woowahan.ordering.databinding.FragmentBestBinding
 import com.woowahan.ordering.ui.adapter.home.BestFoodAdapter
 import com.woowahan.ordering.ui.adapter.home.HeaderAdapter
+import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader
+import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader.Companion.VERTICAL
+import com.woowahan.ordering.ui.viewmodel.BestViewModel
+import com.woowahan.ordering.util.dp
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -16,6 +22,7 @@ class BestFragment(
     private val onDetailClick: (title: String, hash: String) -> Unit
 ) : Fragment() {
 
+    private val viewModel: BestViewModel by viewModels()
     private lateinit var binding: FragmentBestBinding
     private val adapter: BestFoodAdapter by lazy {
         BestFoodAdapter()
@@ -32,8 +39,19 @@ class BestFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.getBestList()
+
+        initFlow()
         initListener()
         initRecyclerView()
+    }
+
+    private fun initFlow() {
+        lifecycleScope.launchWhenStarted {
+            viewModel.best.collect {
+                adapter.submitList(it)
+            }
+        }
     }
 
     private fun initListener() {
