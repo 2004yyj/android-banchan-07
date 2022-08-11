@@ -2,7 +2,6 @@ package com.woowahan.ordering.ui.decorator
 
 import android.graphics.Rect
 import android.view.View
-import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -10,7 +9,7 @@ class ItemSpacingDecoratorWithHeader(
     private val spacing: Int = 0,
     private val removeSpacePosition: List<Int> = listOf(-1),
     private val layoutDirection: Int = HORIZONTAL
-): RecyclerView.ItemDecoration() {
+) : RecyclerView.ItemDecoration() {
     override fun getItemOffsets(
         outRect: Rect,
         view: View,
@@ -18,7 +17,7 @@ class ItemSpacingDecoratorWithHeader(
         state: RecyclerView.State
     ) {
         val adapterPosition = parent.getChildAdapterPosition(view)
-        val itemCount = parent.adapter?.itemCount?:0
+        val itemCount = parent.adapter?.itemCount ?: 0
 
         with(outRect) {
             if (layoutDirection == HORIZONTAL) {
@@ -38,13 +37,13 @@ class ItemSpacingDecoratorWithHeader(
             if (layoutDirection == GRID) {
                 if (!removeSpacePosition.contains(adapterPosition)) {
                     val layoutManager = parent.layoutManager as? GridLayoutManager ?: return
-                    with(layoutManager.spanSizeLookup) {
-                        val spanSize = getSpanSize(adapterPosition)
-                        val spanIndex = getSpanIndex(adapterPosition, spanSize)
 
-                        outRect.left = spanIndex * spacing / spanSize
-                        outRect.right = spacing - (spanIndex + 1) * spacing / spanSize
-                    }
+                    val cols: Int = layoutManager.spanCount
+                    val rows = itemCount / cols
+                    outRect.left = spacing
+                    outRect.right = if (adapterPosition % cols == cols - 1) spacing else 0
+                    outRect.top = spacing
+                    outRect.bottom = if (adapterPosition / cols == rows - 1) spacing else 0
                 }
             }
         }
