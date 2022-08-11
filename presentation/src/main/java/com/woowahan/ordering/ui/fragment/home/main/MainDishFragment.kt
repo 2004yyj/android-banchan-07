@@ -87,7 +87,7 @@ class MainDishFragment(
         val concatAdapter = ConcatAdapter(headerAdapter, typeAndFilterAdapter, foodAdapter)
 
         typeAndFilterAdapter.setOnItemSelected {
-            
+            viewModel.getMenuList(Menu.Main, it)
         }
 
         typeAndFilterAdapter.setOnListTypeChangeClicked {
