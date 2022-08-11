@@ -21,17 +21,19 @@ class ItemSpacingDecoratorWithHeader(
 
         with(outRect) {
             if (layoutDirection == HORIZONTAL) {
-                if (!removeSpacePosition.contains(adapterPosition))
+                if (!removeSpacePosition.contains(adapterPosition)) {
                     left = spacing
-                if (adapterPosition == itemCount - 1)
-                    right = spacing
+                    if (adapterPosition == itemCount - 1)
+                        right = spacing
+                }
             }
 
             if (layoutDirection == VERTICAL) {
-                if (!removeSpacePosition.contains(adapterPosition))
+                if (!removeSpacePosition.contains(adapterPosition)) {
                     top = spacing
-                if (adapterPosition == itemCount - 1)
-                    bottom = spacing
+                    if (adapterPosition == itemCount - 1)
+                        bottom = spacing
+                }
             }
 
             if (layoutDirection == GRID) {
