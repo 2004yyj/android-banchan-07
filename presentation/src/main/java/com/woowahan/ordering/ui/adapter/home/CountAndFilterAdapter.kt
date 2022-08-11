@@ -14,6 +14,7 @@ class CountAndFilterAdapter :
 
     private var count = 0
     private var onItemSelected: (SortType) -> Unit = {}
+    private lateinit var adapter: FilterAdapter
 
     fun setOnItemSelectedListener(onItemSelected: (SortType) -> Unit) {
         this.onItemSelected = onItemSelected
@@ -32,23 +33,25 @@ class CountAndFilterAdapter :
 
             binding.count = count
 
-            val adapter = FilterAdapter(itemView.context, R.array.spinner)
-            binding.spFilter.adapter = adapter
-            binding.spFilter.onItemSelectedListener =
-                object : AdapterView.OnItemSelectedListener {
-                    override fun onItemSelected(
-                        parent: AdapterView<*>?,
-                        view: View?,
-                        position: Int,
-                        id: Long
-                    ) {
-                        adapter.setCheckedItem(position)
-                        onItemSelected(spinnerList[position])
-                    }
+            if (!this@CountAndFilterAdapter::adapter.isInitialized) {
+                adapter = FilterAdapter(itemView.context, R.array.spinner)
+                binding.spFilter.adapter = adapter
+                binding.spFilter.onItemSelectedListener =
+                    object : AdapterView.OnItemSelectedListener {
+                        override fun onItemSelected(
+                            parent: AdapterView<*>?,
+                            view: View?,
+                            position: Int,
+                            id: Long
+                        ) {
+                            adapter.setCheckedItem(position)
+                            onItemSelected(spinnerList[position])
+                        }
 
-                    override fun onNothingSelected(parent: AdapterView<*>?) {
+                        override fun onNothingSelected(parent: AdapterView<*>?) {
+                        }
                     }
-                }
+            }
 
         }
     }
