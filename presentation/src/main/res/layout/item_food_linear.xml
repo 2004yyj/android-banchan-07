@@ -25,7 +25,7 @@
             tools:background="@color/black" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_plus"
+            android:id="@+id/btn_add_cart"
             style="@style/RoundedButton"
             android:layout_width="@dimen/rounded_button_size"
             android:layout_height="@dimen/rounded_button_size"
