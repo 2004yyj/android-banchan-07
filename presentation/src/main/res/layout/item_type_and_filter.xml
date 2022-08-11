@@ -14,7 +14,6 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/space_horizontal"
             android:layout_marginVertical="@dimen/space_vertical"
-            android:text="@{@string/total_count_format(count)}"
             android:textColor="@color/black"
             android:buttonTint="@color/white"
             android:buttonTintMode="multiply"
