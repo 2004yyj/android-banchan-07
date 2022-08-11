@@ -71,6 +71,9 @@ class OtherDishFragment(
             cartBottomSheet = CartBottomSheet(it)
             cartBottomSheet.show(parentFragmentManager, "Best")
         }
+        countAndFilterAdapter.setOnItemSelectedListener {
+            viewModel.getMenuList(kind, it)
+        }
     }
 
     private fun initRecyclerView() = with(binding) {

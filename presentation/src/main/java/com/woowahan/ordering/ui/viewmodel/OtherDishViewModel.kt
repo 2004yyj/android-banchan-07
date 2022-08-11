@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.woowahan.ordering.domain.model.Food
 import com.woowahan.ordering.domain.model.Menu
 import com.woowahan.ordering.domain.model.Result
+import com.woowahan.ordering.domain.model.SortType
 import com.woowahan.ordering.domain.usecase.food.GetMenuListUseCase
 import com.woowahan.ordering.ui.fragment.home.other.kind.OtherKind
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,14 +23,14 @@ class OtherDishViewModel @Inject constructor(
     private val _menu = MutableStateFlow<List<Food>>(emptyList())
     val menu = _menu.asStateFlow()
 
-    fun getMenuList(kind: OtherKind) {
+    fun getMenuList(kind: OtherKind, sortType: SortType = SortType.Default) {
         val menu = when (kind) {
             OtherKind.Soup -> Menu.Soup
             OtherKind.Side -> Menu.Side
         }
 
         viewModelScope.launch(Dispatchers.IO) {
-            getMenuListUseCase(menu).collect {
+            getMenuListUseCase(menu, sortType).collect {
                 if (it is Result.Success) {
                     _menu.emit(it.value)
                 }
