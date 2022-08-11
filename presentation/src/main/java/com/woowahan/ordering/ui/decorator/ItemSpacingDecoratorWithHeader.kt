@@ -42,9 +42,10 @@ class ItemSpacingDecoratorWithHeader(
 
                     val cols: Int = layoutManager.spanCount
                     val rows = itemCount / cols
+
+                    if (adapterPosition > cols + 1) outRect.top = spacing
                     outRect.left = spacing
                     outRect.right = if (adapterPosition % cols == cols - 1) spacing else 0
-                    outRect.top = spacing
                     outRect.bottom = if (adapterPosition / cols == rows - 1) spacing else 0
                 }
             }
