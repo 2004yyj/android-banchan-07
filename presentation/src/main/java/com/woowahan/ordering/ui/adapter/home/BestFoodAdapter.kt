@@ -9,8 +9,8 @@ import com.woowahan.ordering.ui.adapter.bestDiffUtil
 import com.woowahan.ordering.ui.adapter.viewholder.ItemFoodBestViewHolder
 
 class BestFoodAdapter: ListAdapter<Best, ItemFoodBestViewHolder>(bestDiffUtil) {
-    private var onClick: (String) -> Unit = {}
-    fun setOnClick(onClick: (String) -> Unit) {
+    private var onClick: (String, String) -> Unit = { _, _ -> }
+    fun setOnClick(onClick: (String, String) -> Unit) {
         this.onClick = onClick
     }
 
@@ -21,8 +21,6 @@ class BestFoodAdapter: ListAdapter<Best, ItemFoodBestViewHolder>(bestDiffUtil) {
     }
 
     override fun onBindViewHolder(holder: ItemFoodBestViewHolder, position: Int) {
-        holder.bind(getItem(position)) {
-            onClick(it)
-        }
+        holder.bind(getItem(position), onClick)
     }
 }

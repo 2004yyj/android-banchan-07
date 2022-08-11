@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.woowahan.ordering.databinding.ItemHeaderBinding
-import com.woowahan.ordering.ui.adapter.viewholder.ItemFoodViewHolder
 
 class HeaderAdapter(
     private val title: String,

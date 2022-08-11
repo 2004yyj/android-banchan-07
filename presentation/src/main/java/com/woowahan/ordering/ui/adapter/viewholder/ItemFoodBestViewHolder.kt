@@ -13,12 +13,10 @@ class ItemFoodBestViewHolder(
 
     private val decoration = ItemSpacingDecoratorWithHeader(1.toDp(itemView.resources))
 
-    fun bind(best: Best, onClick: (String) -> Unit) {
+    fun bind(best: Best, onClick: (String, String) -> Unit) {
         val adapter = FoodGridAdapter()
         adapter.submitList(best.items)
-        adapter.setOnClick {
-            onClick(it)
-        }
+        adapter.setOnClick(onClick)
 
         with(binding) {
             title = best.name
