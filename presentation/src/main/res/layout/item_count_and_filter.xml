@@ -34,6 +34,10 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/space_horizontal"
             android:layout_marginVertical="@dimen/space_vertical"
+            android:background="@null"
+            android:dropDownWidth="150dp"
+            android:overlapAnchor="false"
+            android:popupBackground="@drawable/bg_spinner"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
