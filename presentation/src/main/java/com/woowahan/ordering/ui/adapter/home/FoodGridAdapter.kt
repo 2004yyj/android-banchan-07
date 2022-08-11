@@ -8,10 +8,13 @@ import com.woowahan.ordering.domain.model.Food
 import com.woowahan.ordering.ui.adapter.foodDiffUtil
 import com.woowahan.ordering.ui.adapter.viewholder.ItemFoodViewHolder
 
-class FoodGridAdapter: ListAdapter<Food, ItemFoodViewHolder.Grid>(foodDiffUtil) {
-    private var onClick: (String, String) -> Unit = { _, _ -> }
-    fun setOnClick(onClick: (String, String) -> Unit) {
-        this.onClick = onClick
+class FoodGridAdapter : ListAdapter<Food, ItemFoodViewHolder.Grid>(foodDiffUtil) {
+    private var onDetailClick: (String, String) -> Unit = { _, _ -> }
+    private var onCartClick: (Food) -> Unit = {}
+
+    fun setOnClick(onDetailClick: (String, String) -> Unit, onCartClick: (Food) -> Unit) {
+        this.onDetailClick = onDetailClick
+        this.onCartClick = onCartClick
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemFoodViewHolder.Grid {
@@ -21,6 +24,6 @@ class FoodGridAdapter: ListAdapter<Food, ItemFoodViewHolder.Grid>(foodDiffUtil) 
     }
 
     override fun onBindViewHolder(holder: ItemFoodViewHolder.Grid, position: Int) {
-        holder.bind(getItem(position), onClick)
+        holder.bind(getItem(position), onDetailClick, onCartClick)
     }
 }
