@@ -16,4 +16,12 @@ sealed class ItemFoodViewHolder(view: View): RecyclerView.ViewHolder(view) {
         }
     }
 
+    class Linear(private val binding: ItemFoodLinearBinding): ItemFoodViewHolder(binding.root) {
+        fun bind(food: Food, onClick: (String) -> Unit) {
+            binding.food = food
+            binding.root.setOnClickListener {
+                onClick(food.detailHash)
+            }
+        }
+    }
 }
