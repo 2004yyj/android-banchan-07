@@ -8,8 +8,11 @@ import androidx.databinding.DataBindingUtil
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.woowahan.ordering.R
 import com.woowahan.ordering.databinding.BottomSheetCartBinding
+import com.woowahan.ordering.domain.model.Food
 
-class CartBottomSheet : BottomSheetDialogFragment() {
+class CartBottomSheet(
+    private val food: Food
+) : BottomSheetDialogFragment() {
 
     private lateinit var binding: BottomSheetCartBinding
 

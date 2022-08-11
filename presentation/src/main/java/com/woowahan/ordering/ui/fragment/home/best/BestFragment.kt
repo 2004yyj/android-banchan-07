@@ -9,12 +9,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ConcatAdapter
 import com.woowahan.ordering.databinding.FragmentBestBinding
+import com.woowahan.ordering.domain.model.Cart
 import com.woowahan.ordering.ui.adapter.home.BestFoodAdapter
 import com.woowahan.ordering.ui.adapter.home.HeaderAdapter
-import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader
-import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader.Companion.VERTICAL
+import com.woowahan.ordering.ui.dialog.CartBottomSheet
 import com.woowahan.ordering.ui.viewmodel.BestViewModel
-import com.woowahan.ordering.util.dp
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -22,6 +21,7 @@ class BestFragment(
     private val onDetailClick: (title: String, hash: String) -> Unit
 ) : Fragment() {
 
+    private lateinit var cartBottomSheet: CartBottomSheet
     private val viewModel: BestViewModel by viewModels()
     private lateinit var binding: FragmentBestBinding
     private val adapter: BestFoodAdapter by lazy {
@@ -55,7 +55,10 @@ class BestFragment(
     }
 
     private fun initListener() {
-        adapter.setOnClick(onDetailClick)
+        adapter.setOnClick(onDetailClick) {
+            cartBottomSheet = CartBottomSheet(it)
+            cartBottomSheet.show(parentFragmentManager, "Best")
+        }
     }
 
     private fun initRecyclerView() = with(binding) {
