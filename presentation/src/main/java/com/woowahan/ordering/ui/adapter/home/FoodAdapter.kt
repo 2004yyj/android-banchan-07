@@ -8,9 +8,13 @@ import com.woowahan.ordering.domain.model.Food
 import com.woowahan.ordering.ui.adapter.foodDiffUtil
 import com.woowahan.ordering.ui.adapter.viewholder.ItemFoodViewHolder
 
-class FoodGridAdapter : ListAdapter<Food, ItemFoodViewHolder.Grid>(foodDiffUtil) {
+class FoodAdapter : ListAdapter<Food, ItemFoodViewHolder.Grid>(foodDiffUtil) {
     private var onDetailClick: (String, String) -> Unit = { _, _ -> }
     private var onCartClick: (Food) -> Unit = {}
+
+    fun viewType() {
+
+    }
 
     fun setOnClick(onDetailClick: (String, String) -> Unit, onCartClick: (Food) -> Unit) {
         this.onDetailClick = onDetailClick
