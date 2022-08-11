@@ -2,11 +2,13 @@ package com.woowahan.ordering.ui.decorator
 
 import android.graphics.Rect
 import android.view.View
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 class ItemSpacingDecoratorWithHeader(
     private val spacing: Int = 0,
+    private val removeSpacePosition: List<Int> = listOf(-1),
     private val layoutDirection: Int = HORIZONTAL
 ): RecyclerView.ItemDecoration() {
     override fun getItemOffsets(
@@ -20,27 +22,21 @@ class ItemSpacingDecoratorWithHeader(
 
         with(outRect) {
             if (layoutDirection == HORIZONTAL) {
-                if (adapterPosition > 0) {
-                    top = spacing
-                    bottom = spacing
+                if (!removeSpacePosition.contains(adapterPosition))
                     left = spacing
-                }
-                if (adapterPosition != itemCount - 1)
+                if (adapterPosition == itemCount - 1)
                     right = spacing
             }
 
             if (layoutDirection == VERTICAL) {
-                if (adapterPosition > 0) {
-                    left = spacing
-                    right = spacing
+                if (!removeSpacePosition.contains(adapterPosition))
                     top = spacing
-                }
-                if (adapterPosition != itemCount - 1)
+                if (adapterPosition == itemCount - 1)
                     bottom = spacing
             }
 
             if (layoutDirection == GRID) {
-                if (adapterPosition > 0) {
+                if (!removeSpacePosition.contains(adapterPosition)) {
                     val layoutManager = parent.layoutManager as? GridLayoutManager ?: return
                     with(layoutManager.spanSizeLookup) {
                         val spanSize = getSpanSize(adapterPosition)
