@@ -23,15 +23,6 @@ class HomeFragment : Fragment() {
     private val soupDishFragment = OtherDishFragment.newInstance(OtherKind.Soup)
     private val sideDishFragment = OtherDishFragment.newInstance(OtherKind.Side)
 
-    private val adapter by lazy {
-        ViewPagerAdapter(this, listOf(
-            bestFragment,
-            mainDishFragment,
-            soupDishFragment,
-            sideDishFragment
-        ))
-    }
-
     private lateinit var tabLayoutMediator: TabLayoutMediator
 
     override fun onCreateView(
@@ -67,7 +58,14 @@ class HomeFragment : Fragment() {
     private fun initViewPager() = with(binding) {
         val tabs = resources.getStringArray(R.array.tabs)
 
-        vpHome.adapter = adapter
+        vpHome.adapter =
+            ViewPagerAdapter(this@HomeFragment, listOf(
+                bestFragment,
+                mainDishFragment,
+                soupDishFragment,
+                sideDishFragment
+            ))
+
         tabLayoutMediator = TabLayoutMediator(tlHome, vpHome) { tab, position ->
             tab.text = tabs[position]
         }
