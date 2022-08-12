@@ -17,23 +17,26 @@ import com.woowahan.ordering.ui.viewmodel.BestViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class BestFragment(
-    private val onDetailClick: (title: String, hash: String) -> Unit
-) : Fragment() {
+class BestFragment : Fragment() {
 
     private lateinit var cartBottomSheet: CartBottomSheet
     private val viewModel: BestViewModel by viewModels()
-    private lateinit var binding: FragmentBestBinding
+    private var binding: FragmentBestBinding? = null
     private val adapter: BestFoodAdapter by lazy {
         BestFoodAdapter()
+    }
+
+    private var onDetailClick: (title: String, hash: String) -> Unit = { _, _ -> }
+    fun setOnDetailClick(onDetailClick: (title: String, hash: String) -> Unit) {
+        this.onDetailClick = onDetailClick
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         binding = FragmentBestBinding.inflate(inflater)
-        return binding.root
+        return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -61,13 +64,12 @@ class BestFragment(
         }
     }
 
-    private fun initRecyclerView() = with(binding) {
+    private fun initRecyclerView() = with(binding!!) {
         val headerAdapter = HeaderAdapter("한 번 주문하면\n두 번 반하는 반찬들", "기획전")
         rvBest.adapter = ConcatAdapter(headerAdapter, adapter)
     }
 
     companion object {
-        fun newInstance(onDetailClick: (title: String, hash: String) -> Unit) =
-            BestFragment(onDetailClick)
+        fun newInstance() = BestFragment()
     }
 }

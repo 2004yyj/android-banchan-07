@@ -25,13 +25,11 @@ import com.woowahan.ordering.util.dp
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainDishFragment(
-    private val onDetailClick: (title: String, hash: String) -> Unit
-) : Fragment() {
+class MainDishFragment: Fragment() {
 
     private lateinit var cartBottomSheet: CartBottomSheet
 
-    private lateinit var binding: FragmentMainDishBinding
+    private var binding: FragmentMainDishBinding? = null
     private val viewModel by viewModels<MainDishViewModel>()
 
     private val typeAndFilterAdapter by lazy { TypeAndFilterAdapter() }
@@ -49,12 +47,17 @@ class MainDishFragment(
         VERTICAL
     )
 
+    private var onDetailClick: (title: String, hash: String) -> Unit = { _, _ -> }
+    fun setOnDetailClick(onDetailClick: (title: String, hash: String) -> Unit) {
+        this.onDetailClick = onDetailClick
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         binding = FragmentMainDishBinding.inflate(inflater)
-        return binding.root
+        return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -82,7 +85,7 @@ class MainDishFragment(
         }
     }
 
-    private fun initRecyclerView() = with(binding) {
+    private fun initRecyclerView() = with(binding!!) {
         val headerAdapter = HeaderAdapter("모두가 좋아하는\n든든한 메인 요리")
         val concatAdapter = ConcatAdapter(headerAdapter, typeAndFilterAdapter, foodAdapter)
 
@@ -109,7 +112,7 @@ class MainDishFragment(
         setGridLayoutManager(concatAdapter)
     }
 
-    private fun setGridLayoutManager(concatAdapter: ConcatAdapter) = with(binding) {
+    private fun setGridLayoutManager(concatAdapter: ConcatAdapter) = with(binding!!) {
         val layoutManager = GridLayoutManager(context, 2)
         layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
@@ -120,12 +123,16 @@ class MainDishFragment(
         rvMainDish.layoutManager = layoutManager
     }
 
-    private fun setLinearLayoutManager() = with(binding) {
+    private fun setLinearLayoutManager() = with(binding!!) {
         rvMainDish.layoutManager = LinearLayoutManager(context)
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
+    }
+
     companion object {
-        fun newInstance(onDetailClick: (title: String, hash: String) -> Unit) =
-            MainDishFragment(onDetailClick)
+        fun newInstance() = MainDishFragment()
     }
 }
