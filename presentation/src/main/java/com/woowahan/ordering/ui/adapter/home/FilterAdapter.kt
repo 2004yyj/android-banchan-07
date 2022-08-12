@@ -43,7 +43,6 @@ class FilterAdapter(
     }
 
     private fun bindTopView(position: Int) = with(topBinding) {
-        checkedItem = position
         tvTitle.text = getItem(position)
     }
 
