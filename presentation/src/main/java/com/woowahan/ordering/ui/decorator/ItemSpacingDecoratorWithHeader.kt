@@ -21,17 +21,19 @@ class ItemSpacingDecoratorWithHeader(
 
         with(outRect) {
             if (layoutDirection == HORIZONTAL) {
-                if (!removeSpacePosition.contains(adapterPosition))
+                if (!removeSpacePosition.contains(adapterPosition)) {
                     left = spacing
-                if (adapterPosition == itemCount - 1)
-                    right = spacing
+                    if (adapterPosition == itemCount - 1)
+                        right = spacing
+                }
             }
 
             if (layoutDirection == VERTICAL) {
-                if (!removeSpacePosition.contains(adapterPosition))
+                if (!removeSpacePosition.contains(adapterPosition)) {
                     top = spacing
-                if (adapterPosition == itemCount - 1)
-                    bottom = spacing
+                    if (adapterPosition == itemCount - 1)
+                        bottom = spacing
+                }
             }
 
             if (layoutDirection == GRID) {
@@ -40,9 +42,10 @@ class ItemSpacingDecoratorWithHeader(
 
                     val cols: Int = layoutManager.spanCount
                     val rows = itemCount / cols
+
+                    if (adapterPosition > cols + 1) outRect.top = spacing
                     outRect.left = spacing
                     outRect.right = if (adapterPosition % cols == cols - 1) spacing else 0
-                    outRect.top = spacing
                     outRect.bottom = if (adapterPosition / cols == rows - 1) spacing else 0
                 }
             }

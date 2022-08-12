@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import com.woowahan.ordering.databinding.FragmentOtherDishBinding
 import com.woowahan.ordering.ui.adapter.home.CountAndFilterAdapter
-import com.woowahan.ordering.ui.adapter.home.FoodGridAdapter
+import com.woowahan.ordering.ui.adapter.home.FoodAdapter
 import com.woowahan.ordering.ui.adapter.home.HeaderAdapter
 import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader
 import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader.Companion.GRID
@@ -33,7 +33,7 @@ class OtherDishFragment(
     private val viewModel by viewModels<OtherDishViewModel>()
 
     private val countAndFilterAdapter by lazy { CountAndFilterAdapter() }
-    private val foodAdapter by lazy { FoodGridAdapter() }
+    private val foodAdapter by lazy { FoodAdapter() }
 
     private lateinit var kind: OtherKind
 
@@ -88,7 +88,7 @@ class OtherDishFragment(
         layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
                 val adapter = concatAdapter.getWrappedAdapterAndPosition(position).first
-                return if (adapter is FoodGridAdapter) 1 else 2
+                return if (adapter is FoodAdapter) 1 else 2
             }
         }
         val decoration = ItemSpacingDecoratorWithHeader(

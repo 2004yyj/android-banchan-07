@@ -12,12 +12,13 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="16dp">
 
         <ImageView
             android:id="@+id/iv_food"
-            android:layout_width="@dimen/image_large_size"
-            android:layout_height="@dimen/image_large_size"
+            android:layout_width="@dimen/image_medium_size"
+            android:layout_height="@dimen/image_medium_size"
             android:image="@{food.image}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
