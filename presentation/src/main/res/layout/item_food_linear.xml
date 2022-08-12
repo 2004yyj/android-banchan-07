@@ -66,11 +66,13 @@
             android:id="@+id/tv_discount_rate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/space_text_horizontal"
             android:text="@{@string/discount_rate_format(food.discountRate)}"
             android:textAppearance="@style/Body2"
             android:textColor="@color/primary_accent"
             android:visibility="@{food.discountRate > 0 ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toTopOf="@id/tv_original_price"
+            app:layout_constraintEnd_toStartOf="@id/tv_discount_price"
             app:layout_constraintStart_toStartOf="@+id/tv_description"
             app:layout_constraintTop_toBottomOf="@+id/tv_description"
             tools:text="20%" />
@@ -79,12 +81,11 @@
             android:id="@+id/tv_discount_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/space_text_horizontal"
             android:text="@{@string/currency_format(food.discountedPrice)}"
             android:textAppearance="@style/Body2"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_discount_rate"
+            android:textColor="@color/black"
             app:layout_constraintStart_toEndOf="@id/tv_discount_rate"
-            app:layout_constraintTop_toTopOf="@+id/tv_discount_rate"
+            app:layout_constraintTop_toBottomOf="@id/tv_description"
             tools:text="10,000원" />
 
         <TextView
