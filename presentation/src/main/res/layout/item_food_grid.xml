@@ -4,6 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <import type="android.view.View" />
+
         <variable
             name="food"
             type="com.woowahan.ordering.domain.model.Food" />
@@ -37,12 +40,12 @@
         <TextView
             android:id="@+id/tv_title"
             style="@style/Body2"
-            android:text="@{food.title}"
-            android:ellipsize="marquee"
-            android:maxLines="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_text_vertical"
+            android:ellipsize="marquee"
+            android:maxLines="1"
+            android:text="@{food.title}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/iv_food"
             tools:text="오리 주물럭_반조리" />
@@ -50,22 +53,23 @@
         <TextView
             android:id="@+id/tv_description"
             style="@style/Caption"
-            android:text="@{food.description}"
-            android:ellipsize="marquee"
-            android:maxLines="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:maxLines="1"
+            android:text="@{food.description}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_title"
             tools:text="감칠맛 나는 매콤한 양념" />
 
         <TextView
             android:id="@+id/tv_discount_rate"
-            android:text="@{@string/discount_rate_format(food.discountRate)}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@{@string/discount_rate_format(food.discountRate)}"
             android:textAppearance="@style/Body2"
             android:textColor="@color/primary_accent"
+            android:visibility="@{food.discountRate > 0 ? View.VISIBLE : View.GONE}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_description"
             tools:text="20%" />
@@ -74,21 +78,23 @@
             android:id="@+id/tv_discount_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/Body2"
             android:layout_marginStart="@dimen/space_text_horizontal"
+            android:text="@{@string/currency_format(food.discountedPrice)}"
+            android:textAppearance="@style/Body2"
+            android:textColor="@color/black"
             app:layout_constraintStart_toEndOf="@id/tv_discount_rate"
             app:layout_constraintTop_toBottomOf="@+id/tv_description"
-            android:text="@{@string/currency_format(food.discountedPrice)}"
             tools:text="10,000원" />
 
         <TextView
             android:id="@+id/tv_original_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/Caption"
-            app:layout_constraintStart_toStartOf="parent"
             android:lineThrough="@{true}"
             android:text="@{@string/currency_format(food.price)}"
+            android:textAppearance="@style/Caption"
+            android:visibility="@{food.price > 0 ? View.VISIBLE : View.GONE}"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_discount_price"
             tools:text="13000원" />
 
