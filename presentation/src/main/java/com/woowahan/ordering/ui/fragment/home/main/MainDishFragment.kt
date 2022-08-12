@@ -43,7 +43,7 @@ class MainDishFragment: Fragment() {
 
     private val linearDecoration = ItemSpacingDecoratorWithHeader(
         spacing = 18.dp,
-        removeSpacePosition = listOf(0, 1),
+        removeSpacePosition = listOf(0, 1, 2),
         VERTICAL
     )
 
