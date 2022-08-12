@@ -13,9 +13,10 @@ fun <T: Fragment> FragmentManager.add(
 ) {
     beginTransaction().apply {
         val constructor = fragmentClass.getConstructor()
-        val fragment: Fragment = constructor.newInstance()
+        val fragment: Fragment = findFragmentByTag(tag) ?: constructor.newInstance()
         fragment.arguments = arguments
-        add(containerViewId, fragment, tag)
+        if (findFragmentByTag(tag) == null)
+            add(containerViewId, fragment, tag)
         commit()
     }
 }
