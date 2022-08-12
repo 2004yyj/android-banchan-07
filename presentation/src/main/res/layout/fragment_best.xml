@@ -7,7 +7,7 @@
     tools:context=".ui.fragment.home.best.BestFragment"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
-    <androidx.recyclerview.widget.RecyclerView
+    <com.woowahan.ordering.ui.widget.OrientationAwareRecyclerView
         android:id="@+id/rv_best"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
