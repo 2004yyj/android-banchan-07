@@ -21,7 +21,7 @@ class BestFragment : Fragment() {
 
     private lateinit var cartBottomSheet: CartBottomSheet
     private val viewModel: BestViewModel by viewModels()
-    private lateinit var binding: FragmentBestBinding
+    private var binding: FragmentBestBinding? = null
     private val adapter: BestFoodAdapter by lazy {
         BestFoodAdapter()
     }
@@ -34,9 +34,9 @@ class BestFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         binding = FragmentBestBinding.inflate(inflater)
-        return binding.root
+        return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -64,7 +64,7 @@ class BestFragment : Fragment() {
         }
     }
 
-    private fun initRecyclerView() = with(binding) {
+    private fun initRecyclerView() = with(binding!!) {
         val headerAdapter = HeaderAdapter("한 번 주문하면\n두 번 반하는 반찬들", "기획전")
         rvBest.adapter = ConcatAdapter(headerAdapter, adapter)
     }

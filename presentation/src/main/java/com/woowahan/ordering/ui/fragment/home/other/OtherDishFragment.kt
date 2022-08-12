@@ -27,7 +27,7 @@ class OtherDishFragment : Fragment() {
 
     private lateinit var cartBottomSheet: CartBottomSheet
 
-    private lateinit var binding: FragmentOtherDishBinding
+    private var binding: FragmentOtherDishBinding? = null
     private val viewModel by viewModels<OtherDishViewModel>()
 
     private val countAndFilterAdapter by lazy { CountAndFilterAdapter() }
@@ -43,9 +43,9 @@ class OtherDishFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         binding = FragmentOtherDishBinding.inflate(inflater)
-        return binding.root
+        return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -79,7 +79,7 @@ class OtherDishFragment : Fragment() {
         }
     }
 
-    private fun initRecyclerView() = with(binding) {
+    private fun initRecyclerView() = with(binding!!) {
         val title = when (kind) {
             OtherKind.Soup -> "정성이 담긴\n뜨끈뜨끈 국물 요리"
             OtherKind.Side -> "식탁을 풍성하게 하는\n정갈한 밑반찬"
@@ -103,6 +103,11 @@ class OtherDishFragment : Fragment() {
         rvOtherDish.layoutManager = layoutManager
         rvOtherDish.adapter = concatAdapter
         rvOtherDish.addItemDecoration(decoration)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 
     companion object {

@@ -29,7 +29,7 @@ class MainDishFragment: Fragment() {
 
     private lateinit var cartBottomSheet: CartBottomSheet
 
-    private lateinit var binding: FragmentMainDishBinding
+    private var binding: FragmentMainDishBinding? = null
     private val viewModel by viewModels<MainDishViewModel>()
 
     private val typeAndFilterAdapter by lazy { TypeAndFilterAdapter() }
@@ -55,9 +55,9 @@ class MainDishFragment: Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         binding = FragmentMainDishBinding.inflate(inflater)
-        return binding.root
+        return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -85,7 +85,7 @@ class MainDishFragment: Fragment() {
         }
     }
 
-    private fun initRecyclerView() = with(binding) {
+    private fun initRecyclerView() = with(binding!!) {
         val headerAdapter = HeaderAdapter("모두가 좋아하는\n든든한 메인 요리")
         val concatAdapter = ConcatAdapter(headerAdapter, typeAndFilterAdapter, foodAdapter)
 
@@ -112,7 +112,7 @@ class MainDishFragment: Fragment() {
         setGridLayoutManager(concatAdapter)
     }
 
-    private fun setGridLayoutManager(concatAdapter: ConcatAdapter) = with(binding) {
+    private fun setGridLayoutManager(concatAdapter: ConcatAdapter) = with(binding!!) {
         val layoutManager = GridLayoutManager(context, 2)
         layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
@@ -123,8 +123,13 @@ class MainDishFragment: Fragment() {
         rvMainDish.layoutManager = layoutManager
     }
 
-    private fun setLinearLayoutManager() = with(binding) {
+    private fun setLinearLayoutManager() = with(binding!!) {
         rvMainDish.layoutManager = LinearLayoutManager(context)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 
     companion object {
