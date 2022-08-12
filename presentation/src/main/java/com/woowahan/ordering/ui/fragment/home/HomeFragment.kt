@@ -18,21 +18,10 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
 
-    private val bestFragment = BestFragment.newInstance { title, hash ->
-        // BestFragment 에서 디테일 클릭 시
-    }
-
-    private val mainDishFragment = MainDishFragment.newInstance { title, hash ->
-        // MainDishFragment 에서 디테일 클릭 시
-    }
-
-    private val soupDishFragment = OtherDishFragment.newInstance({ title, hash ->
-        // SoupDishFragment 에서 디테일 클릭 시
-    }, OtherKind.Soup)
-
-    private val sideDishFragment = OtherDishFragment.newInstance({ title, hash ->
-        // SideDishFragment 에서 디테일 클릭 시
-    }, OtherKind.Side)
+    private val bestFragment = BestFragment.newInstance()
+    private val mainDishFragment = MainDishFragment.newInstance()
+    private val soupDishFragment = OtherDishFragment.newInstance(OtherKind.Soup)
+    private val sideDishFragment = OtherDishFragment.newInstance(OtherKind.Side)
 
     private val adapter by lazy {
         ViewPagerAdapter(this, listOf(
@@ -56,7 +45,23 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initListener()
         initViewPager()
+    }
+
+    private fun initListener() {
+        bestFragment.setOnDetailClick { title, hash ->
+
+        }
+        mainDishFragment.setOnDetailClick { title, hash ->
+
+        }
+        soupDishFragment.setOnDetailClick { title, hash ->
+
+        }
+        sideDishFragment.setOnDetailClick { title, hash ->
+
+        }
     }
 
     private fun initViewPager() = with(binding) {

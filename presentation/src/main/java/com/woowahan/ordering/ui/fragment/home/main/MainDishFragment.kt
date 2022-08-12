@@ -25,9 +25,7 @@ import com.woowahan.ordering.util.dp
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainDishFragment(
-    private val onDetailClick: (title: String, hash: String) -> Unit
-) : Fragment() {
+class MainDishFragment: Fragment() {
 
     private lateinit var cartBottomSheet: CartBottomSheet
 
@@ -48,6 +46,11 @@ class MainDishFragment(
         removeSpacePosition = listOf(0, 1),
         VERTICAL
     )
+
+    private var onDetailClick: (title: String, hash: String) -> Unit = { _, _ -> }
+    fun setOnDetailClick(onDetailClick: (title: String, hash: String) -> Unit) {
+        this.onDetailClick = onDetailClick
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -125,7 +128,6 @@ class MainDishFragment(
     }
 
     companion object {
-        fun newInstance(onDetailClick: (title: String, hash: String) -> Unit) =
-            MainDishFragment(onDetailClick)
+        fun newInstance() = MainDishFragment()
     }
 }

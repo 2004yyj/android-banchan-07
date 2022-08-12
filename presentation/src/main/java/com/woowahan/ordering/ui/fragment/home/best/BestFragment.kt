@@ -17,15 +17,18 @@ import com.woowahan.ordering.ui.viewmodel.BestViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class BestFragment(
-    private val onDetailClick: (title: String, hash: String) -> Unit
-) : Fragment() {
+class BestFragment : Fragment() {
 
     private lateinit var cartBottomSheet: CartBottomSheet
     private val viewModel: BestViewModel by viewModels()
     private lateinit var binding: FragmentBestBinding
     private val adapter: BestFoodAdapter by lazy {
         BestFoodAdapter()
+    }
+
+    private var onDetailClick: (title: String, hash: String) -> Unit = { _, _ -> }
+    fun setOnDetailClick(onDetailClick: (title: String, hash: String) -> Unit) {
+        this.onDetailClick = onDetailClick
     }
 
     override fun onCreateView(
@@ -67,7 +70,6 @@ class BestFragment(
     }
 
     companion object {
-        fun newInstance(onDetailClick: (title: String, hash: String) -> Unit) =
-            BestFragment(onDetailClick)
+        fun newInstance() = BestFragment()
     }
 }

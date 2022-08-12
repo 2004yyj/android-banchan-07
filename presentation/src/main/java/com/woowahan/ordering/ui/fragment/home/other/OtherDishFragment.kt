@@ -23,9 +23,7 @@ import com.woowahan.ordering.util.dp
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class OtherDishFragment(
-    private val onDetailClick: (title: String, hash: String) -> Unit
-) : Fragment() {
+class OtherDishFragment : Fragment() {
 
     private lateinit var cartBottomSheet: CartBottomSheet
 
@@ -36,6 +34,11 @@ class OtherDishFragment(
     private val foodAdapter by lazy { FoodAdapter() }
 
     private lateinit var kind: OtherKind
+
+    private var onDetailClick: (title: String, hash: String) -> Unit = { _, _ -> }
+    fun setOnDetailClick(onDetailClick: (title: String, hash: String) -> Unit) {
+        this.onDetailClick = onDetailClick
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -106,9 +109,8 @@ class OtherDishFragment(
         private const val OTHER_KIND = "otherKind"
 
         fun newInstance(
-            onDetailClick: (title: String, hash: String) -> Unit,
             otherKind: OtherKind
-        ) = OtherDishFragment(onDetailClick).apply {
+        ) = OtherDishFragment().apply {
             arguments = bundleOf(OTHER_KIND to otherKind)
         }
     }
