@@ -65,9 +65,9 @@ class MainDishFragment: Fragment() {
 
         viewModel.getMenuList(Menu.Main)
 
+        initRecyclerView()
         initFlow()
         initListener()
-        initRecyclerView()
     }
 
     private fun initFlow() {
