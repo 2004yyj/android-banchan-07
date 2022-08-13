@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.woowahan.ordering.databinding.FragmentMainDishBinding
+import com.woowahan.ordering.domain.model.Food
 import com.woowahan.ordering.domain.model.Menu
 import com.woowahan.ordering.ui.adapter.home.FoodAdapter
 import com.woowahan.ordering.ui.adapter.home.FoodAdapter.FoodItemViewType
@@ -20,14 +22,13 @@ import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader
 import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader.Companion.GRID
 import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader.Companion.VERTICAL
 import com.woowahan.ordering.ui.dialog.CartBottomSheet
+import com.woowahan.ordering.ui.dialog.CartDialogFragment
 import com.woowahan.ordering.ui.viewmodel.MainDishViewModel
 import com.woowahan.ordering.util.dp
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainDishFragment: Fragment() {
-
-    private lateinit var cartBottomSheet: CartBottomSheet
 
     private var binding: FragmentMainDishBinding? = null
     private val viewModel by viewModels<MainDishViewModel>()
@@ -80,8 +81,7 @@ class MainDishFragment: Fragment() {
 
     private fun initListener() {
         foodAdapter.setOnClick(onDetailClick) {
-            cartBottomSheet = CartBottomSheet(it)
-            cartBottomSheet.show(parentFragmentManager, "Main")
+            showCartBottomSheet(it)
         }
     }
 
@@ -125,6 +125,19 @@ class MainDishFragment: Fragment() {
 
     private fun setLinearLayoutManager() = with(binding!!) {
         rvMainDish.layoutManager = LinearLayoutManager(context)
+    }
+
+    private fun showCartBottomSheet(food: Food) {
+        CartBottomSheet.newInstance(food) {
+            showCartDialog()
+        }.show(parentFragmentManager, tag)
+    }
+
+    private fun showCartDialog() {
+        CartDialogFragment.newInstance {
+            // TODO
+            Toast.makeText(context, "장바구니 화면으로 이동", Toast.LENGTH_SHORT).show()
+        }.show(parentFragmentManager, tag)
     }
 
     override fun onDestroyView() {
