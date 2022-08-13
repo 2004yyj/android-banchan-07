@@ -20,7 +20,7 @@ class ImagesViewPagerAdapter :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImagesViewPagerViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = ItemImageBinding.inflate(inflater)
+        val binding = ItemImageBinding.inflate(inflater, parent, false)
         return ImagesViewPagerViewHolder(binding)
     }
 

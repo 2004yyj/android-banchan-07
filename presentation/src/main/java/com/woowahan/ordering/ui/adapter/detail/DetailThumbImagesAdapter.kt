@@ -21,6 +21,7 @@ class DetailThumbImagesAdapter() :
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind() = with(binding) {
             val adapter = ImagesViewPagerAdapter()
+            adapter.submitList(thumbImages)
             vpImages.adapter = adapter
             TabLayoutMediator(tbBottomDots, vpImages) { _, _ -> }.attach()
         }
@@ -28,7 +29,7 @@ class DetailThumbImagesAdapter() :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DetailImagesViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = ItemDetailImagesBinding.inflate(inflater)
+        val binding = ItemDetailImagesBinding.inflate(inflater, parent, false)
         return DetailImagesViewHolder(binding)
     }
 
