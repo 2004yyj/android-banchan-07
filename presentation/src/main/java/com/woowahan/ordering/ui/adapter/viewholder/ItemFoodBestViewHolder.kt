@@ -26,7 +26,9 @@ class ItemFoodBestViewHolder(
         with(binding) {
             title = best.name
             rvProducts.adapter = adapter
-            rvProducts.addItemDecoration(decoration)
+            if (rvProducts.itemDecorationCount == 0) {
+                rvProducts.addItemDecoration(decoration)
+            }
         }
     }
 }
