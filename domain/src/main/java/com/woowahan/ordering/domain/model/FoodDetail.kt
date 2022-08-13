@@ -9,7 +9,7 @@ data class FoodDetail(
     val deliveryInfo: String,
     val deliveryFee: String,
     val price: Long,
-    val discountPrice: Long,
+    val discountedPrice: Long,
     val discountedRate: Int,
     val detailSection: List<String>
 )
