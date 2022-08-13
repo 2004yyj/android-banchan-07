@@ -5,14 +5,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import com.google.android.material.tabs.TabLayoutMediator
 import com.woowahan.ordering.R
 import com.woowahan.ordering.databinding.FragmentHomeBinding
 import com.woowahan.ordering.ui.adapter.home.ViewPagerAdapter
+import com.woowahan.ordering.ui.fragment.detail.DetailFragment
 import com.woowahan.ordering.ui.fragment.home.best.BestFragment
 import com.woowahan.ordering.ui.fragment.home.main.MainDishFragment
 import com.woowahan.ordering.ui.fragment.home.other.OtherDishFragment
 import com.woowahan.ordering.ui.fragment.home.other.kind.OtherKind
+import com.woowahan.ordering.ui.util.replace
 
 class HomeFragment : Fragment() {
 
@@ -41,18 +44,19 @@ class HomeFragment : Fragment() {
     }
 
     private fun initListener() {
-        bestFragment.setOnDetailClick { title, hash ->
+        bestFragment.setOnDetailClick(this::replaceToDetail)
+        mainDishFragment.setOnDetailClick(this::replaceToDetail)
+        soupDishFragment.setOnDetailClick(this::replaceToDetail)
+        sideDishFragment.setOnDetailClick(this::replaceToDetail)
+    }
 
-        }
-        mainDishFragment.setOnDetailClick { title, hash ->
-
-        }
-        soupDishFragment.setOnDetailClick { title, hash ->
-
-        }
-        sideDishFragment.setOnDetailClick { title, hash ->
-
-        }
+    private fun replaceToDetail(title: String, hash: String) {
+        parentFragmentManager.replace(
+            DetailFragment::class.java,
+            (requireView().parent as View).id,
+            "Detail",
+            bundleOf("title" to title, "hash" to hash)
+        )
     }
 
     private fun initViewPager() = with(binding) {
