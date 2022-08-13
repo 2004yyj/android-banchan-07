@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.woowahan.ordering.databinding.ItemImageBinding
 import com.woowahan.ordering.databinding.ItemImageViewPagerBinding
 import com.woowahan.ordering.ui.adapter.stringDiffUtil
 
