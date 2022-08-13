@@ -18,7 +18,12 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class DetailFragment : Fragment() {
 
+    private val viewModel: DetailViewModel by viewModels()
     private var binding: FragmentDetailBinding? = null
+
+    private lateinit var hash: String
+    private lateinit var title: String
+
     private val detailImagesAdapter by lazy { DetailThumbImagesAdapter() }
 
     override fun onCreateView(
@@ -32,9 +37,19 @@ class DetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initFlow()
         initArguments()
         initRecyclerView()
+
         viewModel.getFoodDetail(hash)
+    }
+
+    private fun initFlow() {
+        lifecycleScope.launchWhenStarted {
+            viewModel.foodDetail.collect {
+                detailImagesAdapter.submitList(it.thumbImages)
+            }
+        }
     }
 
     private fun initArguments() = with(requireArguments()) {
