@@ -23,3 +23,13 @@ val bestDiffUtil = object: DiffUtil.ItemCallback<Best>() {
         return oldItem.categoryId == newItem.categoryId
     }
 }
+
+val stringDiffUtil = object: DiffUtil.ItemCallback<String>() {
+    override fun areItemsTheSame(oldItem: String, newItem: String): Boolean {
+        return oldItem == newItem
+    }
+
+    override fun areContentsTheSame(oldItem: String, newItem: String): Boolean {
+        return oldItem == newItem
+    }
+}
