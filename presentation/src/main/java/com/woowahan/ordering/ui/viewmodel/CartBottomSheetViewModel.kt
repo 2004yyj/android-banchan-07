@@ -8,10 +8,7 @@ import com.woowahan.ordering.domain.model.Result
 import com.woowahan.ordering.domain.usecase.cart.InsertCartUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,12 +18,10 @@ class CartBottomSheetViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _uiState = MutableSharedFlow<UiState>()
-    val uiState: SharedFlow<UiState>
-        get() = _uiState
+    val uiState = _uiState.asSharedFlow()
 
     private var _count = MutableStateFlow(1)
-    val count: StateFlow<Int>
-        get() = _count
+    val count = _count.asStateFlow()
 
     fun increaseCount() {
         _count.value = _count.value + 1
