@@ -8,13 +8,15 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ConcatAdapter
-import com.woowahan.ordering.R
 import com.woowahan.ordering.databinding.FragmentDetailBinding
+import com.woowahan.ordering.ui.adapter.detail.DetailImagesFooterAdapter
 import com.woowahan.ordering.ui.adapter.detail.DetailInfoAdapter
 import com.woowahan.ordering.ui.adapter.detail.DetailThumbImagesAdapter
+import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader
+import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader.Companion.VERTICAL
 import com.woowahan.ordering.ui.viewmodel.DetailViewModel
+import com.woowahan.ordering.util.dp
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class DetailFragment : Fragment() {
@@ -25,8 +27,9 @@ class DetailFragment : Fragment() {
     private lateinit var hash: String
     private lateinit var title: String
 
-    private val detailImagesAdapter by lazy { DetailThumbImagesAdapter() }
+    private val detailThumbImagesAdapter by lazy { DetailThumbImagesAdapter() }
     private val detailInfoAdapter by lazy { DetailInfoAdapter() }
+    private val detailImagesFooterAdapter by lazy { DetailImagesFooterAdapter() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,8 +52,9 @@ class DetailFragment : Fragment() {
     private fun initFlow() {
         lifecycleScope.launchWhenStarted {
             viewModel.foodDetail.collect {
-                detailImagesAdapter.submitList(it.thumbImages)
+                detailThumbImagesAdapter.submitList(it.thumbImages)
                 detailInfoAdapter.submitData(title, it)
+                detailImagesFooterAdapter.submitList(it.detailSection)
             }
         }
     }
@@ -61,9 +65,8 @@ class DetailFragment : Fragment() {
     }
 
     private fun initRecyclerView() = with(binding!!) {
-        val adapter = ConcatAdapter(detailImagesAdapter, detailInfoAdapter)
+        val adapter = ConcatAdapter(detailThumbImagesAdapter, detailInfoAdapter, detailImagesFooterAdapter)
         rvDetail.adapter = adapter
-
     }
 
     override fun onDestroyView() {
