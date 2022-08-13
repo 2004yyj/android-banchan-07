@@ -10,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ConcatAdapter
 import com.woowahan.ordering.R
 import com.woowahan.ordering.databinding.FragmentDetailBinding
+import com.woowahan.ordering.ui.adapter.detail.DetailInfoAdapter
 import com.woowahan.ordering.ui.adapter.detail.DetailThumbImagesAdapter
 import com.woowahan.ordering.ui.viewmodel.DetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,6 +26,7 @@ class DetailFragment : Fragment() {
     private lateinit var title: String
 
     private val detailImagesAdapter by lazy { DetailThumbImagesAdapter() }
+    private val detailInfoAdapter by lazy { DetailInfoAdapter() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,6 +50,7 @@ class DetailFragment : Fragment() {
         lifecycleScope.launchWhenStarted {
             viewModel.foodDetail.collect {
                 detailImagesAdapter.submitList(it.thumbImages)
+                detailInfoAdapter.submitData(title, it)
             }
         }
     }
@@ -58,7 +61,7 @@ class DetailFragment : Fragment() {
     }
 
     private fun initRecyclerView() = with(binding!!) {
-        val adapter = ConcatAdapter(detailImagesAdapter)
+        val adapter = ConcatAdapter(detailImagesAdapter, detailInfoAdapter)
         rvDetail.adapter = adapter
 
     }
