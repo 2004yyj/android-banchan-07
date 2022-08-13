@@ -6,8 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayoutMediator
 import com.woowahan.ordering.databinding.ItemDetailImagesBinding
 
-class DetailImagesAdapter(private val thumbImages: List<String>) :
-    RecyclerView.Adapter<DetailImagesAdapter.DetailImagesViewHolder>() {
+class DetailThumbImagesAdapter() :
+    RecyclerView.Adapter<DetailThumbImagesAdapter.DetailImagesViewHolder>() {
     inner class DetailImagesViewHolder(
         private val binding: ItemDetailImagesBinding
     ) : RecyclerView.ViewHolder(binding.root) {
