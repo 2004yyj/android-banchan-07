@@ -7,5 +7,5 @@ data class Cart(
     val price: Long,
     val count: Int,
     val detailHash: String,
-    val isChecked: Boolean
+    val isChecked: Boolean = true
 )
