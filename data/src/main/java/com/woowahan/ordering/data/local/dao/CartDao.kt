@@ -14,6 +14,6 @@ interface CartDao {
     @Delete
     fun deleteCart(cart: CartEntity)
 
-    @Query("SELECT * FROM Cart WHERE orderId = null")
+    @Query("SELECT * FROM Cart WHERE orderId is null")
     fun getCart(): List<CartEntity>
 }
