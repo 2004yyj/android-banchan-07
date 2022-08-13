@@ -8,6 +8,14 @@ import com.woowahan.ordering.databinding.ItemDetailImagesBinding
 
 class DetailThumbImagesAdapter() :
     RecyclerView.Adapter<DetailThumbImagesAdapter.DetailImagesViewHolder>() {
+
+    private val thumbImages = arrayListOf<String>()
+
+    fun submitList(thumbImages: List<String>) {
+        this.thumbImages.addAll(thumbImages)
+        notifyDataSetChanged()
+    }
+
     inner class DetailImagesViewHolder(
         private val binding: ItemDetailImagesBinding
     ) : RecyclerView.ViewHolder(binding.root) {
