@@ -6,35 +6,42 @@ import com.woowahan.ordering.databinding.ItemFoodGridBinding
 import com.woowahan.ordering.databinding.ItemFoodLinearBinding
 import com.woowahan.ordering.domain.model.Food
 
-sealed class ItemFoodViewHolder(view: View): RecyclerView.ViewHolder(view) {
-    abstract fun bind(food: Food, onDetailClick: (String, String) -> Unit, onCartClick: (Food) -> Unit)
+sealed class ItemFoodViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    abstract fun bind(
+        food: Food,
+        onDetailClick: (String, String) -> Unit,
+        onCartClick: (Int, Food) -> Unit
+    )
 
-    class Grid(private val binding: ItemFoodGridBinding): ItemFoodViewHolder(binding.root) {
+    class Grid(private val binding: ItemFoodGridBinding) : ItemFoodViewHolder(binding.root) {
         override fun bind(
             food: Food,
             onDetailClick: (String, String) -> Unit,
-            onCartClick: (Food) -> Unit
+            onCartClick: (Int, Food) -> Unit
         ) {
             binding.food = food
             binding.root.setOnClickListener {
                 onDetailClick(food.title, food.detailHash)
             }
             binding.btnAddCart.setOnClickListener {
-                onCartClick(food)
+                onCartClick(bindingAdapterPosition, food)
             }
         }
 
     }
 
-    class Linear(private val binding: ItemFoodLinearBinding): ItemFoodViewHolder(binding.root) {
-        override fun bind(food: Food, onDetailClick: (String, String) -> Unit, onCartClick: (Food) -> Unit) {
+    class Linear(private val binding: ItemFoodLinearBinding) : ItemFoodViewHolder(binding.root) {
+        override fun bind(
+            food: Food,
+            onDetailClick: (String, String) -> Unit,
+            onCartClick: (Int, Food) -> Unit
+        ) {
             binding.food = food
             binding.root.setOnClickListener {
                 onDetailClick(food.title, food.detailHash)
-                onCartClick(food)
             }
             binding.btnAddCart.setOnClickListener {
-                onCartClick(food)
+                onCartClick(bindingAdapterPosition, food)
             }
         }
     }

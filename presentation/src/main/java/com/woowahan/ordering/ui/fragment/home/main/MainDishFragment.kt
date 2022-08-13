@@ -28,7 +28,7 @@ import com.woowahan.ordering.util.dp
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainDishFragment: Fragment() {
+class MainDishFragment : Fragment() {
 
     private var binding: FragmentMainDishBinding? = null
     private val viewModel by viewModels<MainDishViewModel>()
@@ -80,9 +80,12 @@ class MainDishFragment: Fragment() {
     }
 
     private fun initListener() {
-        foodAdapter.setOnClick(onDetailClick) {
-            showCartBottomSheet(it)
-        }
+        foodAdapter.setOnClick(
+            onDetailClick = onDetailClick,
+            onCartClick = { itemPosition, food ->
+                showCartBottomSheet(itemPosition, food)
+            }
+        )
     }
 
     private fun initRecyclerView() = with(binding!!) {
@@ -99,8 +102,7 @@ class MainDishFragment: Fragment() {
                 rvMainDish.removeItemDecoration(linearDecoration)
                 rvMainDish.addItemDecoration(gridDecoration)
                 setGridLayoutManager(concatAdapter)
-            }
-            else {
+            } else {
                 foodAdapter.viewTypeChange(FoodItemViewType.LinearItem)
                 rvMainDish.removeItemDecoration(gridDecoration)
                 rvMainDish.addItemDecoration(linearDecoration)
@@ -127,8 +129,9 @@ class MainDishFragment: Fragment() {
         rvMainDish.layoutManager = LinearLayoutManager(context)
     }
 
-    private fun showCartBottomSheet(food: Food) {
+    private fun showCartBottomSheet(itemPosition: Int, food: Food) {
         CartBottomSheet.newInstance(food) {
+            updateFoodState(itemPosition)
             showCartDialog()
         }.show(parentFragmentManager, tag)
     }
@@ -138,6 +141,11 @@ class MainDishFragment: Fragment() {
             // TODO
             Toast.makeText(context, "장바구니 화면으로 이동", Toast.LENGTH_SHORT).show()
         }.show(parentFragmentManager, tag)
+    }
+
+    private fun updateFoodState(itemPosition: Int) {
+        foodAdapter.currentList[itemPosition].isAdded = true
+        foodAdapter.notifyItemChanged(itemPosition)
     }
 
     override fun onDestroyView() {
