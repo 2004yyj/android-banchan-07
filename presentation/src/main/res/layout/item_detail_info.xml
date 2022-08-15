@@ -259,7 +259,7 @@
             android:letterSpacing="0"
             android:paddingHorizontal="@dimen/space_horizontal"
             android:paddingVertical="@dimen/space_vertical"
-            android:text="주문하기"
+            android:text="@string/add_to_cart"
             android:textColor="@color/white"
             android:textSize="@dimen/size_subtitle"
             app:layout_constraintBottom_toBottomOf="parent"
