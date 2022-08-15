@@ -54,9 +54,10 @@ class DetailFragment : Fragment() {
     private fun initFlow() {
         lifecycleScope.launchWhenStarted {
             viewModel.foodDetail.collect {
-                detailThumbImagesAdapter.submitList(it.thumbImages)
-                detailInfoAdapter.submitData(title, it)
-                detailImagesFooterAdapter.submitList(it.detailSection)
+                it?.let {
+                    detailThumbImagesAdapter.submitList(it.thumbImages)
+                    detailImagesFooterAdapter.submitList(it.detailSection)
+                }
             }
         }
     }
