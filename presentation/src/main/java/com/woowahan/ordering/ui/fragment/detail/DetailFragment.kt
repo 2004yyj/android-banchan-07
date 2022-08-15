@@ -4,21 +4,24 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.ConcatAdapter
 import com.woowahan.ordering.databinding.FragmentDetailBinding
+import com.woowahan.ordering.ui.UiState
 import com.woowahan.ordering.ui.adapter.detail.DetailImagesFooterAdapter
 import com.woowahan.ordering.ui.adapter.detail.DetailInfoAdapter
 import com.woowahan.ordering.ui.adapter.detail.DetailThumbImagesAdapter
-import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader
-import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader.Companion.VERTICAL
+import com.woowahan.ordering.ui.dialog.CartDialogFragment
 import com.woowahan.ordering.ui.fragment.home.HomeFragment.Companion.HASH
 import com.woowahan.ordering.ui.fragment.home.HomeFragment.Companion.TITLE
 import com.woowahan.ordering.ui.viewmodel.DetailViewModel
-import com.woowahan.ordering.util.dp
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class DetailFragment : Fragment() {
@@ -60,6 +63,33 @@ class DetailFragment : Fragment() {
                 }
             }
         }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState.collect { uiState ->
+                    when (uiState) {
+                        is UiState.Success -> {
+                            showCartDialog()
+                        }
+                        is UiState.Error -> {
+                            showError(uiState.exception)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun showError(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun showCartDialog() {
+        parentFragmentManager.popBackStack()
+        
+        CartDialogFragment.newInstance {
+            // TODO
+            Toast.makeText(context, "장바구니 화면으로 이동", Toast.LENGTH_SHORT).show()
+        }.show(parentFragmentManager, tag)
     }
 
     private fun initArguments() = with(requireArguments()) {
