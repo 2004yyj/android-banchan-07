@@ -15,7 +15,7 @@ import com.woowahan.ordering.R
 import com.woowahan.ordering.databinding.BottomSheetCartBinding
 import com.woowahan.ordering.domain.model.Food
 import com.woowahan.ordering.ui.viewmodel.CartBottomSheetViewModel
-import com.woowahan.ordering.ui.viewmodel.UiState
+import com.woowahan.ordering.ui.UiState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
