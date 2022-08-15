@@ -21,4 +21,13 @@
     <string name="delivery_info">배송정보</string>
     <string name="delivary_fee">배송비</string>
     <string name="count">수량</string>
+    <string name="cart_deselect_all">선택 해제</string>
+    <string name="cart_delete_selected_item">선택 삭제</string>
+    <string name="cart_recently_header_title">최근 본 상품</string>
+    <string name="cart_see_all">전체보기</string>
+    <string name="sum_of_price">상품 주문 금액</string>
+    <string name="delivery_fee">배송비</string>
+    <string name="total_price">총 주문 금액</string>
+    <string name="cart_order_button">%,d원 주문하기</string>
+    <string name="cart_delivery_free_info">%,d원을 더 담으면 무료배송!</string>
 </resources>
