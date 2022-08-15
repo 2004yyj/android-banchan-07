@@ -33,7 +33,9 @@
             android:layout_height="@dimen/rounded_button_size"
             android:layout_marginHorizontal="@dimen/space_horizontal"
             android:layout_marginVertical="@dimen/space_vertical"
-            app:icon="@drawable/ic_cart_disabled"
+            android:backgroundTint="@{food.added ? @color/primary_accent : @color/white}"
+            app:icon="@{food.added ? @drawable/ic_check : @drawable/ic_cart_disabled}"
+            app:iconTint="@{food.added ? @color/white : @color/black}"
             app:layout_constraintBottom_toBottomOf="@+id/iv_food"
             app:layout_constraintEnd_toEndOf="parent" />
 

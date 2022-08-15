@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -11,12 +12,14 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import com.woowahan.ordering.databinding.FragmentOtherDishBinding
+import com.woowahan.ordering.domain.model.Food
 import com.woowahan.ordering.ui.adapter.home.CountAndFilterAdapter
 import com.woowahan.ordering.ui.adapter.home.FoodAdapter
 import com.woowahan.ordering.ui.adapter.home.HeaderAdapter
 import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader
 import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader.Companion.GRID
 import com.woowahan.ordering.ui.dialog.CartBottomSheet
+import com.woowahan.ordering.ui.dialog.CartDialogFragment
 import com.woowahan.ordering.ui.fragment.home.other.kind.OtherKind
 import com.woowahan.ordering.ui.viewmodel.OtherDishViewModel
 import com.woowahan.ordering.util.dp
@@ -24,8 +27,6 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class OtherDishFragment : Fragment() {
-
-    private lateinit var cartBottomSheet: CartBottomSheet
 
     private var binding: FragmentOtherDishBinding? = null
     private val viewModel by viewModels<OtherDishViewModel>()
@@ -70,10 +71,12 @@ class OtherDishFragment : Fragment() {
     }
 
     private fun initListener() {
-        foodAdapter.setOnClick(onDetailClick) {
-            cartBottomSheet = CartBottomSheet(it)
-            cartBottomSheet.show(parentFragmentManager, "Best")
-        }
+        foodAdapter.setOnClick(
+            onDetailClick = onDetailClick,
+            onCartClick = { itemPosition, food ->
+                showCartBottomSheet(itemPosition, food)
+            }
+        )
         countAndFilterAdapter.setOnItemSelectedListener {
             viewModel.getMenuList(kind, it)
         }
@@ -100,9 +103,30 @@ class OtherDishFragment : Fragment() {
             layoutDirection = GRID
         )
 
-        rvOtherDish.layoutManager = layoutManager
-        rvOtherDish.adapter = concatAdapter
-        rvOtherDish.addItemDecoration(decoration)
+        rvOtherDish.apply {
+            this.layoutManager = layoutManager
+            this.adapter = concatAdapter
+            addItemDecoration(decoration)
+        }
+    }
+
+    private fun showCartBottomSheet(itemPosition: Int, food: Food) {
+        CartBottomSheet.newInstance(food) {
+            updateFoodState(itemPosition)
+            showCartDialog()
+        }.show(parentFragmentManager, tag)
+    }
+
+    private fun showCartDialog() {
+        CartDialogFragment.newInstance {
+            // TODO
+            Toast.makeText(context, "장바구니 화면으로 이동", Toast.LENGTH_SHORT).show()
+        }.show(parentFragmentManager, tag)
+    }
+
+    private fun updateFoodState(itemPosition: Int) {
+        foodAdapter.currentList[itemPosition].isAdded = true
+        foodAdapter.notifyItemChanged(itemPosition)
     }
 
     override fun onDestroyView() {
@@ -113,9 +137,7 @@ class OtherDishFragment : Fragment() {
     companion object {
         private const val OTHER_KIND = "otherKind"
 
-        fun newInstance(
-            otherKind: OtherKind
-        ) = OtherDishFragment().apply {
+        fun newInstance(otherKind: OtherKind) = OtherDishFragment().apply {
             arguments = bundleOf(OTHER_KIND to otherKind)
         }
     }

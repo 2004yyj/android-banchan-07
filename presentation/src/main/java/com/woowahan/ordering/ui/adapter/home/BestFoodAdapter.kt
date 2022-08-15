@@ -11,9 +11,12 @@ import com.woowahan.ordering.ui.adapter.viewholder.ItemFoodBestViewHolder
 
 class BestFoodAdapter : ListAdapter<Best, ItemFoodBestViewHolder>(bestDiffUtil) {
     private var onDetailClick: (String, String) -> Unit = { _, _ -> }
-    private var onCartClick: (Food) -> Unit = {}
+    private var onCartClick: (Int, Int, Food) -> Unit = { _, _, _ -> }
 
-    fun setOnClick(onDetailClick: (String, String) -> Unit, onCartClick: (Food) -> Unit) {
+    fun setOnClick(
+        onDetailClick: (String, String) -> Unit,
+        onCartClick: (Int, Int, Food) -> Unit
+    ) {
         this.onDetailClick = onDetailClick
         this.onCartClick = onCartClick
     }
@@ -25,6 +28,12 @@ class BestFoodAdapter : ListAdapter<Best, ItemFoodBestViewHolder>(bestDiffUtil) 
     }
 
     override fun onBindViewHolder(holder: ItemFoodBestViewHolder, position: Int) {
-        holder.bind(getItem(position), onDetailClick, onCartClick)
+        holder.bind(
+            getItem(position),
+            onDetailClick = onDetailClick,
+            onCartClick = { itemPos, food ->
+                onCartClick(position, itemPos, food)
+            }
+        )
     }
 }

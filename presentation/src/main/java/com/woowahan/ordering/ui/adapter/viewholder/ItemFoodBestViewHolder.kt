@@ -10,11 +10,15 @@ import com.woowahan.ordering.util.dp
 
 class ItemFoodBestViewHolder(
     private val binding: ItemFoodBestBinding
-): RecyclerView.ViewHolder(binding.root) {
+) : RecyclerView.ViewHolder(binding.root) {
 
     private val decoration = ItemSpacingDecoratorWithHeader(8.dp)
 
-    fun bind(best: Best, onDetailClick: (String, String) -> Unit, onCartClick: (Food) -> Unit) {
+    fun bind(
+        best: Best,
+        onDetailClick: (String, String) -> Unit,
+        onCartClick: (Int, Food) -> Unit
+    ) {
         val adapter = FoodAdapter()
         adapter.submitList(best.items)
         adapter.setOnClick(onDetailClick, onCartClick)
@@ -22,7 +26,9 @@ class ItemFoodBestViewHolder(
         with(binding) {
             title = best.name
             rvProducts.adapter = adapter
-            rvProducts.addItemDecoration(decoration)
+            if (rvProducts.itemDecorationCount == 0) {
+                rvProducts.addItemDecoration(decoration)
+            }
         }
     }
 }

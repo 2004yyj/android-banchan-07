@@ -13,21 +13,21 @@ class FoodAdapter : ListAdapter<Food, ItemFoodViewHolder>(foodDiffUtil) {
     private var itemViewType: FoodItemViewType = FoodItemViewType.GridItem
 
     private var onDetailClick: (String, String) -> Unit = { _, _ -> }
-    private var onCartClick: (Food) -> Unit = {}
+    private var onCartClick: (Int, Food) -> Unit = { _, _ -> }
 
     fun viewTypeChange(itemViewType: FoodItemViewType) {
         this.itemViewType = itemViewType
         notifyDataSetChanged()
     }
 
-    fun setOnClick(onDetailClick: (String, String) -> Unit, onCartClick: (Food) -> Unit) {
+    fun setOnClick(onDetailClick: (String, String) -> Unit, onCartClick: (Int, Food) -> Unit) {
         this.onDetailClick = onDetailClick
         this.onCartClick = onCartClick
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemFoodViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        return when(viewType) {
+        return when (viewType) {
             FoodItemViewType.GridItem.ordinal -> {
                 val binding = ItemFoodGridBinding.inflate(inflater, parent, false)
                 ItemFoodViewHolder.Grid(binding)
