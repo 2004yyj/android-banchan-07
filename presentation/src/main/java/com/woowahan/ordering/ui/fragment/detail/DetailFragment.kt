@@ -14,6 +14,8 @@ import com.woowahan.ordering.ui.adapter.detail.DetailInfoAdapter
 import com.woowahan.ordering.ui.adapter.detail.DetailThumbImagesAdapter
 import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader
 import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader.Companion.VERTICAL
+import com.woowahan.ordering.ui.fragment.home.HomeFragment.Companion.HASH
+import com.woowahan.ordering.ui.fragment.home.HomeFragment.Companion.TITLE
 import com.woowahan.ordering.ui.viewmodel.DetailViewModel
 import com.woowahan.ordering.util.dp
 import dagger.hilt.android.AndroidEntryPoint
@@ -60,8 +62,8 @@ class DetailFragment : Fragment() {
     }
 
     private fun initArguments() = with(requireArguments()) {
-        hash = getString("hash", "")
-        title = getString("title", "")
+        hash = getString(HASH, "")
+        title = getString(TITLE, "")
     }
 
     private fun initRecyclerView() = with(binding!!) {

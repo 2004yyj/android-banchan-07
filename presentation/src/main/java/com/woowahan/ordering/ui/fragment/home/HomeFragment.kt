@@ -55,7 +55,7 @@ class HomeFragment : Fragment() {
             DetailFragment::class.java,
             (requireView().parent as View).id,
             "Detail",
-            bundleOf("title" to title, "hash" to hash)
+            bundleOf(TITLE to title, HASH to hash)
         )
     }
 
@@ -79,5 +79,10 @@ class HomeFragment : Fragment() {
     override fun onDestroy() {
         tabLayoutMediator.detach()
         super.onDestroy()
+    }
+
+    companion object {
+        const val TITLE = "title"
+        const val HASH = "hash"
     }
 }
