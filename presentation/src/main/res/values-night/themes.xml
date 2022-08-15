@@ -10,6 +10,10 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="Divider">
+        <item name="android:background">@color/line</item>
+    </style>
+
     <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.ActionBar">
         <item name="android:fontFamily">@font/outfit</item>
         <item name="android:textStyle">bold</item>
@@ -22,43 +26,38 @@
     </style>
 
     <style name="Heading.Bold" parent="Heading">
-        <item name="android:fontWeight">500</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="Subtitle" parent="TextAppearance.AppCompat.Subhead">
-        <item name="android:fontWeight">400</item>
         <item name="android:textSize">@dimen/size_subtitle</item>
     </style>
 
     <style name="Subtitle.Bold" parent="Subtitle">
-        <item name="android:fontWeight">500</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="Body1" parent="TextAppearance.AppCompat.Body1">
-        <item name="android:fontWeight">400</item>
         <item name="android:textSize">@dimen/size_body1</item>
     </style>
 
     <style name="Body1.Bold" parent="Body1">
-        <item name="android:fontWeight">500</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="Body2" parent="TextAppearance.AppCompat.Body2">
-        <item name="android:fontWeight">400</item>
         <item name="android:textSize">@dimen/size_body2</item>
     </style>
 
     <style name="Body2.Bold" parent="Body2">
-        <item name="android:fontWeight">500</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
-
     <style name="Caption" parent="TextAppearance.AppCompat.Caption">
-        <item name="android:fontWeight">400</item>
         <item name="android:textSize">@dimen/size_caption</item>
     </style>
 
     <style name="Caption.Bold" parent="Caption">
-        <item name="android:fontWeight">500</item>
+        <item name="android:textStyle">bold</item>
     </style>
 </resources>
