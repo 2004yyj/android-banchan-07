@@ -14,6 +14,10 @@
         <variable
             name="foodDetail"
             type="com.woowahan.ordering.domain.model.FoodDetail" />
+
+        <variable
+            name="vm"
+            type="com.woowahan.ordering.ui.viewmodel.DetailViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -40,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_text_vertical"
-            android:text="@{foodDetail.productDescription}"
+            android:text="@{vm.foodDetail.productDescription}"
             android:textColor="@color/gray_default"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_title"
@@ -52,9 +56,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_text_vertical"
-            android:text="@{@string/discount_rate_format(foodDetail.discountedRate)}"
+            android:text="@{@string/discount_rate_format(vm.foodDetail.discountedRate)}"
             android:textColor="@color/primary_accent"
-            android:visibility="@{foodDetail.discountedRate == 0 ? View.GONE : View.VISIBLE, default=visible}"
+            android:visibility="@{vm.foodDetail.discountedRate == 0 ? View.GONE : View.VISIBLE, default=visible}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_description"
             tools:text="10%" />
@@ -66,7 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_text_horizontal"
             android:layout_marginTop="@dimen/space_text_vertical"
-            android:text="@{@string/currency_format(foodDetail.discountedPrice)}"
+            android:text="@{@string/currency_format(vm.foodDetail.discountedPrice)}"
             app:layout_constraintStart_toEndOf="@id/tv_discount_rate"
             app:layout_constraintTop_toBottomOf="@id/tv_description"
             app:layout_goneMarginStart="0dp"
@@ -79,9 +83,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_text_horizontal"
             android:layout_marginTop="@dimen/space_text_vertical"
-            android:text="@{@string/currency_format(foodDetail.price)}"
+            android:text="@{@string/currency_format(vm.foodDetail.price)}"
             android:textColor="@color/gray_default"
-            android:visibility="@{foodDetail.price == 0 ? View.GONE : View.VISIBLE, default=visible}"
+            android:visibility="@{vm.foodDetail.price == 0 ? View.GONE : View.VISIBLE, default=visible}"
             app:layout_constraintBottom_toBottomOf="@id/tv_discount_price"
             app:layout_constraintStart_toEndOf="@id/tv_discount_price"
             app:layout_goneMarginStart="0dp"
@@ -140,7 +144,7 @@
             style="@style/Body2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{@string/currency_format(foodDetail.point)}"
+            android:text="@{@string/currency_format(vm.foodDetail.point)}"
             android:textColor="@color/gray_default"
             app:layout_constraintStart_toEndOf="@id/gl_info"
             app:layout_constraintTop_toTopOf="@id/tv_title_point"
@@ -151,8 +155,8 @@
             style="@style/Body2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@{vm.foodDetail.deliveryInfo}"
             android:textColor="@color/gray_default"
-            android:text="@{foodDetail.deliveryInfo}"
             app:layout_constraintStart_toEndOf="@id/gl_info"
             app:layout_constraintTop_toTopOf="@id/tv_title_delivery_info"
             tools:text="서울 경기 새벽 배송,  전국 택배 배송" />
@@ -162,8 +166,8 @@
             style="@style/Body2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@{vm.foodDetail.deliveryFee}"
             android:textColor="@color/gray_default"
-            android:text="@{foodDetail.deliveryFee}"
             app:layout_constraintStart_toEndOf="@id/gl_info"
             app:layout_constraintTop_toTopOf="@id/tv_title_delivery_fee"
             tools:text="2,500원 (40,000원 이상 구매 시 무료)" />

@@ -30,7 +30,7 @@ class DetailFragment : Fragment() {
     private lateinit var title: String
 
     private val detailThumbImagesAdapter by lazy { DetailThumbImagesAdapter() }
-    private val detailInfoAdapter by lazy { DetailInfoAdapter() }
+    private val detailInfoAdapter by lazy { DetailInfoAdapter(viewModel, title) }
     private val detailImagesFooterAdapter by lazy { DetailImagesFooterAdapter() }
 
     override fun onCreateView(

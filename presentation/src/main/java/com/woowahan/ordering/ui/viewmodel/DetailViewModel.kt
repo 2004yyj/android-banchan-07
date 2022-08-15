@@ -8,7 +8,9 @@ import com.woowahan.ordering.domain.usecase.food.GetFoodDetailUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,8 +19,8 @@ class DetailViewModel @Inject constructor(
     private val getFoodDetailUseCase: GetFoodDetailUseCase
 ): ViewModel() {
 
-    private val _foodDetail = MutableSharedFlow<FoodDetail>()
-    val foodDetail = _foodDetail.asSharedFlow()
+    private val _foodDetail = MutableStateFlow<FoodDetail?>(null)
+    val foodDetail = _foodDetail.asStateFlow()
 
     fun getFoodDetail(hash: String) {
         viewModelScope.launch(Dispatchers.IO) {
