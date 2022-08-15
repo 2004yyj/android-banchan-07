@@ -9,10 +9,12 @@ fun FoodDetailResponse.toModel(): FoodDetail {
         if (data.prices.size > 1) prices[0].toMoneyLong() else 0
     }
 
-    val discountPrice = with(data) {
+    val discountedPrice = with(data) {
         if (prices.size > 1) prices[1].toMoneyLong()
         else prices[0].toMoneyLong()
     }
+
+    val discountedRate = if (price == 0L) 0 else (1 - (discountedPrice.toFloat() / price.toFloat())) * 100
 
     return FoodDetail(
         hash = hash,
@@ -23,7 +25,8 @@ fun FoodDetailResponse.toModel(): FoodDetail {
         deliveryInfo = data.deliveryInfo,
         deliveryFee = data.deliveryFee,
         price = price,
-        discountPrice = discountPrice,
+        discountedPrice = discountedPrice,
+        discountedRate = discountedRate.toInt(),
         detailSection = data.detailSection
     )
 }

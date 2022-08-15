@@ -4,6 +4,8 @@
     <dimen name="space_vertical">16dp</dimen>
     <dimen name="space_text_horizontal">4dp</dimen>
     <dimen name="space_text_vertical">8dp</dimen>
+    <dimen name="space_divide_vertical">24dp</dimen>
+    <dimen name="space_divide_horizontal">24dp</dimen>
     <dimen name="size_heading">32sp</dimen>
     <dimen name="size_subtitle">18sp</dimen>
     <dimen name="size_body1">16sp</dimen>

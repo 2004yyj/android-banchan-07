@@ -34,7 +34,7 @@ class MainDishFragment : Fragment() {
     private val viewModel by viewModels<MainDishViewModel>()
 
     private val typeAndFilterAdapter by lazy { TypeAndFilterAdapter() }
-    private val foodAdapter by lazy { FoodAdapter() }
+    private lateinit var foodAdapter: FoodAdapter
 
     private val gridDecoration = ItemSpacingDecoratorWithHeader(
         spacing = 18.dp,
@@ -66,9 +66,9 @@ class MainDishFragment : Fragment() {
 
         viewModel.getMenuList(Menu.Main)
 
+        initRecyclerView()
         initFlow()
         initListener()
-        initRecyclerView()
     }
 
     private fun initFlow() {
@@ -89,6 +89,7 @@ class MainDishFragment : Fragment() {
     }
 
     private fun initRecyclerView() = with(binding!!) {
+        foodAdapter = FoodAdapter()
         val headerAdapter = HeaderAdapter("모두가 좋아하는\n든든한 메인 요리")
         val concatAdapter = ConcatAdapter(headerAdapter, typeAndFilterAdapter, foodAdapter)
 
