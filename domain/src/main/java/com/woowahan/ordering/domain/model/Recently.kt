@@ -5,6 +5,6 @@ data class Recently(
     val title: String,
     val thumbnail: String,
     val price: Long,
-    val discountPrice: Long,
+    val discountedPrice: Long,
     val latestViewedTime: Long
 )
