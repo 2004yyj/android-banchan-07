@@ -6,6 +6,7 @@ import com.woowahan.ordering.domain.model.Cart
 import com.woowahan.ordering.domain.model.Food
 import com.woowahan.ordering.domain.model.Result
 import com.woowahan.ordering.domain.usecase.cart.InsertCartUseCase
+import com.woowahan.ordering.ui.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
@@ -63,15 +64,4 @@ class CartBottomSheetViewModel @Inject constructor(
             }
         }
     }
-}
-
-sealed class UiState {
-    object Loading : UiState()
-    object Success : UiState()
-
-    data class Error(
-        val exception: String
-    ) : UiState()
-
-    object Finished : UiState()
 }
