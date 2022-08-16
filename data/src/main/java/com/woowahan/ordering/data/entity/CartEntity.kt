@@ -11,10 +11,7 @@ import androidx.room.PrimaryKey
         entity = OrderEntity::class,
         childColumns = arrayOf("orderId"),
         parentColumns = arrayOf("id")
-    )],
-    indices = [
-        Index(value = ["detailHash"], unique = true)
-    ]
+    )]
 )
 data class CartEntity(
     @PrimaryKey(autoGenerate = true)
