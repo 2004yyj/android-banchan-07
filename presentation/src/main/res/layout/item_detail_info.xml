@@ -249,6 +249,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_divide_vertical"
+            android:text="@{@string/currency_format(vm.foodDetail.discountedPrice * vm.count)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/v_divider_3"
             tools:text="10,000원" />
