@@ -23,6 +23,7 @@ import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader.Compani
 import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader.Companion.VERTICAL
 import com.woowahan.ordering.ui.dialog.CartBottomSheet
 import com.woowahan.ordering.ui.dialog.CartDialogFragment
+import com.woowahan.ordering.ui.dialog.IsExistsCartDialogFragment
 import com.woowahan.ordering.ui.viewmodel.MainDishViewModel
 import com.woowahan.ordering.util.dp
 import dagger.hilt.android.AndroidEntryPoint
@@ -129,9 +130,16 @@ class MainDishFragment : Fragment() {
     }
 
     private fun showCartBottomSheet(food: Food) {
-        CartBottomSheet.newInstance(food) {
-            showCartDialog()
-        }.show(parentFragmentManager, tag)
+        if (food.isAdded) {
+            IsExistsCartDialogFragment.newInstance {
+                // TODO
+                Toast.makeText(context, "장바구니 화면으로 이동", Toast.LENGTH_SHORT).show()
+            }.show(parentFragmentManager, tag)
+        } else {
+            CartBottomSheet.newInstance(food) {
+                showCartDialog()
+            }.show(parentFragmentManager, tag)
+        }
     }
 
     private fun showCartDialog() {
