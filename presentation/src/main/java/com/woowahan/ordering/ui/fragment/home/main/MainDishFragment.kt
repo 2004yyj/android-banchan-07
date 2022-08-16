@@ -23,6 +23,7 @@ import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader.Compani
 import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader.Companion.VERTICAL
 import com.woowahan.ordering.ui.dialog.CartBottomSheet
 import com.woowahan.ordering.ui.dialog.CartDialogFragment
+import com.woowahan.ordering.ui.dialog.IsExistsCartDialogFragment
 import com.woowahan.ordering.ui.viewmodel.MainDishViewModel
 import com.woowahan.ordering.util.dp
 import dagger.hilt.android.AndroidEntryPoint
@@ -82,9 +83,7 @@ class MainDishFragment : Fragment() {
     private fun initListener() {
         foodAdapter.setOnClick(
             onDetailClick = onDetailClick,
-            onCartClick = { itemPosition, food ->
-                showCartBottomSheet(itemPosition, food)
-            }
+            onCartClick = this::showCartBottomSheet
         )
     }
 
@@ -104,7 +103,7 @@ class MainDishFragment : Fragment() {
                 rvMainDish.addItemDecoration(gridDecoration)
                 setGridLayoutManager(concatAdapter)
             } else {
-                foodAdapter.viewTypeChange(FoodItemViewType.LinearItem)
+                foodAdapter.viewTypeChange(FoodItemViewType.VerticalItem)
                 rvMainDish.removeItemDecoration(gridDecoration)
                 rvMainDish.addItemDecoration(linearDecoration)
                 setLinearLayoutManager()
@@ -130,11 +129,17 @@ class MainDishFragment : Fragment() {
         rvMainDish.layoutManager = LinearLayoutManager(context)
     }
 
-    private fun showCartBottomSheet(itemPosition: Int, food: Food) {
-        CartBottomSheet.newInstance(food) {
-            updateFoodState(itemPosition)
-            showCartDialog()
-        }.show(parentFragmentManager, tag)
+    private fun showCartBottomSheet(food: Food) {
+        if (food.isAdded) {
+            IsExistsCartDialogFragment.newInstance {
+                // TODO
+                Toast.makeText(context, "장바구니 화면으로 이동", Toast.LENGTH_SHORT).show()
+            }.show(parentFragmentManager, tag)
+        } else {
+            CartBottomSheet.newInstance(food) {
+                showCartDialog()
+            }.show(parentFragmentManager, tag)
+        }
     }
 
     private fun showCartDialog() {
@@ -142,11 +147,6 @@ class MainDishFragment : Fragment() {
             // TODO
             Toast.makeText(context, "장바구니 화면으로 이동", Toast.LENGTH_SHORT).show()
         }.show(parentFragmentManager, tag)
-    }
-
-    private fun updateFoodState(itemPosition: Int) {
-        foodAdapter.currentList[itemPosition].isAdded = true
-        foodAdapter.notifyItemChanged(itemPosition)
     }
 
     override fun onDestroyView() {

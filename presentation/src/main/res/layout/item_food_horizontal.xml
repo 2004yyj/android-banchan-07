@@ -13,14 +13,13 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/image_large_size"
         android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/iv_food"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintDimensionRatio="1:1"
+            android:layout_width="@dimen/image_large_size"
+            android:layout_height="@dimen/image_large_size"
             android:image="@{food.image}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

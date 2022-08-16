@@ -12,7 +12,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.ConcatAdapter
 import com.woowahan.ordering.databinding.FragmentDetailBinding
-import com.woowahan.ordering.ui.UiState
 import com.woowahan.ordering.ui.adapter.detail.DetailImagesFooterAdapter
 import com.woowahan.ordering.ui.adapter.detail.DetailInfoAdapter
 import com.woowahan.ordering.ui.adapter.detail.DetailThumbImagesAdapter

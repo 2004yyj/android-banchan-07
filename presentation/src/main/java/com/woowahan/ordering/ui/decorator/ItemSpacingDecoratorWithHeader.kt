@@ -44,8 +44,8 @@ class ItemSpacingDecoratorWithHeader(
                     val rows = itemCount / cols
 
                     if (adapterPosition > cols + 1) outRect.top = spacing
-                    outRect.left = spacing
-                    outRect.right = if (adapterPosition % cols == cols - 1) spacing else 0
+                    outRect.left = if (adapterPosition % cols == 0) spacing else spacing / 2
+                    outRect.right = if (adapterPosition % cols == cols - 1) spacing else spacing / 2
                     outRect.bottom = if (adapterPosition / cols == rows - 1) spacing else 0
                 }
             }

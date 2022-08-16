@@ -14,6 +14,7 @@ import com.woowahan.ordering.ui.adapter.home.BestFoodAdapter
 import com.woowahan.ordering.ui.adapter.home.HeaderAdapter
 import com.woowahan.ordering.ui.dialog.CartBottomSheet
 import com.woowahan.ordering.ui.dialog.CartDialogFragment
+import com.woowahan.ordering.ui.dialog.IsExistsCartDialogFragment
 import com.woowahan.ordering.ui.viewmodel.BestViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -60,9 +61,7 @@ class BestFragment : Fragment() {
     private fun initListener() {
         adapter.setOnClick(
             onDetailClick = onDetailClick,
-            onCartClick = { listPosition, itemPosition, food ->
-                showCartBottomSheet(listPosition, itemPosition, food)
-            }
+            onCartClick = this::showCartBottomSheet
         )
     }
 
@@ -71,22 +70,23 @@ class BestFragment : Fragment() {
         rvBest.adapter = ConcatAdapter(headerAdapter, adapter)
     }
 
-    private fun showCartBottomSheet(listPosition: Int, itemPosition: Int, food: Food) {
-        CartBottomSheet.newInstance(food) {
-            updateFoodState(listPosition, itemPosition)
-            showCartDialog()
-        }.show(parentFragmentManager, tag)
+    private fun showCartBottomSheet(food: Food) {
+        if (food.isAdded) {
+            IsExistsCartDialogFragment.newInstance {
+                // TODO
+                Toast.makeText(context, "장바구니 화면으로 이동", Toast.LENGTH_SHORT).show()
+            }.show(parentFragmentManager, tag)
+        } else {
+            CartBottomSheet.newInstance(food) {
+                showCartDialog()
+            }.show(parentFragmentManager, tag)
+        }
     }
 
     private fun showCartDialog() {
         CartDialogFragment.newInstance {
             navigateToCart()
         }.show(parentFragmentManager, tag)
-    }
-
-    private fun updateFoodState(listPosition: Int, itemPosition: Int) {
-        adapter.currentList[listPosition].items[itemPosition].isAdded = true
-        adapter.notifyItemChanged(listPosition)
     }
 
     override fun onDestroyView() {
