@@ -13,16 +13,15 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="16dp">
+        android:layout_width="@dimen/image_large_size"
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/iv_food"
-            android:layout_width="@dimen/image_medium_size"
-            android:layout_height="@dimen/image_medium_size"
+            android:layout_width="@dimen/image_large_size"
+            android:layout_height="@dimen/image_large_size"
             android:image="@{food.image}"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:background="@color/black" />
@@ -34,21 +33,23 @@
             android:layout_height="@dimen/rounded_button_size"
             android:layout_marginHorizontal="@dimen/space_horizontal"
             android:layout_marginVertical="@dimen/space_vertical"
-            app:icon="@drawable/ic_cart_disabled"
+            android:backgroundTint="@{food.added ? @color/primary_accent : @color/white}"
+            app:icon="@{food.added ? @drawable/ic_check : @drawable/ic_cart_disabled}"
+            app:iconTint="@{food.added ? @color/white : @color/black}"
             app:layout_constraintBottom_toBottomOf="@+id/iv_food"
-            app:layout_constraintEnd_toEndOf="@+id/iv_food" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <TextView
             android:id="@+id/tv_title"
             style="@style/Body2.Bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_marginTop="@dimen/space_text_vertical"
+            android:ellipsize="marquee"
+            android:maxLines="1"
             android:text="@{food.title}"
-            app:layout_constraintBottom_toTopOf="@id/tv_description"
-            app:layout_constraintStart_toEndOf="@id/iv_food"
-            app:layout_constraintTop_toTopOf="@+id/iv_food"
-            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_food"
             tools:text="오리 주물럭_반조리" />
 
         <TextView
@@ -56,9 +57,10 @@
             style="@style/Caption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:maxLines="1"
             android:text="@{food.description}"
-            app:layout_constraintBottom_toTopOf="@id/tv_discount_rate"
-            app:layout_constraintStart_toStartOf="@+id/tv_title"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_title"
             tools:text="감칠맛 나는 매콤한 양념" />
 
@@ -66,14 +68,11 @@
             android:id="@+id/tv_discount_rate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/space_text_horizontal"
             android:text="@{@string/discount_rate_format(food.discountRate)}"
             android:textAppearance="@style/Body2"
             android:textColor="@color/primary_accent"
             android:visibility="@{food.discountRate > 0 ? View.VISIBLE : View.GONE}"
-            app:layout_constraintBottom_toTopOf="@id/tv_original_price"
-            app:layout_constraintEnd_toStartOf="@id/tv_discount_price"
-            app:layout_constraintStart_toStartOf="@+id/tv_description"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_description"
             tools:text="20%" />
 
@@ -81,11 +80,12 @@
             android:id="@+id/tv_discount_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_text_horizontal"
             android:text="@{@string/currency_format(food.discountedPrice)}"
             android:textAppearance="@style/Body2"
             android:textColor="@color/black"
             app:layout_constraintStart_toEndOf="@id/tv_discount_rate"
-            app:layout_constraintTop_toBottomOf="@id/tv_description"
+            app:layout_constraintTop_toBottomOf="@+id/tv_description"
             tools:text="10,000원" />
 
         <TextView
@@ -95,11 +95,9 @@
             android:lineThrough="@{true}"
             android:text="@{@string/currency_format(food.price)}"
             android:textAppearance="@style/Caption"
-            android:visibility="@{food.price > 0 ? View.VISIBLE : View.INVISIBLE}"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_food"
-            app:layout_constraintStart_toStartOf="@+id/tv_discount_rate"
-            app:layout_constraintTop_toBottomOf="@+id/tv_discount_rate"
-            app:layout_constraintVertical_bias="0.505"
+            android:visibility="@{food.price > 0 ? View.VISIBLE : View.GONE}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_discount_price"
             tools:text="13000원" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

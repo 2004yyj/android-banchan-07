@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.woowahan.ordering.databinding.ItemFoodGridBinding
-import com.woowahan.ordering.databinding.ItemFoodLinearBinding
+import com.woowahan.ordering.databinding.ItemFoodHorizontalBinding
 import com.woowahan.ordering.domain.model.Food
 import com.woowahan.ordering.ui.adapter.foodDiffUtil
 import com.woowahan.ordering.ui.adapter.viewholder.ItemFoodViewHolder
@@ -32,9 +32,10 @@ class FoodAdapter : ListAdapter<Food, ItemFoodViewHolder>(foodDiffUtil) {
                 val binding = ItemFoodGridBinding.inflate(inflater, parent, false)
                 ItemFoodViewHolder.Grid(binding)
             }
-            FoodItemViewType.LinearItem.ordinal -> {
-                val binding = ItemFoodLinearBinding.inflate(inflater, parent, false)
-                ItemFoodViewHolder.Linear(binding)
+            FoodItemViewType.VerticalItem.ordinal -> {
+                val binding = ItemFoodVerticalBinding.inflate(inflater, parent, false)
+                ItemFoodViewHolder.Vertical(binding)
+            }
             }
             else -> {
                 throw IllegalArgumentException()
@@ -51,7 +52,7 @@ class FoodAdapter : ListAdapter<Food, ItemFoodViewHolder>(foodDiffUtil) {
     }
 
     enum class FoodItemViewType {
-        GridItem, LinearItem
+        GridItem, VerticalItem, HorizontalItem
     }
 }
 

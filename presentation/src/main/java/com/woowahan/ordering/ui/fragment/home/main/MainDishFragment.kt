@@ -103,7 +103,7 @@ class MainDishFragment : Fragment() {
                 rvMainDish.addItemDecoration(gridDecoration)
                 setGridLayoutManager(concatAdapter)
             } else {
-                foodAdapter.viewTypeChange(FoodItemViewType.LinearItem)
+                foodAdapter.viewTypeChange(FoodItemViewType.VerticalItem)
                 rvMainDish.removeItemDecoration(gridDecoration)
                 rvMainDish.addItemDecoration(linearDecoration)
                 setLinearLayoutManager()
