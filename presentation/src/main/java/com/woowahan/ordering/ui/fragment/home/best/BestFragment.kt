@@ -95,7 +95,7 @@ class BestFragment : Fragment() {
     }
 
     companion object {
-        lateinit var navigateToCart: () -> Unit
+        private lateinit var navigateToCart: () -> Unit
 
         fun newInstance(navigateToCart: () -> Unit) : BestFragment {
             this.navigateToCart = navigateToCart
