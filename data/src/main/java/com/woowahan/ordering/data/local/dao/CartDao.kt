@@ -5,7 +5,7 @@ import com.woowahan.ordering.data.entity.CartEntity
 
 @Dao
 interface CartDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
     fun insertCart(cart: CartEntity)
 
     @Update
