@@ -15,6 +15,7 @@
     <string name="currency_format">%,d원</string>
     <string name="total_count_format">총 %,d개 상품</string>
     <string name="dialog_success_cart_add">선택한 상품이 장바구니에 담겼습니다.</string>
+    <string name="dialog_success_is_exists_cart">선택한 상품이 장바구니에 이미 존재합니다.</string>
     <string name="dialog_keep_shopping">계속 쇼핑하기</string>
     <string name="dialog_check_cart">장바구니 확인</string>
     <string name="point">적립금</string>
@@ -30,4 +31,5 @@
     <string name="total_price">총 주문 금액</string>
     <string name="cart_order_button">%,d원 주문하기</string>
     <string name="cart_delivery_free_info">%,d원을 더 담으면 무료배송!</string>
+    <string name="add_to_cart">주문하기</string>
 </resources>
