@@ -5,6 +5,7 @@ import com.woowahan.ordering.databinding.ItemFoodBestBinding
 import com.woowahan.ordering.domain.model.Best
 import com.woowahan.ordering.domain.model.Food
 import com.woowahan.ordering.ui.adapter.home.FoodAdapter
+import com.woowahan.ordering.ui.adapter.home.FoodAdapter.FoodItemViewType
 import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader
 import com.woowahan.ordering.util.dp
 
@@ -19,7 +20,7 @@ class ItemFoodBestViewHolder(
         onDetailClick: (String, String) -> Unit,
         onCartClick: (Food) -> Unit
     ) {
-        val adapter = FoodAdapter()
+        val adapter = FoodAdapter(FoodItemViewType.HorizontalItem)
         adapter.submitList(best.items)
         adapter.setOnClick(onDetailClick, onCartClick)
 

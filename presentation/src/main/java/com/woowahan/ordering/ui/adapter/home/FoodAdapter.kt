@@ -5,13 +5,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.woowahan.ordering.databinding.ItemFoodGridBinding
 import com.woowahan.ordering.databinding.ItemFoodHorizontalBinding
+import com.woowahan.ordering.databinding.ItemFoodVerticalBinding
 import com.woowahan.ordering.domain.model.Food
 import com.woowahan.ordering.ui.adapter.foodDiffUtil
 import com.woowahan.ordering.ui.adapter.viewholder.ItemFoodViewHolder
 
-class FoodAdapter : ListAdapter<Food, ItemFoodViewHolder>(foodDiffUtil) {
+class FoodAdapter(
     private var itemViewType: FoodItemViewType = FoodItemViewType.GridItem
-
+) : ListAdapter<Food, ItemFoodViewHolder>(foodDiffUtil) {
     private var onDetailClick: (String, String) -> Unit = { _, _ -> }
     private var onCartClick: (Food) -> Unit = {}
 
@@ -36,6 +37,9 @@ class FoodAdapter : ListAdapter<Food, ItemFoodViewHolder>(foodDiffUtil) {
                 val binding = ItemFoodVerticalBinding.inflate(inflater, parent, false)
                 ItemFoodViewHolder.Vertical(binding)
             }
+            FoodItemViewType.HorizontalItem.ordinal -> {
+                val binding = ItemFoodHorizontalBinding.inflate(inflater, parent, false)
+                ItemFoodViewHolder.Horizontal(binding)
             }
             else -> {
                 throw IllegalArgumentException()
