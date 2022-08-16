@@ -12,10 +12,6 @@
             type="String" />
 
         <variable
-            name="foodDetail"
-            type="com.woowahan.ordering.domain.model.FoodDetail" />
-
-        <variable
             name="vm"
             type="com.woowahan.ordering.ui.viewmodel.DetailViewModel" />
     </data>
