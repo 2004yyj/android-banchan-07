@@ -9,8 +9,10 @@ import com.woowahan.ordering.R
 import com.woowahan.ordering.databinding.ActionCartBinding
 import com.woowahan.ordering.databinding.ActionOrderBinding
 import com.woowahan.ordering.databinding.ActivityMainBinding
+import com.woowahan.ordering.ui.fragment.cart.CartFragment
 import com.woowahan.ordering.ui.fragment.home.HomeFragment
 import com.woowahan.ordering.ui.util.add
+import com.woowahan.ordering.ui.util.replace
 import com.woowahan.ordering.ui.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -51,7 +53,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initListener() = with(binding) {
         cartBinding.ibtCart.setOnClickListener {
-            // 장바구니
+            replaceToCart()
         }
         orderBinding.ibtOrder.setOnClickListener {
             // 주문내역
@@ -67,5 +69,13 @@ class MainActivity : AppCompatActivity() {
                 cartBinding.count = it
             }
         }
+    }
+
+    private fun replaceToCart() {
+        supportFragmentManager.replace(
+            CartFragment::class.java,
+            binding.fcvMain.id,
+            "CartFragment"
+        )
     }
 }
