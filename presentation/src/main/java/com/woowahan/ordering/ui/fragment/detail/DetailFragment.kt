@@ -62,6 +62,7 @@ class DetailFragment : Fragment() {
                 it?.let {
                     detailThumbImagesAdapter.submitList(it.thumbImages)
                     detailImagesFooterAdapter.submitList(it.detailSection)
+                    viewModel.insertRecently(title, it)
                 }
             }
         }
