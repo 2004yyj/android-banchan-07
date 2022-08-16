@@ -15,5 +15,7 @@
     <dimen name="image_large_size">170dp</dimen>
     <dimen name="image_medium_size">130dp</dimen>
     <dimen name="cart_list_image_size">80dp</dimen>
+    <dimen name="cart_recent_list_image_size">120dp</dimen>
     <dimen name="bottom_sheet_image_size">60dp</dimen>
+    <dimen name="icon_default_size">24dp</dimen>
 </resources>

@@ -1,10 +1,9 @@
 package com.woowahan.ordering.ui.binding
 
 import android.graphics.Paint
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
-import coil.load
+import com.woowahan.ordering.util.getDiffFromNow
 
 @BindingAdapter("android:lineThrough")
 fun TextView.setTextLineThrough(boolean: Boolean) {
@@ -13,4 +12,9 @@ fun TextView.setTextLineThrough(boolean: Boolean) {
     } else {
         paintFlags xor Paint.STRIKE_THRU_TEXT_FLAG
     }
+}
+
+@BindingAdapter("android:diffTimeStamp")
+fun TextView.setDiffTimeStamp(timestamp: Long) {
+    text = timestamp.getDiffFromNow()
 }

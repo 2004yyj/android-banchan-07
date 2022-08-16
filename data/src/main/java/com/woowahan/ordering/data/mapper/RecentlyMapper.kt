@@ -9,7 +9,7 @@ fun Recently.toEntity(): RecentlyEntity {
         title,
         thumbnail,
         price,
-        discountPrice,
+        discountedPrice,
         latestViewedTime
     )
 }
