@@ -10,6 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingBottom="16dp"
         android:orientation="horizontal">
 
         <TextView
@@ -17,6 +18,7 @@
             style="@style/Body1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:text="@string/cart_recently_header_title"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -27,6 +29,7 @@
             style="@style/Caption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
             android:text="@string/cart_see_all"
             android:textColor="@color/black"
             app:layout_constraintBaseline_toBaselineOf="@id/tv_recently_title"
@@ -36,9 +39,13 @@
             android:id="@+id/rv_recently"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
             android:layout_marginTop="@dimen/space_vertical"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_recently_title"
             tools:listitem="@layout/item_recently_viewed" />
 
