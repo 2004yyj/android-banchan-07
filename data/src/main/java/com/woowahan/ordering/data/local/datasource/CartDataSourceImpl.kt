@@ -5,6 +5,8 @@ import com.woowahan.ordering.data.local.dao.CartDao
 import com.woowahan.ordering.data.mapper.toEntity
 import com.woowahan.ordering.data.mapper.toModel
 import com.woowahan.ordering.domain.model.Cart
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class CartDataSourceImpl @Inject constructor(
@@ -22,9 +24,9 @@ class CartDataSourceImpl @Inject constructor(
         cartDao.deleteCart(cart.toEntity())
     }
 
-    override fun getCart(): List<Cart> {
+    override fun getCart(): Flow<List<Cart>> {
         return cartDao.getCart().map {
-            it.toModel()
+            it.map { cartEntity -> cartEntity.toModel() }
         }
     }
 

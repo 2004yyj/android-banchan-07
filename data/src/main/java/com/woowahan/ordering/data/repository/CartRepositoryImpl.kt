@@ -3,6 +3,7 @@ package com.woowahan.ordering.data.repository
 import com.woowahan.ordering.data.datasource.CartDataSource
 import com.woowahan.ordering.domain.model.Cart
 import com.woowahan.ordering.domain.repository.CartRepository
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class CartRepositoryImpl @Inject constructor(
@@ -20,7 +21,7 @@ class CartRepositoryImpl @Inject constructor(
         dataSource.deleteCart(cart)
     }
 
-    override fun getCart(): List<Cart> {
+    override fun getCart(): Flow<List<Cart>> {
         return dataSource.getCart()
     }
 
