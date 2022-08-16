@@ -23,9 +23,9 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
 
     private val bestFragment = BestFragment.newInstance { replaceToCart() }
-    private val mainDishFragment = MainDishFragment.newInstance()
-    private val soupDishFragment = OtherDishFragment.newInstance(OtherKind.Soup)
-    private val sideDishFragment = OtherDishFragment.newInstance(OtherKind.Side)
+    private val mainDishFragment = MainDishFragment.newInstance { replaceToCart() }
+    private val soupDishFragment = OtherDishFragment.newInstance(OtherKind.Soup) { replaceToCart() }
+    private val sideDishFragment = OtherDishFragment.newInstance(OtherKind.Side) { replaceToCart() }
 
     private lateinit var tabLayoutMediator: TabLayoutMediator
 

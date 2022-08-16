@@ -11,6 +11,7 @@ import com.woowahan.ordering.databinding.ActionCartBinding
 import com.woowahan.ordering.databinding.ActionOrderBinding
 import com.woowahan.ordering.databinding.ActivityMainBinding
 import com.woowahan.ordering.ui.fragment.cart.CartFragment
+import com.woowahan.ordering.ui.fragment.detail.DetailFragment
 import com.woowahan.ordering.ui.fragment.home.HomeFragment
 import com.woowahan.ordering.ui.util.add
 import com.woowahan.ordering.ui.util.replace
@@ -59,6 +60,9 @@ class MainActivity : AppCompatActivity() {
         orderBinding.ibtOrder.setOnClickListener {
             // 주문내역
         }
+        toolbarCart.setNavigationOnClickListener {
+            supportFragmentManager.popBackStack()
+        }
         supportFragmentManager.addOnBackStackChangedListener {
             // 툴바 분기처리
             supportFragmentManager.fragments.forEach {
@@ -69,7 +73,7 @@ class MainActivity : AppCompatActivity() {
                             toolbarOrder.isVisible = false
                             toolbarCart.isVisible = true
                         }
-                        is HomeFragment -> {
+                        is HomeFragment, is DetailFragment -> {
                             toolbarHome.isVisible = true
                             toolbarOrder.isVisible = false
                             toolbarCart.isVisible = false

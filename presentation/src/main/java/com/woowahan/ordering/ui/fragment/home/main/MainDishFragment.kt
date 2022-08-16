@@ -24,6 +24,8 @@ import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader.Compani
 import com.woowahan.ordering.ui.dialog.CartBottomSheet
 import com.woowahan.ordering.ui.dialog.CartDialogFragment
 import com.woowahan.ordering.ui.dialog.IsExistsCartDialogFragment
+import com.woowahan.ordering.ui.fragment.cart.CartFragment
+import com.woowahan.ordering.ui.util.replace
 import com.woowahan.ordering.ui.viewmodel.MainDishViewModel
 import com.woowahan.ordering.util.dp
 import dagger.hilt.android.AndroidEntryPoint
@@ -132,8 +134,7 @@ class MainDishFragment : Fragment() {
     private fun showCartBottomSheet(food: Food) {
         if (food.isAdded) {
             IsExistsCartDialogFragment.newInstance {
-                // TODO
-                Toast.makeText(context, "장바구니 화면으로 이동", Toast.LENGTH_SHORT).show()
+                navigateToCart()
             }.show(parentFragmentManager, tag)
         } else {
             CartBottomSheet.newInstance(food) {
@@ -144,8 +145,7 @@ class MainDishFragment : Fragment() {
 
     private fun showCartDialog() {
         CartDialogFragment.newInstance {
-            // TODO
-            Toast.makeText(context, "장바구니 화면으로 이동", Toast.LENGTH_SHORT).show()
+            navigateToCart()
         }.show(parentFragmentManager, tag)
     }
 
@@ -155,6 +155,11 @@ class MainDishFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance() = MainDishFragment()
+        private lateinit var navigateToCart: () -> Unit
+
+        fun newInstance(navigateToCart: () -> Unit): MainDishFragment {
+            this.navigateToCart = navigateToCart
+            return MainDishFragment()
+        }
     }
 }
