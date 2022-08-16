@@ -23,4 +23,8 @@ class CartRepositoryImpl @Inject constructor(
     override fun getCart(): List<Cart> {
         return dataSource.getCart()
     }
+
+    override fun isExistNotOrderedCart(detailHash: String): Boolean {
+        return dataSource.isExistNotOrderedCart(detailHash)
+    }
 }

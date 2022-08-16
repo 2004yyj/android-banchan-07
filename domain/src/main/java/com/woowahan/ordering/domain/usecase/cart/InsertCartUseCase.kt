@@ -11,9 +11,15 @@ class InsertCartUseCase(
     operator fun invoke(cart: Cart) = flow {
         emit(Result.Loading)
         try {
-            emit(Result.Success(repository.insertCart(cart)))
+            if (!repository.isExistNotOrderedCart(cart.detailHash)) {
+                emit(Result.Success(repository.insertCart(cart)))
+            } else {
+                throw ExistOrderedCartException()
+            }
         } catch(e: Exception) {
             emit(Result.Failure(e))
         }
     }
 }
+
+class ExistOrderedCartException: Exception()

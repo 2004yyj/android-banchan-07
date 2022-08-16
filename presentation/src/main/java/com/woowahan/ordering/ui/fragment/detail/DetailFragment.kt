@@ -4,21 +4,26 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.ConcatAdapter
 import com.woowahan.ordering.databinding.FragmentDetailBinding
+import com.woowahan.ordering.ui.UiState
 import com.woowahan.ordering.ui.adapter.detail.DetailImagesFooterAdapter
 import com.woowahan.ordering.ui.adapter.detail.DetailInfoAdapter
 import com.woowahan.ordering.ui.adapter.detail.DetailThumbImagesAdapter
-import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader
-import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader.Companion.VERTICAL
+import com.woowahan.ordering.ui.dialog.CartDialogFragment
+import com.woowahan.ordering.ui.dialog.IsExistsCartDialogFragment
 import com.woowahan.ordering.ui.fragment.home.HomeFragment.Companion.HASH
 import com.woowahan.ordering.ui.fragment.home.HomeFragment.Companion.TITLE
+import com.woowahan.ordering.ui.uistate.DetailUiState
 import com.woowahan.ordering.ui.viewmodel.DetailViewModel
-import com.woowahan.ordering.util.dp
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class DetailFragment : Fragment() {
@@ -30,7 +35,7 @@ class DetailFragment : Fragment() {
     private lateinit var title: String
 
     private val detailThumbImagesAdapter by lazy { DetailThumbImagesAdapter() }
-    private val detailInfoAdapter by lazy { DetailInfoAdapter() }
+    private val detailInfoAdapter by lazy { DetailInfoAdapter(viewModel, title) }
     private val detailImagesFooterAdapter by lazy { DetailImagesFooterAdapter() }
 
     override fun onCreateView(
@@ -54,11 +59,49 @@ class DetailFragment : Fragment() {
     private fun initFlow() {
         lifecycleScope.launchWhenStarted {
             viewModel.foodDetail.collect {
-                detailThumbImagesAdapter.submitList(it.thumbImages)
-                detailInfoAdapter.submitData(title, it)
-                detailImagesFooterAdapter.submitList(it.detailSection)
+                it?.let {
+                    detailThumbImagesAdapter.submitList(it.thumbImages)
+                    detailImagesFooterAdapter.submitList(it.detailSection)
+                }
             }
         }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState.collect { uiState ->
+                    when (uiState) {
+                        is DetailUiState.Success -> {
+                            showCartDialog()
+                        }
+                        is DetailUiState.Error -> {
+                            showError(uiState.exception)
+                        }
+                        is DetailUiState.CartExist -> {
+                            showIsExistsCartDialog()
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun showError(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun showCartDialog() {
+        parentFragmentManager.popBackStack()
+        
+        CartDialogFragment.newInstance {
+            // TODO
+            Toast.makeText(context, "장바구니 화면으로 이동", Toast.LENGTH_SHORT).show()
+        }.show(parentFragmentManager, tag)
+    }
+
+    private fun showIsExistsCartDialog() {
+        IsExistsCartDialogFragment.newInstance {
+            // TODO
+            Toast.makeText(context, "장바구니 화면으로 이동", Toast.LENGTH_SHORT).show()
+        }.show(parentFragmentManager, tag)
     }
 
     private fun initArguments() = with(requireArguments()) {

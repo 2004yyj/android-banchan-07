@@ -2,27 +2,39 @@ package com.woowahan.ordering.ui.adapter.detail
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.doOnAttach
+import androidx.core.view.doOnDetach
+import androidx.lifecycle.*
 import androidx.recyclerview.widget.RecyclerView
 import com.woowahan.ordering.databinding.ItemDetailInfoBinding
 import com.woowahan.ordering.domain.model.FoodDetail
+import com.woowahan.ordering.ui.viewmodel.DetailViewModel
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 
-class DetailInfoAdapter: RecyclerView.Adapter<DetailInfoAdapter.DetailInfoViewHolder>() {
-    private var title: String? = null
-    private var foodDetail: FoodDetail? = null
-    fun submitData(title: String, foodDetail: FoodDetail) {
-        this.title = title
-        this.foodDetail = foodDetail
-        notifyDataSetChanged()
-    }
+class DetailInfoAdapter(private val viewModel: DetailViewModel, private val title: String) :
+    RecyclerView.Adapter<DetailInfoAdapter.DetailInfoViewHolder>() {
 
     inner class DetailInfoViewHolder(
         private val binding: ItemDetailInfoBinding
-    ): RecyclerView.ViewHolder(binding.root) {
-        fun bind() {
-            if (foodDetail != null) {
-                binding.title = title
-                binding.foodDetail = foodDetail
+    ) : RecyclerView.ViewHolder(binding.root) {
+        private var lifecycleOwner: LifecycleOwner? = null
+
+        init {
+            itemView.doOnAttach {
+                lifecycleOwner = itemView.findViewTreeLifecycleOwner()
             }
+            itemView.doOnDetach {
+                lifecycleOwner = null
+            }
+        }
+
+        fun bind() {
+            binding.vm = viewModel
+            binding.title = title
+            binding.lifecycleOwner = lifecycleOwner
         }
     }
 
