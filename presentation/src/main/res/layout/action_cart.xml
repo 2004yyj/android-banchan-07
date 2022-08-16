@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <import type="android.view.View"/>
@@ -31,7 +32,8 @@
             android:gravity="center"
             android:textSize="8sp"
             android:padding="2dp"
-            android:visibility="@{count > 0 ? View.VISIBLE : View.INVISIBLE}"
+            android:text='@{count &lt; 10 ? Integer.toString(count) : "10+"}'
+            android:visibility="@{count > 0 ? View.VISIBLE : View.GONE, default=gone}"
             android:background="@drawable/bg_toolbar_cart_menu_count"
             android:textColor="@color/white"
             android:fontFamily="@font/outfit"
