@@ -17,7 +17,7 @@ class ItemFoodBestViewHolder(
     fun bind(
         best: Best,
         onDetailClick: (String, String) -> Unit,
-        onCartClick: (Int, Food) -> Unit
+        onCartClick: (Food) -> Unit
     ) {
         val adapter = FoodAdapter()
         adapter.submitList(best.items)

@@ -10,21 +10,21 @@ sealed class ItemFoodViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     abstract fun bind(
         food: Food,
         onDetailClick: (String, String) -> Unit,
-        onCartClick: (Int, Food) -> Unit
+        onCartClick: (Food) -> Unit
     )
 
     class Grid(private val binding: ItemFoodGridBinding) : ItemFoodViewHolder(binding.root) {
         override fun bind(
             food: Food,
             onDetailClick: (String, String) -> Unit,
-            onCartClick: (Int, Food) -> Unit
+            onCartClick: (Food) -> Unit
         ) {
             binding.food = food
             binding.root.setOnClickListener {
                 onDetailClick(food.title, food.detailHash)
             }
             binding.btnAddCart.setOnClickListener {
-                onCartClick(bindingAdapterPosition, food)
+                onCartClick(food)
             }
         }
 
@@ -34,14 +34,14 @@ sealed class ItemFoodViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         override fun bind(
             food: Food,
             onDetailClick: (String, String) -> Unit,
-            onCartClick: (Int, Food) -> Unit
+            onCartClick: (Food) -> Unit
         ) {
             binding.food = food
             binding.root.setOnClickListener {
                 onDetailClick(food.title, food.detailHash)
             }
             binding.btnAddCart.setOnClickListener {
-                onCartClick(bindingAdapterPosition, food)
+                onCartClick(food)
             }
         }
     }

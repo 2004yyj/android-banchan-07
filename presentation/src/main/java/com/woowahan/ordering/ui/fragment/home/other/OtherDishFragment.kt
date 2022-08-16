@@ -73,9 +73,7 @@ class OtherDishFragment : Fragment() {
     private fun initListener() {
         foodAdapter.setOnClick(
             onDetailClick = onDetailClick,
-            onCartClick = { itemPosition, food ->
-                showCartBottomSheet(itemPosition, food)
-            }
+            onCartClick = this::showCartBottomSheet
         )
         countAndFilterAdapter.setOnItemSelectedListener {
             viewModel.getMenuList(kind, it)

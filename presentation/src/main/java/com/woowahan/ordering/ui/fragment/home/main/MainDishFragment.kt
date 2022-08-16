@@ -82,9 +82,7 @@ class MainDishFragment : Fragment() {
     private fun initListener() {
         foodAdapter.setOnClick(
             onDetailClick = onDetailClick,
-            onCartClick = { itemPosition, food ->
-                showCartBottomSheet(itemPosition, food)
-            }
+            onCartClick = this::showCartBottomSheet
         )
     }
 

@@ -13,14 +13,14 @@ class FoodAdapter : ListAdapter<Food, ItemFoodViewHolder>(foodDiffUtil) {
     private var itemViewType: FoodItemViewType = FoodItemViewType.GridItem
 
     private var onDetailClick: (String, String) -> Unit = { _, _ -> }
-    private var onCartClick: (Int, Food) -> Unit = { _, _ -> }
+    private var onCartClick: (Food) -> Unit = {}
 
     fun viewTypeChange(itemViewType: FoodItemViewType) {
         this.itemViewType = itemViewType
         notifyDataSetChanged()
     }
 
-    fun setOnClick(onDetailClick: (String, String) -> Unit, onCartClick: (Int, Food) -> Unit) {
+    fun setOnClick(onDetailClick: (String, String) -> Unit, onCartClick: (Food) -> Unit) {
         this.onDetailClick = onDetailClick
         this.onCartClick = onCartClick
     }

@@ -61,9 +61,7 @@ class BestFragment : Fragment() {
     private fun initListener() {
         adapter.setOnClick(
             onDetailClick = onDetailClick,
-            onCartClick = { listPosition, itemPosition, food ->
-                showCartBottomSheet(listPosition, itemPosition, food)
-            }
+            onCartClick = this::showCartBottomSheet
         )
     }
 
