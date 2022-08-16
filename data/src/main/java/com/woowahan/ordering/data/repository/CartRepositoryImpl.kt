@@ -28,4 +28,8 @@ class CartRepositoryImpl @Inject constructor(
     override fun isExistNotOrderedCart(detailHash: String): Boolean {
         return dataSource.isExistNotOrderedCart(detailHash)
     }
+
+    override fun selectAllCartItem(option: Boolean) {
+        dataSource.selectAllCartItem(option)
+    }
 }

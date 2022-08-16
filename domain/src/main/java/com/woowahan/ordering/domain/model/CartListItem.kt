@@ -1,7 +1,9 @@
 package com.woowahan.ordering.domain.model
 
 sealed class CartListItem {
-    object Header : CartListItem()
+    data class Header(
+        val isSelectedAll: Boolean
+    ) : CartListItem()
 
     data class Content(
         val cart: Cart

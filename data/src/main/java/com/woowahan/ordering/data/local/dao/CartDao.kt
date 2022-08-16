@@ -20,4 +20,7 @@ interface CartDao {
 
     @Query("SELECT EXISTS (SELECT * FROM Cart WHERE orderId is null AND detailHash = :detailHash)")
     fun isExistNotOrderedCart(detailHash: String): Boolean
+
+    @Query("UPDATE Cart SET isChecked = :option WHERE orderId is null")
+    fun selectAllCartItem(option: Boolean)
 }

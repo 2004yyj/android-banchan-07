@@ -33,4 +33,8 @@ class CartDataSourceImpl @Inject constructor(
     override fun isExistNotOrderedCart(detailHash: String): Boolean {
         return cartDao.isExistNotOrderedCart(detailHash)
     }
+
+    override fun selectAllCartItem(option: Boolean) {
+        cartDao.selectAllCartItem(option)
+    }
 }
