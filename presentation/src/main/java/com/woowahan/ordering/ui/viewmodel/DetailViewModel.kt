@@ -1,5 +1,6 @@
 package com.woowahan.ordering.ui.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.woowahan.ordering.domain.model.Cart
@@ -21,7 +22,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetailViewModel @Inject constructor(
-    private val getCartUseCase: GetCartUseCase,
     private val getFoodDetailUseCase: GetFoodDetailUseCase,
     private val insertCartUseCase: InsertCartUseCase
 ): ViewModel() {
