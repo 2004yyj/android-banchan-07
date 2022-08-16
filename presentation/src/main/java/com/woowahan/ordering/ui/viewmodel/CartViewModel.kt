@@ -11,10 +11,7 @@ import com.woowahan.ordering.domain.usecase.order.InsertOrderUseCase
 import com.woowahan.ordering.domain.usecase.recently.GetSimpleRecentlyUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -136,7 +133,7 @@ class CartViewModel @Inject constructor(
 
     fun deleteItemClick(cart: Cart) {
         viewModelScope.launch(Dispatchers.IO) {
-            _message.emit("item ${cart.detailHash} deleted")
+            deleteCartUseCase(cart).collect()
         }
     }
 
