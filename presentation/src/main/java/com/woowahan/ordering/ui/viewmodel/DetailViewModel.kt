@@ -5,11 +5,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.woowahan.ordering.domain.model.Cart
 import com.woowahan.ordering.domain.model.FoodDetail
+import com.woowahan.ordering.domain.model.Recently
 import com.woowahan.ordering.domain.model.Result
 import com.woowahan.ordering.domain.usecase.cart.ExistOrderedCartException
-import com.woowahan.ordering.domain.usecase.cart.GetCartUseCase
 import com.woowahan.ordering.domain.usecase.cart.InsertCartUseCase
 import com.woowahan.ordering.domain.usecase.food.GetFoodDetailUseCase
+import com.woowahan.ordering.domain.usecase.recently.InsertRecentlyUseCase
 import com.woowahan.ordering.ui.uistate.DetailUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -22,6 +23,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetailViewModel @Inject constructor(
+    private val insertRecentlyUseCase: InsertRecentlyUseCase,
     private val getFoodDetailUseCase: GetFoodDetailUseCase,
     private val insertCartUseCase: InsertCartUseCase
 ): ViewModel() {
@@ -42,6 +44,21 @@ class DetailViewModel @Inject constructor(
     fun decreaseCount() {
         if (count.value > 1) {
             _count.value = _count.value - 1
+        }
+    }
+
+    fun insertRecently(title: String, foodDetail: FoodDetail) {
+        val recently = Recently(
+            detailHash = foodDetail.hash,
+            title = title,
+            thumbnail = foodDetail.thumbImages[0],
+            price = foodDetail.price,
+            discountedPrice = foodDetail.discountedPrice,
+            System.currentTimeMillis()
+        )
+
+        viewModelScope.launch(Dispatchers.IO) {
+            insertRecentlyUseCase(recently).collect {}
         }
     }
 
