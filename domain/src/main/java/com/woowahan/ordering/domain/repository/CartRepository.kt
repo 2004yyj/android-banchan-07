@@ -9,4 +9,6 @@ interface CartRepository {
     fun deleteCart(cart: Cart)
     fun getCart(): Flow<List<Cart>>
     fun isExistNotOrderedCart(detailHash: String): Boolean
+    fun selectAllCartItem(option: Boolean)
+    fun updateAllSelectedItemsOrderId(orderId: Long)
 }

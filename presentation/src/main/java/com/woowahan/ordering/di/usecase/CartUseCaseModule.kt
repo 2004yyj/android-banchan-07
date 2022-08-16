@@ -1,10 +1,7 @@
 package com.woowahan.ordering.di.usecase
 
 import com.woowahan.ordering.domain.repository.CartRepository
-import com.woowahan.ordering.domain.usecase.cart.DeleteCartUseCase
-import com.woowahan.ordering.domain.usecase.cart.GetCartUseCase
-import com.woowahan.ordering.domain.usecase.cart.InsertCartUseCase
-import com.woowahan.ordering.domain.usecase.cart.UpdateCartUseCase
+import com.woowahan.ordering.domain.usecase.cart.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -36,5 +33,11 @@ object CartUseCaseModule {
     @Singleton
     fun providesUpdateCartUseCase(repository: CartRepository): UpdateCartUseCase {
         return UpdateCartUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun providesSelectAllCartUseCase(repository: CartRepository) : SelectAllCartUseCase {
+        return SelectAllCartUseCase(repository)
     }
 }

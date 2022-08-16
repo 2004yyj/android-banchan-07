@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 class CartRepositoryImpl @Inject constructor(
     private val dataSource: CartDataSource
-): CartRepository {
+) : CartRepository {
     override fun insertCart(cart: Cart) {
         dataSource.insertCart(cart)
     }
@@ -27,5 +27,13 @@ class CartRepositoryImpl @Inject constructor(
 
     override fun isExistNotOrderedCart(detailHash: String): Boolean {
         return dataSource.isExistNotOrderedCart(detailHash)
+    }
+
+    override fun selectAllCartItem(option: Boolean) {
+        dataSource.selectAllCartItem(option)
+    }
+
+    override fun updateAllSelectedItemsOrderId(orderId: Long) {
+        dataSource.updateAllSelectedItemsOrderId(orderId)
     }
 }

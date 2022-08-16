@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.woowahan.ordering.domain.model.*
 import com.woowahan.ordering.domain.usecase.cart.DeleteCartUseCase
 import com.woowahan.ordering.domain.usecase.cart.GetCartUseCase
+import com.woowahan.ordering.domain.usecase.cart.SelectAllCartUseCase
 import com.woowahan.ordering.domain.usecase.cart.UpdateCartUseCase
 import com.woowahan.ordering.domain.usecase.order.InsertOrderUseCase
 import com.woowahan.ordering.domain.usecase.recently.GetSimpleRecentlyUseCase
@@ -19,6 +20,7 @@ class CartViewModel @Inject constructor(
     private val getCartUseCase: GetCartUseCase,
     private val updateCartUseCase: UpdateCartUseCase,
     private val deleteCartUseCase: DeleteCartUseCase,
+    private val selectAllCartUseCase: SelectAllCartUseCase,
     private val insertOrderUseCase: InsertOrderUseCase,
     private val getSimpleRecentlyUseCase: GetSimpleRecentlyUseCase
 ) : ViewModel() {
@@ -48,8 +50,10 @@ class CartViewModel @Inject constructor(
                         val list = result.value
                         val checkedList = list.filter { it.isChecked }
 
-                        if (list.size > checkedList.size) {
+                        if (list.size != checkedList.size) {
                             _isSelectedAll.emit(false)
+                        } else {
+                            _isSelectedAll.emit(true)
                         }
 
                         val sum = checkedList.sumOf { it.price * it.count }
@@ -61,7 +65,7 @@ class CartViewModel @Inject constructor(
 
                         val mergedList = mutableListOf<CartListItem>().apply {
                             addAll(list.map { CartListItem.Content(it) })
-                            add(0, CartListItem.Header)
+                            add(0, CartListItem.Header(isSelectedAll.value))
                             add(
                                 CartListItem.Footer(
                                     sum = sum,
@@ -90,49 +94,57 @@ class CartViewModel @Inject constructor(
         }
     }
 
-    fun selectAll(flag: Boolean) {
+    fun selectAll() {
         viewModelScope.launch(Dispatchers.IO) {
-            if (isSelectedAll.value) {
-                _message.emit("selectAll")
-            } else {
-                _message.emit("deselectAll")
+            selectAllCartUseCase(isSelectedAll.value.not()).collect {
+
             }
         }
     }
 
     fun checkItemClick(cart: Cart) {
         viewModelScope.launch(Dispatchers.IO) {
-            _message.emit("item ${cart.detailHash}'s state checked")
+            updateCartUseCase(cart.copy(isChecked = !cart.isChecked)).collect {
+
+            }
         }
     }
 
     fun minusItemClick(cart: Cart) {
         if (cart.count > 1) {
             viewModelScope.launch(Dispatchers.IO) {
-                _message.emit("item ${cart.detailHash}'s count decreased")
+                updateCartUseCase(cart.copy(count = cart.count - 1)).collect {
+                    if (it is Result.Success) {
+                    }
+                }
             }
         }
     }
 
     fun plusItemClick(cart: Cart) {
         viewModelScope.launch(Dispatchers.IO) {
-            _message.emit("item ${cart.detailHash}'s count increased")
+            updateCartUseCase(cart.copy(count = cart.count + 1)).collect {
+                if (it is Result.Success) {
+                }
+            }
+
         }
     }
 
     fun deleteItemClick(cart: Cart) {
         viewModelScope.launch(Dispatchers.IO) {
-            _message.emit("item ${cart.detailHash} deleted")
+            deleteCartUseCase(cart).collect()
         }
     }
 
     fun orderClick() {
         val order = Order(id = 0, deliveryTime = System.currentTimeMillis())
         viewModelScope.launch(Dispatchers.IO) {
-            _message.emit("item ordered")
+            insertOrderUseCase(order).collect {
+                // TODO
+            }
         }
     }
-
 
     companion object {
         const val DELIVERY_FREE_LIMIT = 40000

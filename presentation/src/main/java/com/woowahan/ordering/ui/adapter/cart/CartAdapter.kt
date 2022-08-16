@@ -13,7 +13,7 @@ import com.woowahan.ordering.domain.model.CartListItem
 import com.woowahan.ordering.ui.adapter.cartListDiffUtil
 
 class CartAdapter(
-    private val selectAllClick: (Boolean) -> Unit,
+    private val selectAllClick: () -> Unit,
     private val checkItemClick: (Cart) -> Unit,
     private val minusItemClick: (Cart) -> Unit,
     private val plusItemClick: (Cart) -> Unit,
@@ -24,8 +24,9 @@ class CartAdapter(
     class CartHeaderViewHolder(private val binding: ItemCartHeaderBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(selectAllClick: (Boolean) -> Unit) {
-            binding.btnDeselect.setOnClickListener { selectAllClick(true) }
+        fun bind(data: CartListItem.Header, selectAllClick: () -> Unit) {
+            binding.isSelectedAll = data.isSelectedAll
+            binding.btnDeselect.setOnClickListener { selectAllClick() }
         }
     }
 
@@ -96,7 +97,10 @@ class CartAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
-            is CartHeaderViewHolder -> holder.bind(selectAllClick)
+            is CartHeaderViewHolder -> holder.bind(
+                getItem(position) as CartListItem.Header,
+                selectAllClick
+            )
             is CartContentViewHolder -> holder.bind(
                 getItem(position) as CartListItem.Content,
                 checkItemClick, minusItemClick, plusItemClick, deleteItemClick

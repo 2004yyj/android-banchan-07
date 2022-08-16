@@ -31,7 +31,7 @@ object OrderUseCaseModule {
 
     @Provides
     @Singleton
-    fun providesInsertOrderUseCase(repository: OrderRepository): InsertOrderUseCase {
-        return InsertOrderUseCase(repository)
+    fun providesInsertOrderUseCase(orderRepository: OrderRepository, cartRepository: CartRepository): InsertOrderUseCase {
+        return InsertOrderUseCase(orderRepository, cartRepository)
     }
 }
