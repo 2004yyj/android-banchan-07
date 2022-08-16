@@ -10,6 +10,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.woowahan.ordering.R
 import com.woowahan.ordering.databinding.FragmentHomeBinding
 import com.woowahan.ordering.ui.adapter.home.ViewPagerAdapter
+import com.woowahan.ordering.ui.fragment.cart.CartFragment
 import com.woowahan.ordering.ui.fragment.detail.DetailFragment
 import com.woowahan.ordering.ui.fragment.home.best.BestFragment
 import com.woowahan.ordering.ui.fragment.home.main.MainDishFragment
@@ -21,7 +22,7 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
 
-    private val bestFragment = BestFragment.newInstance()
+    private val bestFragment = BestFragment.newInstance { replaceToCart() }
     private val mainDishFragment = MainDishFragment.newInstance()
     private val soupDishFragment = OtherDishFragment.newInstance(OtherKind.Soup)
     private val sideDishFragment = OtherDishFragment.newInstance(OtherKind.Side)
@@ -59,16 +60,26 @@ class HomeFragment : Fragment() {
         )
     }
 
+    private fun replaceToCart() {
+        parentFragmentManager.replace(
+            CartFragment::class.java,
+            (requireView().parent as View).id,
+            "Cart"
+        )
+    }
+
     private fun initViewPager() = with(binding) {
         val tabs = resources.getStringArray(R.array.tabs)
 
         vpHome.adapter =
-            ViewPagerAdapter(this@HomeFragment, listOf(
-                bestFragment,
-                mainDishFragment,
-                soupDishFragment,
-                sideDishFragment
-            ))
+            ViewPagerAdapter(
+                this@HomeFragment, listOf(
+                    bestFragment,
+                    mainDishFragment,
+                    soupDishFragment,
+                    sideDishFragment
+                )
+            )
 
         tabLayoutMediator = TabLayoutMediator(tlHome, vpHome) { tab, position ->
             tab.text = tabs[position]

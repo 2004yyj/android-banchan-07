@@ -11,7 +11,10 @@ class CartDialogFragment : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return MaterialAlertDialogBuilder(requireContext(), R.style.RoundedDialog)
             .setTitle(R.string.dialog_success_cart_add)
-            .setNegativeButton(R.string.dialog_check_cart) { _, _ -> navigateToCart() }
+            .setNegativeButton(R.string.dialog_check_cart) { _, _ ->
+                navigateToCart()
+                dismiss()
+            }
             .setPositiveButton(R.string.dialog_keep_shopping) { _, _ -> dismiss() }
             .create()
     }
