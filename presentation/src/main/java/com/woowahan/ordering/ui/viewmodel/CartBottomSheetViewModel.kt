@@ -6,7 +6,7 @@ import com.woowahan.ordering.domain.model.Cart
 import com.woowahan.ordering.domain.model.Food
 import com.woowahan.ordering.domain.model.Result
 import com.woowahan.ordering.domain.usecase.cart.InsertCartUseCase
-import com.woowahan.ordering.ui.UiState
+import com.woowahan.ordering.ui.uistate.CartBottomSheetUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
@@ -18,8 +18,8 @@ class CartBottomSheetViewModel @Inject constructor(
     private val insertCartUseCase: InsertCartUseCase
 ) : ViewModel() {
 
-    private val _uiState = MutableSharedFlow<UiState>()
-    val uiState = _uiState.asSharedFlow()
+    private val _BottomSheet_uiState = MutableSharedFlow<CartBottomSheetUiState>()
+    val uiState = _BottomSheet_uiState.asSharedFlow()
 
     private var _count = MutableStateFlow(1)
     val count = _count.asStateFlow()
@@ -35,7 +35,7 @@ class CartBottomSheetViewModel @Inject constructor(
     }
 
     fun cancel() = viewModelScope.launch {
-        _uiState.emit(UiState.Finished)
+        _BottomSheet_uiState.emit(CartBottomSheetUiState.Finished)
     }
 
     fun addToCart(food: Food) {
@@ -52,13 +52,13 @@ class CartBottomSheetViewModel @Inject constructor(
             insertCartUseCase(cart).collect {
                 when (it) {
                     is Result.Loading -> {
-                        _uiState.emit(UiState.Loading)
+                        _BottomSheet_uiState.emit(CartBottomSheetUiState.Loading)
                     }
                     is Result.Success -> {
-                        _uiState.emit(UiState.Success)
+                        _BottomSheet_uiState.emit(CartBottomSheetUiState.Success)
                     }
                     is Result.Failure -> {
-                        _uiState.emit(UiState.Error(it.cause.toString()))
+                        _BottomSheet_uiState.emit(CartBottomSheetUiState.Error(it.cause.toString()))
                     }
                 }
             }

@@ -15,7 +15,7 @@ import com.woowahan.ordering.R
 import com.woowahan.ordering.databinding.BottomSheetCartBinding
 import com.woowahan.ordering.domain.model.Food
 import com.woowahan.ordering.ui.viewmodel.CartBottomSheetViewModel
-import com.woowahan.ordering.ui.UiState
+import com.woowahan.ordering.ui.uistate.CartBottomSheetUiState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -51,19 +51,19 @@ class CartBottomSheet : BottomSheetDialogFragment() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { uiState ->
                     when (uiState) {
-                        is UiState.Loading -> {
+                        is CartBottomSheetUiState.Loading -> {
                             showProgressBar()
                         }
-                        is UiState.Success -> {
+                        is CartBottomSheetUiState.Success -> {
                             hideProgressBar()
                             onAddAction()
                             dialog?.dismiss()
                         }
-                        is UiState.Error -> {
+                        is CartBottomSheetUiState.Error -> {
                             hideProgressBar()
                             showError(uiState.exception)
                         }
-                        is UiState.Finished -> {
+                        is CartBottomSheetUiState.Finished -> {
                             hideProgressBar()
                             dialog?.dismiss()
                         }
