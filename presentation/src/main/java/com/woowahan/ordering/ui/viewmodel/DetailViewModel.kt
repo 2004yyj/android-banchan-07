@@ -5,9 +5,11 @@ import androidx.lifecycle.viewModelScope
 import com.woowahan.ordering.domain.model.Cart
 import com.woowahan.ordering.domain.model.FoodDetail
 import com.woowahan.ordering.domain.model.Result
+import com.woowahan.ordering.domain.usecase.cart.ExistOrderedCartException
+import com.woowahan.ordering.domain.usecase.cart.GetCartUseCase
 import com.woowahan.ordering.domain.usecase.cart.InsertCartUseCase
 import com.woowahan.ordering.domain.usecase.food.GetFoodDetailUseCase
-import com.woowahan.ordering.ui.UiState
+import com.woowahan.ordering.ui.uistate.DetailUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -19,11 +21,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetailViewModel @Inject constructor(
+    private val getCartUseCase: GetCartUseCase,
     private val getFoodDetailUseCase: GetFoodDetailUseCase,
     private val insertCartUseCase: InsertCartUseCase
 ): ViewModel() {
 
-    private val _uiState = MutableSharedFlow<UiState>()
+    private val _uiState = MutableSharedFlow<DetailUiState>()
     val uiState = _uiState.asSharedFlow()
 
     private val _foodDetail = MutableStateFlow<FoodDetail?>(null)
@@ -65,14 +68,16 @@ class DetailViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             insertCartUseCase(cart).collect {
                 when (it) {
-                    is Result.Loading -> {
-                        _uiState.emit(UiState.Loading)
-                    }
                     is Result.Success -> {
-                        _uiState.emit(UiState.Success)
+                        _uiState.emit(DetailUiState.Success)
                     }
                     is Result.Failure -> {
-                        _uiState.emit(UiState.Error(it.cause.toString()))
+                        when(it.cause) {
+                            is ExistOrderedCartException -> {
+                                _uiState.emit(DetailUiState.CartExist)
+                            }
+                            else -> _uiState.emit(DetailUiState.Error(it.cause.toString()))
+                        }
                     }
                 }
             }

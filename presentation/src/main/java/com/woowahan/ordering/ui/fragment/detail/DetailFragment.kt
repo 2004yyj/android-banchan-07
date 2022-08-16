@@ -17,8 +17,10 @@ import com.woowahan.ordering.ui.adapter.detail.DetailImagesFooterAdapter
 import com.woowahan.ordering.ui.adapter.detail.DetailInfoAdapter
 import com.woowahan.ordering.ui.adapter.detail.DetailThumbImagesAdapter
 import com.woowahan.ordering.ui.dialog.CartDialogFragment
+import com.woowahan.ordering.ui.dialog.IsExistsCartDialogFragment
 import com.woowahan.ordering.ui.fragment.home.HomeFragment.Companion.HASH
 import com.woowahan.ordering.ui.fragment.home.HomeFragment.Companion.TITLE
+import com.woowahan.ordering.ui.uistate.DetailUiState
 import com.woowahan.ordering.ui.viewmodel.DetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -67,11 +69,14 @@ class DetailFragment : Fragment() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { uiState ->
                     when (uiState) {
-                        is UiState.Success -> {
+                        is DetailUiState.Success -> {
                             showCartDialog()
                         }
-                        is UiState.Error -> {
+                        is DetailUiState.Error -> {
                             showError(uiState.exception)
+                        }
+                        is DetailUiState.CartExist -> {
+                            showIsExistsCartDialog()
                         }
                     }
                 }
@@ -87,6 +92,13 @@ class DetailFragment : Fragment() {
         parentFragmentManager.popBackStack()
         
         CartDialogFragment.newInstance {
+            // TODO
+            Toast.makeText(context, "장바구니 화면으로 이동", Toast.LENGTH_SHORT).show()
+        }.show(parentFragmentManager, tag)
+    }
+
+    private fun showIsExistsCartDialog() {
+        IsExistsCartDialogFragment.newInstance {
             // TODO
             Toast.makeText(context, "장바구니 화면으로 이동", Toast.LENGTH_SHORT).show()
         }.show(parentFragmentManager, tag)
