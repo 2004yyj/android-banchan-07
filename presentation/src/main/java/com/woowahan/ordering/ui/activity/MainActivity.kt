@@ -60,6 +60,9 @@ class MainActivity : AppCompatActivity() {
         orderBinding.ibtOrder.setOnClickListener {
             // 주문내역
         }
+        toolbarCart.setNavigationOnClickListener {
+            supportFragmentManager.popBackStack()
+        }
         supportFragmentManager.addOnBackStackChangedListener {
             // 툴바 분기처리
             supportFragmentManager.fragments.forEach {
