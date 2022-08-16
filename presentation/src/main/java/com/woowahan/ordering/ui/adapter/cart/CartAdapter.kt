@@ -18,15 +18,21 @@ class CartAdapter(
     private val minusItemClick: (Cart) -> Unit,
     private val plusItemClick: (Cart) -> Unit,
     private val deleteItemClick: (Cart) -> Unit,
+    private val deleteAllClick: () -> Unit,
     private val orderClick: () -> Unit
 ) : ListAdapter<CartListItem, RecyclerView.ViewHolder>(cartListDiffUtil) {
 
     class CartHeaderViewHolder(private val binding: ItemCartHeaderBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(data: CartListItem.Header, selectAllClick: () -> Unit) {
-            binding.isSelectedAll = data.isSelectedAll
-            binding.btnDeselect.setOnClickListener { selectAllClick() }
+        fun bind(
+            data: CartListItem.Header,
+            selectAllClick: () -> Unit,
+            deleteAllClick: () -> Unit
+        ) = with(binding) {
+            isSelectedAll = data.isSelectedAll
+            btnDeselect.setOnClickListener { selectAllClick() }
+            btnDelete.setOnClickListener { deleteAllClick() }
         }
     }
 
@@ -99,7 +105,7 @@ class CartAdapter(
         when (holder) {
             is CartHeaderViewHolder -> holder.bind(
                 getItem(position) as CartListItem.Header,
-                selectAllClick
+                selectAllClick, deleteAllClick
             )
             is CartContentViewHolder -> holder.bind(
                 getItem(position) as CartListItem.Content,

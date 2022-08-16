@@ -3,10 +3,7 @@ package com.woowahan.ordering.ui.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.woowahan.ordering.domain.model.*
-import com.woowahan.ordering.domain.usecase.cart.DeleteCartUseCase
-import com.woowahan.ordering.domain.usecase.cart.GetCartUseCase
-import com.woowahan.ordering.domain.usecase.cart.SelectAllCartUseCase
-import com.woowahan.ordering.domain.usecase.cart.UpdateCartUseCase
+import com.woowahan.ordering.domain.usecase.cart.*
 import com.woowahan.ordering.domain.usecase.order.InsertOrderUseCase
 import com.woowahan.ordering.domain.usecase.recently.GetSimpleRecentlyUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,6 +17,7 @@ class CartViewModel @Inject constructor(
     private val getCartUseCase: GetCartUseCase,
     private val updateCartUseCase: UpdateCartUseCase,
     private val deleteCartUseCase: DeleteCartUseCase,
+    private val deleteAllSelectedCartUseCase: DeleteAllSelectedCartUseCase,
     private val selectAllCartUseCase: SelectAllCartUseCase,
     private val insertOrderUseCase: InsertOrderUseCase,
     private val getSimpleRecentlyUseCase: GetSimpleRecentlyUseCase
@@ -134,6 +132,12 @@ class CartViewModel @Inject constructor(
     fun deleteItemClick(cart: Cart) {
         viewModelScope.launch(Dispatchers.IO) {
             deleteCartUseCase(cart).collect()
+        }
+    }
+
+    fun deleteAll() {
+        viewModelScope.launch(Dispatchers.IO) {
+            deleteAllSelectedCartUseCase().collect()
         }
     }
 

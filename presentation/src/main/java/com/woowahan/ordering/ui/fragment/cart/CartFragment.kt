@@ -49,6 +49,7 @@ class CartFragment : Fragment() {
             viewModel::minusItemClick,
             viewModel::plusItemClick,
             viewModel::deleteItemClick,
+            viewModel::deleteAll,
             viewModel::orderClick
         )
         cartRecentlyAdapter = CartRecentlyAdapter()
