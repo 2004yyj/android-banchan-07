@@ -2,22 +2,22 @@
 <resources>
     <style name="RoundedSmallButton" parent="Widget.AppCompat.Button">
         <item name="android:elevation">10dp</item>
-        <item name="android:backgroundTint">@color/black</item>
-        <item name="android:padding">@dimen/small_button_space</item>
+        <item name="android:backgroundTint">@color/white</item>
+        <item name="android:padding">@dimen/small_icon_space</item>
         <item name="android:scaleType">fitCenter</item>
         <item name="android:background">@drawable/bg_small_rounded_button</item>
     </style>
     <style name="RoundedMediumButton" parent="Widget.AppCompat.Button">
         <item name="android:elevation">10dp</item>
         <item name="android:backgroundTint">@color/white</item>
-        <item name="android:padding">@dimen/medium_button_space</item>
+        <item name="android:padding">@dimen/medium_icon_space</item>
         <item name="android:scaleType">fitCenter</item>
         <item name="android:background">@drawable/bg_medium_rounded_button</item>
     </style>
     <style name="RoundedLargeButton" parent="Widget.AppCompat.Button">
         <item name="android:elevation">10dp</item>
         <item name="android:backgroundTint">@color/white</item>
-        <item name="android:padding">10dp</item>
+        <item name="android:padding">@dimen/large_icon_space</item>
         <item name="android:scaleType">fitCenter</item>
         <item name="android:background">@drawable/bg_large_rounded_button</item>
     </style>

@@ -18,7 +18,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/tv_total_price"
+        app:layout_constraintTop_toTopOf="@+id/tv_total_price">
 
         <ProgressBar
             android:id="@+id/pb_loading"
@@ -134,14 +136,14 @@
             app:layout_constraintStart_toStartOf="parent"
             tools:text="12,460원" />
 
-        <com.google.android.material.button.MaterialButton
+        <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/btn_minus"
-            style="@style/RoundedButton"
-            android:layout_width="@dimen/rounded_button_size"
-            android:layout_height="@dimen/rounded_button_size"
+            style="@style/RoundedLargeButton"
+            android:layout_width="@dimen/button_size"
+            android:layout_height="@dimen/button_size"
             android:layout_marginHorizontal="@dimen/space_horizontal"
             android:onClick="@{() -> vm.decreaseCount()}"
-            app:icon="@drawable/ic_minus"
+            android:src="@drawable/ic_minus"
             app:layout_constraintBottom_toBottomOf="@id/btn_plus"
             app:layout_constraintEnd_toStartOf="@id/tv_count"
             app:layout_constraintTop_toTopOf="@id/btn_plus" />
@@ -161,15 +163,15 @@
             app:layout_constraintVertical_bias="0.45"
             tools:text="1" />
 
-        <com.google.android.material.button.MaterialButton
+        <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/btn_plus"
-            style="@style/RoundedButton"
-            android:layout_width="@dimen/rounded_button_size"
-            android:layout_height="@dimen/rounded_button_size"
+            style="@style/RoundedLargeButton"
+            android:layout_width="@dimen/button_size"
+            android:layout_height="@dimen/button_size"
             android:layout_marginHorizontal="@dimen/space_horizontal"
             android:layout_marginVertical="@dimen/space_vertical"
             android:onClick="@{() -> vm.increaseCount()}"
-            app:icon="@drawable/ic_plus"
+            android:src="@drawable/ic_plus"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/iv_food" />
 

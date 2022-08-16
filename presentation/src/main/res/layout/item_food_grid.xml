@@ -27,16 +27,16 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:background="@color/black" />
 
-        <com.google.android.material.button.MaterialButton
+        <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/btn_add_cart"
-            style="@style/RoundedButton"
-            android:layout_width="@dimen/rounded_button_size"
-            android:layout_height="@dimen/rounded_button_size"
+            style="@style/RoundedMediumButton"
+            android:layout_width="@dimen/button_size"
+            android:layout_height="@dimen/button_size"
             android:layout_marginHorizontal="@dimen/space_horizontal"
             android:layout_marginVertical="@dimen/space_vertical"
             android:backgroundTint="@{food.added ? @color/primary_accent : @color/white}"
-            app:icon="@{food.added ? @drawable/ic_check : @drawable/ic_cart_disabled}"
-            app:iconTint="@{food.added ? @color/white : @color/black}"
+            android:src="@{food.added ? @drawable/ic_check : @drawable/ic_cart_disabled}"
+            android:tint="@{food.added ? @color/white : @color/black}"
             app:layout_constraintBottom_toBottomOf="@+id/iv_food"
             app:layout_constraintEnd_toEndOf="parent" />
 

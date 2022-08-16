@@ -17,13 +17,14 @@
     <dimen name="cart_list_image_size">80dp</dimen>
     <dimen name="cart_recent_list_image_size">120dp</dimen>
     <dimen name="bottom_sheet_image_size">60dp</dimen>
-    <dimen name="small_button_size">24dp</dimen>
-    <dimen name="small_icon_space">6dp</dimen>
-    <dimen name="small_button_space">24dp</dimen>
-    <dimen name="medium_button_size">32dp</dimen>
-    <dimen name="medium_icon_space">7dp</dimen>
-    <dimen name="medium_button_space">16dp</dimen>
+    <dimen name="small_button_size">40dp</dimen>
+    <dimen name="small_icon_space">16dp</dimen>
+    <dimen name="small_button_space">8dp</dimen>
+    <dimen name="medium_button_size">42dp</dimen>
+    <dimen name="medium_icon_space">14dp</dimen>
+    <dimen name="medium_button_space">6dp</dimen>
     <dimen name="large_button_size">44dp</dimen>
-    <dimen name="large_icon_space">12dp</dimen>
+    <dimen name="large_icon_space">10dp</dimen>
     <dimen name="large_button_space">4dp</dimen>
+    <dimen name="icon_default_size">24dp</dimen>
 </resources>
