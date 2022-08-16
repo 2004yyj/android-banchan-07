@@ -3,6 +3,7 @@ package com.woowahan.ordering.ui.activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import com.woowahan.ordering.R
@@ -60,6 +61,22 @@ class MainActivity : AppCompatActivity() {
         }
         supportFragmentManager.addOnBackStackChangedListener {
             // 툴바 분기처리
+            supportFragmentManager.fragments.forEach {
+                if (it.isVisible) {
+                    when (it) {
+                        is CartFragment -> {
+                            toolbarHome.isVisible = false
+                            toolbarOrder.isVisible = false
+                            toolbarCart.isVisible = true
+                        }
+                        is HomeFragment -> {
+                            toolbarHome.isVisible = true
+                            toolbarOrder.isVisible = false
+                            toolbarCart.isVisible = false
+                        }
+                    }
+                }
+            }
         }
     }
 
