@@ -7,4 +7,5 @@ interface CartRepository {
     fun updateCart(cart: Cart)
     fun deleteCart(cart: Cart)
     fun getCart(): List<Cart>
+    fun isExistNotOrderedCart(detailHash: String): Boolean
 }

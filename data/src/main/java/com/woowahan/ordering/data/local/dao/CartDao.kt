@@ -16,4 +16,7 @@ interface CartDao {
 
     @Query("SELECT * FROM Cart WHERE orderId is null")
     fun getCart(): List<CartEntity>
+
+    @Query("SELECT EXISTS (SELECT * FROM Cart WHERE orderId is null AND detailHash = :detailHash)")
+    fun isExistNotOrderedCart(detailHash: String): Boolean
 }

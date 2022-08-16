@@ -27,4 +27,8 @@ class CartDataSourceImpl @Inject constructor(
             it.toModel()
         }
     }
+
+    override fun isExistNotOrderedCart(detailHash: String): Boolean {
+        return cartDao.isExistNotOrderedCart(detailHash)
+    }
 }
