@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -17,9 +18,11 @@ import com.woowahan.ordering.ui.adapter.detail.DetailInfoAdapter
 import com.woowahan.ordering.ui.adapter.detail.DetailThumbImagesAdapter
 import com.woowahan.ordering.ui.dialog.CartDialogFragment
 import com.woowahan.ordering.ui.dialog.IsExistsCartDialogFragment
+import com.woowahan.ordering.ui.fragment.cart.CartFragment
 import com.woowahan.ordering.ui.fragment.home.HomeFragment.Companion.HASH
 import com.woowahan.ordering.ui.fragment.home.HomeFragment.Companion.TITLE
 import com.woowahan.ordering.ui.uistate.DetailUiState
+import com.woowahan.ordering.ui.util.replace
 import com.woowahan.ordering.ui.viewmodel.DetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -92,15 +95,13 @@ class DetailFragment : Fragment() {
         parentFragmentManager.popBackStack()
         
         CartDialogFragment.newInstance {
-            // TODO
-            Toast.makeText(context, "장바구니 화면으로 이동", Toast.LENGTH_SHORT).show()
+            replaceToCart()
         }.show(parentFragmentManager, tag)
     }
 
     private fun showIsExistsCartDialog() {
         IsExistsCartDialogFragment.newInstance {
-            // TODO
-            Toast.makeText(context, "장바구니 화면으로 이동", Toast.LENGTH_SHORT).show()
+            replaceToCart()
         }.show(parentFragmentManager, tag)
     }
 
@@ -112,6 +113,14 @@ class DetailFragment : Fragment() {
     private fun initRecyclerView() = with(binding!!) {
         val adapter = ConcatAdapter(detailThumbImagesAdapter, detailInfoAdapter, detailImagesFooterAdapter)
         rvDetail.adapter = adapter
+    }
+
+    private fun replaceToCart() {
+        parentFragmentManager.replace(
+            CartFragment::class.java,
+            (requireView().parent as View).id,
+            "Cart"
+        )
     }
 
     override fun onDestroyView() {
