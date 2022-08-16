@@ -8,7 +8,7 @@ import com.woowahan.ordering.data.entity.SimpleOrderEntity
 @Dao
 interface OrderDao {
     @Insert
-    fun insertOrder(order: OrderEntity)
+    fun insertOrder(order: OrderEntity): Long
 
     @Query(
         "SELECT c.title, c.thumbnail, o.deliveryTime, total(c.price) as totalPrice, count(o.deliveryTime) as productCount " +

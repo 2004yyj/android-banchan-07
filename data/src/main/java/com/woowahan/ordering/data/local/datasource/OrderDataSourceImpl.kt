@@ -12,9 +12,9 @@ import javax.inject.Inject
 
 class OrderDataSourceImpl @Inject constructor(
     private val orderDao: OrderDao
-): OrderDataSource {
-    override fun insertOrder(order: Order) {
-        orderDao.insertOrder(order.toEntity())
+) : OrderDataSource {
+    override fun insertOrder(order: Order): Long {
+        return orderDao.insertOrder(order.toEntity())
     }
 
     override fun getSimpleOrder(): List<SimpleOrder> {

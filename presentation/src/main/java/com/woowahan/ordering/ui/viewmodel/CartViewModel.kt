@@ -140,10 +140,11 @@ class CartViewModel @Inject constructor(
     fun orderClick() {
         val order = Order(id = 0, deliveryTime = System.currentTimeMillis())
         viewModelScope.launch(Dispatchers.IO) {
-            _message.emit("item ordered")
+            insertOrderUseCase(order).collect {
+                // TODO
+            }
         }
     }
-
 
     companion object {
         const val DELIVERY_FREE_LIMIT = 40000

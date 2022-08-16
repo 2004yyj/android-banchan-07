@@ -5,7 +5,7 @@ import com.woowahan.ordering.domain.model.Order
 import com.woowahan.ordering.domain.model.SimpleOrder
 
 interface OrderDataSource {
-    fun insertOrder(order: Order)
+    fun insertOrder(order: Order): Long
     fun getSimpleOrder(): List<SimpleOrder>
     fun getOrderedCartByDeliveryTime(deliveryTime: Long): List<Cart>
 }

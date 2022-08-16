@@ -23,4 +23,7 @@ interface CartDao {
 
     @Query("UPDATE Cart SET isChecked = :option WHERE orderId is null")
     fun selectAllCartItem(option: Boolean)
+
+    @Query("UPDATE Cart SET orderId =:orderId WHERE orderId is null AND isChecked = 1")
+    fun updateAllSelectedItemsOrderId(orderId: Long)
 }

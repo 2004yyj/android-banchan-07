@@ -37,4 +37,8 @@ class CartDataSourceImpl @Inject constructor(
     override fun selectAllCartItem(option: Boolean) {
         cartDao.selectAllCartItem(option)
     }
+
+    override fun updateAllSelectedItemsOrderId(orderId: Long) {
+        cartDao.updateAllSelectedItemsOrderId(orderId)
+    }
 }
