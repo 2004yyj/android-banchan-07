@@ -109,14 +109,21 @@ class CartViewModel @Inject constructor(
     fun minusItemClick(cart: Cart) {
         if (cart.count > 1) {
             viewModelScope.launch(Dispatchers.IO) {
-                _message.emit("item ${cart.detailHash}'s count decreased")
+                updateCartUseCase(cart.copy(count = cart.count - 1)).collect {
+                    if (it is Result.Success) {
+                    }
+                }
             }
         }
     }
 
     fun plusItemClick(cart: Cart) {
         viewModelScope.launch(Dispatchers.IO) {
-            _message.emit("item ${cart.detailHash}'s count increased")
+            updateCartUseCase(cart.copy(count = cart.count + 1)).collect {
+                if (it is Result.Success) {
+                }
+            }
+
         }
     }
 
