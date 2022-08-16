@@ -9,10 +9,8 @@ class GetCartUseCase(
 ) {
     operator fun invoke() = flow {
         emit(Result.Loading)
-        try {
-            emit(Result.Success(repository.getCart()))
-        } catch(e: Exception) {
-            emit(Result.Failure(e))
+        repository.getCart().collect {
+            emit(Result.Success(it))
         }
     }
 }
