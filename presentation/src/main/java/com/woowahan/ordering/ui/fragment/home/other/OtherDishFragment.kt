@@ -110,9 +110,8 @@ class OtherDishFragment : Fragment() {
         }
     }
 
-    private fun showCartBottomSheet(itemPosition: Int, food: Food) {
+    private fun showCartBottomSheet(food: Food) {
         CartBottomSheet.newInstance(food) {
-            updateFoodState(itemPosition)
             showCartDialog()
         }.show(parentFragmentManager, tag)
     }
@@ -122,11 +121,6 @@ class OtherDishFragment : Fragment() {
             // TODO
             Toast.makeText(context, "장바구니 화면으로 이동", Toast.LENGTH_SHORT).show()
         }.show(parentFragmentManager, tag)
-    }
-
-    private fun updateFoodState(itemPosition: Int) {
-        foodAdapter.currentList[itemPosition].isAdded = true
-        foodAdapter.notifyItemChanged(itemPosition)
     }
 
     override fun onDestroyView() {

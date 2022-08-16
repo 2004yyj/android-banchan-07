@@ -72,9 +72,8 @@ class BestFragment : Fragment() {
         rvBest.adapter = ConcatAdapter(headerAdapter, adapter)
     }
 
-    private fun showCartBottomSheet(listPosition: Int, itemPosition: Int, food: Food) {
+    private fun showCartBottomSheet(food: Food) {
         CartBottomSheet.newInstance(food) {
-            updateFoodState(listPosition, itemPosition)
             showCartDialog()
         }.show(parentFragmentManager, tag)
     }
@@ -84,11 +83,6 @@ class BestFragment : Fragment() {
             // TODO
             Toast.makeText(context, "장바구니 화면으로 이동", Toast.LENGTH_SHORT).show()
         }.show(parentFragmentManager, tag)
-    }
-
-    private fun updateFoodState(listPosition: Int, itemPosition: Int) {
-        adapter.currentList[listPosition].items[itemPosition].isAdded = true
-        adapter.notifyItemChanged(listPosition)
     }
 
     override fun onDestroyView() {
