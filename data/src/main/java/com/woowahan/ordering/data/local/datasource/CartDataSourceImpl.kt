@@ -2,16 +2,18 @@ package com.woowahan.ordering.data.local.datasource
 
 import com.woowahan.ordering.data.datasource.CartDataSource
 import com.woowahan.ordering.data.local.dao.CartDao
+import com.woowahan.ordering.data.mapper.toCartResult
 import com.woowahan.ordering.data.mapper.toEntity
 import com.woowahan.ordering.data.mapper.toModel
 import com.woowahan.ordering.domain.model.Cart
+import com.woowahan.ordering.domain.model.CartResult
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class CartDataSourceImpl @Inject constructor(
     private val cartDao: CartDao
-): CartDataSource {
+) : CartDataSource {
     override fun insertCart(cart: Cart) {
         cartDao.insertCart(cart.toEntity())
     }
@@ -44,5 +46,11 @@ class CartDataSourceImpl @Inject constructor(
 
     override fun deleteAllSelectedItems() {
         cartDao.deleteAllSelectedItems()
+    }
+
+    override fun getCartResult(): Flow<CartResult> {
+        return cartDao.getCart().map {
+            it.toCartResult()
+        }
     }
 }
