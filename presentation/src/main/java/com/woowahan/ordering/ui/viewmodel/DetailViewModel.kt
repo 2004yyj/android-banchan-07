@@ -76,7 +76,7 @@ class DetailViewModel @Inject constructor(
         val cart = Cart(
             id = 0,
             title = title,
-            thumbnail = food.topImage,
+            thumbnail = food.thumbImages[0],
             price = food.discountedPrice,
             count = _count.value,
             detailHash = food.hash
