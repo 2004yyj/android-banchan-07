@@ -5,6 +5,7 @@ import com.woowahan.ordering.domain.model.Cart
 import com.woowahan.ordering.domain.model.Order
 import com.woowahan.ordering.domain.model.SimpleOrder
 import com.woowahan.ordering.domain.repository.OrderRepository
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class OrderRepositoryImpl @Inject constructor(
@@ -14,11 +15,11 @@ class OrderRepositoryImpl @Inject constructor(
         return dataSource.insertOrder(order)
     }
 
-    override fun getSimpleOrder(): List<SimpleOrder> {
+    override fun getSimpleOrder(): Flow<List<SimpleOrder>> {
         return dataSource.getSimpleOrder()
     }
 
-    override fun getOrderedCartByDeliveryTime(deliveryTime: Long): List<Cart> {
+    override fun getOrderedCartByDeliveryTime(deliveryTime: Long): Flow<List<Cart>> {
         return dataSource.getOrderedCartByDeliveryTime(deliveryTime)
     }
 }

@@ -4,6 +4,7 @@ import androidx.room.*
 import com.woowahan.ordering.data.entity.CartEntity
 import com.woowahan.ordering.data.entity.OrderEntity
 import com.woowahan.ordering.data.entity.SimpleOrderEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface OrderDao {
@@ -15,11 +16,11 @@ interface OrderDao {
                 "FROM Orders as o LEFT JOIN Cart as c ON o.id = c.orderId " +
                 "GROUP BY o.deliveryTime ORDER BY o.deliveryTime DESC"
     )
-    fun getSimpleOrder(): List<SimpleOrderEntity>
+    fun getSimpleOrder(): Flow<List<SimpleOrderEntity>>
 
     @Query(
         "SELECT c.* FROM Orders as o LEFT JOIN Cart as c ON o.id = c.orderId " +
                 "WHERE o.deliveryTime = :deliveryTime ORDER BY o.deliveryTime DESC"
     )
-    fun getOrderedCartByDeliveryTime(deliveryTime: Long): List<CartEntity>
+    fun getOrderedCartByDeliveryTime(deliveryTime: Long): Flow<List<CartEntity>>
 }
