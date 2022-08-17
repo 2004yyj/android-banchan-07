@@ -14,5 +14,11 @@ fun Long.getDiffFromNow(): String {
     if (days > 0) return "${days}일전"
     if (hours > 0) return "${hours}시간전"
     if (minutes > 0) return "${minutes}분전"
+    if (minutes < 0) return "${-minutes}분"
     return "${seconds}초전"
+}
+
+fun Long.isTimeout(): Boolean {
+    val currentTime = System.currentTimeMillis()
+    return currentTime - this < 0
 }
