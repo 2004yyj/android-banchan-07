@@ -34,4 +34,10 @@
     <string name="cart_delivery_free_info">%,d원을 더 담으면 무료배송!</string>
     <string name="add_to_cart">주문하기</string>
     <string name="simple_order_title">%s 외 %d개</string>
+    <string name="order_reception">주문이 접수되었습니다.</string>
+    <string name="delivery_success">배송이 완료되었습니다.</string>
+    <string name="delivery_time_title">배송까지 남은 시간</string>
+    <string name="delivery_time_format">%d분</string>
+    <string name="product_count_format">총 %d개</string>
+    <string name="product_count_title">주문한 상품</string>
 </resources>
