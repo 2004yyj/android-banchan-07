@@ -90,23 +90,20 @@
             app:layout_constraintTop_toBottomOf="@id/tv_food_title"
             tools:text="6,000원" />
 
-        <com.google.android.material.imageview.ShapeableImageView
+        <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/btn_minus"
-            android:layout_width="@dimen/icon_default_size"
-            android:layout_height="@dimen/icon_default_size"
-            android:layout_marginTop="8dp"
-            android:elevation="1dp"
+            style="@style/RoundedSmallButton"
+            android:layout_width="@dimen/button_size"
+            android:layout_height="@dimen/button_size"
+            android:layout_marginHorizontal="@dimen/space_horizontal"
             android:src="@drawable/ic_minus"
-            app:contentPadding="6dp"
             app:layout_constraintStart_toStartOf="@id/tv_food_title"
-            app:layout_constraintTop_toBottomOf="@id/tv_item_price"
-            app:shapeAppearanceOverlay="@style/RoundedButtonShape" />
+            app:layout_constraintTop_toBottomOf="@id/tv_item_price" />
 
         <TextView
             android:id="@+id/tv_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/space_text_horizontal"
             android:minWidth="24dp"
             android:text="@{Integer.toString(cart.count)}"
             android:textAlignment="center"
@@ -116,18 +113,14 @@
             app:layout_constraintTop_toTopOf="@id/btn_minus"
             tools:text="1" />
 
-        <com.google.android.material.imageview.ShapeableImageView
+        <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/btn_plus"
-            android:layout_width="@dimen/icon_default_size"
-            android:layout_height="@dimen/icon_default_size"
-            android:layout_marginStart="@dimen/space_text_horizontal"
-            android:layout_marginTop="8dp"
-            android:elevation="1dp"
+            style="@style/RoundedSmallButton"
+            android:layout_width="@dimen/button_size"
+            android:layout_height="@dimen/button_size"
             android:src="@drawable/ic_plus"
-            app:contentPadding="6dp"
             app:layout_constraintStart_toEndOf="@id/tv_count"
-            app:layout_constraintTop_toBottomOf="@id/tv_item_price"
-            app:shapeAppearanceOverlay="@style/RoundedButtonShape" />
+            app:layout_constraintTop_toBottomOf="@id/tv_item_price" />
 
         <TextView
             android:id="@+id/tv_total_price"

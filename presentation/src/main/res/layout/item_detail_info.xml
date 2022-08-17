@@ -187,14 +187,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/btn_minus" />
 
-        <com.google.android.material.button.MaterialButton
+        <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/btn_minus"
-            style="@style/RoundedButton"
-            android:layout_width="@dimen/rounded_button_size"
-            android:layout_height="@dimen/rounded_button_size"
+            style="@style/RoundedLargeButton"
+            android:layout_width="@dimen/button_size"
+            android:layout_height="@dimen/button_size"
             android:layout_marginHorizontal="@dimen/space_horizontal"
             android:onClick="@{() -> vm.decreaseCount()}"
-            app:icon="@drawable/ic_minus"
+            android:src="@drawable/ic_minus"
             app:layout_constraintBottom_toBottomOf="@id/btn_plus"
             app:layout_constraintEnd_toStartOf="@id/tv_count"
             app:layout_constraintTop_toTopOf="@id/btn_plus" />
@@ -212,15 +212,15 @@
             app:layout_constraintTop_toTopOf="@id/btn_plus"
             tools:text="1" />
 
-        <com.google.android.material.button.MaterialButton
+        <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/btn_plus"
-            style="@style/RoundedButton"
-            android:layout_width="@dimen/rounded_button_size"
-            android:layout_height="@dimen/rounded_button_size"
+            style="@style/RoundedLargeButton"
+            android:layout_width="@dimen/button_size"
+            android:layout_height="@dimen/button_size"
             android:layout_marginHorizontal="@dimen/space_horizontal"
-            android:layout_marginTop="@dimen/space_divide_vertical"
             android:onClick="@{() -> vm.increaseCount()}"
-            app:icon="@drawable/ic_plus"
+            android:src="@drawable/ic_plus"
+            android:layout_marginTop="@dimen/space_divide_vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/v_divider_2" />
 
