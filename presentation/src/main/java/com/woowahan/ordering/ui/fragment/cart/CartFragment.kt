@@ -60,6 +60,7 @@ class CartFragment : Fragment() {
 
         rvCart.adapter = ConcatAdapter(cartAdapter, cartRecentlyAdapter)
         rvCart.layoutManager = LinearLayoutManager(context)
+        rvCart.itemAnimator = null
     }
 
     private fun initFlow() {

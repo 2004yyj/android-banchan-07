@@ -1,4 +1,6 @@
-package com.woowahan.ordering.domain.model
+package com.woowahan.ordering.ui.fragment.cart
+
+import com.woowahan.ordering.domain.model.Cart
 
 sealed class CartListItem {
     data class Header(

@@ -9,7 +9,7 @@ import com.woowahan.ordering.databinding.ItemCartBinding
 import com.woowahan.ordering.databinding.ItemCartHeaderBinding
 import com.woowahan.ordering.databinding.ItemTotalPriceBinding
 import com.woowahan.ordering.domain.model.Cart
-import com.woowahan.ordering.domain.model.CartListItem
+import com.woowahan.ordering.ui.fragment.cart.CartListItem
 import com.woowahan.ordering.ui.adapter.cartListDiffUtil
 
 class CartAdapter(
