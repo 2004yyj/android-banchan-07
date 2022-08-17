@@ -36,4 +36,8 @@ class CartRepositoryImpl @Inject constructor(
     override fun updateAllSelectedItemsOrderId(orderId: Long) {
         dataSource.updateAllSelectedItemsOrderId(orderId)
     }
+
+    override fun deleteAllSelectedItems() {
+        dataSource.deleteAllSelectedItems()
+    }
 }

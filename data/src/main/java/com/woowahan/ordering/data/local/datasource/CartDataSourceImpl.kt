@@ -41,4 +41,8 @@ class CartDataSourceImpl @Inject constructor(
     override fun updateAllSelectedItemsOrderId(orderId: Long) {
         cartDao.updateAllSelectedItemsOrderId(orderId)
     }
+
+    override fun deleteAllSelectedItems() {
+        cartDao.deleteAllSelectedItems()
+    }
 }

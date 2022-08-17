@@ -11,4 +11,5 @@ interface CartRepository {
     fun isExistNotOrderedCart(detailHash: String): Boolean
     fun selectAllCartItem(option: Boolean)
     fun updateAllSelectedItemsOrderId(orderId: Long)
+    fun deleteAllSelectedItems()
 }

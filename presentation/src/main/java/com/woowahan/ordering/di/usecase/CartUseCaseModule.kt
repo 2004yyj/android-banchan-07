@@ -40,4 +40,10 @@ object CartUseCaseModule {
     fun providesSelectAllCartUseCase(repository: CartRepository) : SelectAllCartUseCase {
         return SelectAllCartUseCase(repository)
     }
+
+    @Provides
+    @Singleton
+    fun providesDeleteAllSelectedCartUseCase(repository: CartRepository) : DeleteAllSelectedCartUseCase {
+        return DeleteAllSelectedCartUseCase(repository)
+    }
 }
