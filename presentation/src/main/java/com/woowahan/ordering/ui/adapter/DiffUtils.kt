@@ -50,6 +50,16 @@ val cartListDiffUtil = object : DiffUtil.ItemCallback<CartListItem>() {
 
 }
 
+val cartDiffUtil = object : DiffUtil.ItemCallback<Cart>() {
+    override fun areItemsTheSame(oldItem: Cart, newItem: Cart): Boolean {
+        return oldItem == newItem
+    }
+
+    override fun areContentsTheSame(oldItem: Cart, newItem: Cart): Boolean {
+        return oldItem.id == newItem.id
+    }
+}
+
 val recentlyDiffUtil = object : DiffUtil.ItemCallback<Recently>() {
     override fun areItemsTheSame(oldItem: Recently, newItem: Recently): Boolean {
         return oldItem == newItem

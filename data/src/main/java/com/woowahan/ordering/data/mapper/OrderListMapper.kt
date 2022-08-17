@@ -6,11 +6,11 @@ import com.woowahan.ordering.domain.model.OrderedCartList
 
 fun List<CartEntity>.toOrderList(): OrderedCartList {
     val count = size
-    val totalPrice = sumOf { it.price }
+    val totalPrice = sumOf { it.price * it.count }
     val list = map { cart -> cart.toModel() }
     return OrderedCartList(
         count = count,
-        totalPrice = totalPrice,
+        sumOfPrice = totalPrice,
         isNeedDeliveryFee = totalPrice < DELIVERY_FREE_LIMIT,
         list = list
     )
