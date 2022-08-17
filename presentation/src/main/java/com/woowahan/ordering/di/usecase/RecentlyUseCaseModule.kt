@@ -2,10 +2,6 @@ package com.woowahan.ordering.di.usecase
 
 import com.woowahan.ordering.domain.repository.CartRepository
 import com.woowahan.ordering.domain.repository.RecentlyRepository
-import com.woowahan.ordering.domain.usecase.cart.DeleteCartUseCase
-import com.woowahan.ordering.domain.usecase.cart.GetCartUseCase
-import com.woowahan.ordering.domain.usecase.cart.InsertCartUseCase
-import com.woowahan.ordering.domain.usecase.cart.UpdateCartUseCase
 import com.woowahan.ordering.domain.usecase.recently.GetRecentlyUseCase
 import com.woowahan.ordering.domain.usecase.recently.GetSimpleRecentlyUseCase
 import com.woowahan.ordering.domain.usecase.recently.InsertRecentlyUseCase
@@ -33,8 +29,8 @@ object RecentlyUseCaseModule {
 
     @Provides
     @Singleton
-    fun providesGetRecentlyUseCase(repository: RecentlyRepository): GetRecentlyUseCase {
-        return GetRecentlyUseCase(repository)
+    fun providesGetRecentlyUseCase(repository: RecentlyRepository, cartRepository: CartRepository): GetRecentlyUseCase {
+        return GetRecentlyUseCase(repository, cartRepository)
     }
 
     @Provides
