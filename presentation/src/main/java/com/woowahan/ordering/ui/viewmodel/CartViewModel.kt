@@ -6,6 +6,7 @@ import com.woowahan.ordering.domain.model.*
 import com.woowahan.ordering.domain.usecase.cart.*
 import com.woowahan.ordering.domain.usecase.order.InsertOrderUseCase
 import com.woowahan.ordering.domain.usecase.recently.GetSimpleRecentlyUseCase
+import com.woowahan.ordering.ui.contracts.DELIVERY_TIME
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
@@ -142,7 +143,7 @@ class CartViewModel @Inject constructor(
     }
 
     fun orderClick() {
-        val order = Order(id = 0, deliveryTime = System.currentTimeMillis())
+        val order = Order(id = 0, deliveryTime = System.currentTimeMillis() + DELIVERY_TIME)
         viewModelScope.launch(Dispatchers.IO) {
             insertOrderUseCase(order).collect {
                 // TODO
@@ -151,8 +152,8 @@ class CartViewModel @Inject constructor(
     }
 
     companion object {
-        const val DELIVERY_FREE_LIMIT = 40000
-        const val DEFAULT_DELIVERY_FEE = 2500
-        const val ORDER_MINIMUM_AMOUNT = 10000
+        private const val DELIVERY_FREE_LIMIT = 40000
+        private const val DEFAULT_DELIVERY_FEE = 2500
+        private const val ORDER_MINIMUM_AMOUNT = 10000
     }
 }
