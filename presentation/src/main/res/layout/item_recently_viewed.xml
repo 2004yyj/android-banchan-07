@@ -41,7 +41,9 @@
             android:layout_height="@dimen/button_size"
             android:layout_marginHorizontal="@dimen/space_horizontal"
             android:layout_marginVertical="@dimen/space_vertical"
-            android:src="@drawable/ic_cart_disabled"
+            android:backgroundTint="@{recently.added ? @color/primary_accent : @color/white}"
+            android:elevation="2dp"
+            android:src="@{recently.added ? @drawable/ic_check : @drawable/ic_cart_disabled}"
             android:visibility="@{isCart ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="@id/iv_food"
             app:layout_constraintEnd_toEndOf="@id/iv_food" />
@@ -76,8 +78,10 @@
             style="@style/Caption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_text_horizontal"
             android:lineThrough="@{true}"
             android:text="@{@string/currency_format(recently.price)}"
+            android:visibility="@{recently.price > 0 ? View.VISIBLE : View.GONE}"
             app:layout_constraintBaseline_toBaselineOf="@id/tv_discount_price"
             app:layout_constraintStart_toEndOf="@id/tv_discount_price"
             tools:text="15,800원" />
