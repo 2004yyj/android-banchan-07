@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity() {
             replaceToCart()
         }
         orderBinding.ibtOrder.setOnClickListener {
-            // 주문내역
+            replaceToOrderList()
         }
         toolbarCart.setNavigationOnClickListener {
             supportFragmentManager.popBackStack()
@@ -105,6 +105,14 @@ class MainActivity : AppCompatActivity() {
             CartFragment::class.java,
             binding.fcvMain.id,
             "CartFragment"
+        )
+    }
+
+    private fun replaceToOrderList() {
+        supportFragmentManager.replace(
+            OrderListFragment::class.java,
+            binding.fcvMain.id,
+            "OrderListFragment"
         )
     }
 }
