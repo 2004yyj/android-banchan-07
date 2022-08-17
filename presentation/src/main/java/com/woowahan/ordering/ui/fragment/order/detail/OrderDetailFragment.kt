@@ -7,8 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.ConcatAdapter
 import com.woowahan.ordering.R
 import com.woowahan.ordering.databinding.FragmentOrderDetailBinding
+import com.woowahan.ordering.ui.adapter.order.OrderDetailHeaderAdapter
 import com.woowahan.ordering.ui.viewmodel.OrderDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -19,6 +21,8 @@ class OrderDetailFragment : Fragment() {
     private val viewModel: OrderDetailViewModel by viewModels()
     private var binding: FragmentOrderDetailBinding? = null
     private var deliveryTime: Long = 0L
+
+    private lateinit var header: OrderDetailHeaderAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,7 +44,7 @@ class OrderDetailFragment : Fragment() {
     private fun initFlow() {
         lifecycleScope.launchWhenStarted {
             viewModel.orderedCartList.collect {
-                
+                header.submitData(deliveryTime, it.count)
             }
         }
     }
@@ -50,7 +54,8 @@ class OrderDetailFragment : Fragment() {
     }
 
     private fun initRecyclerView() = with(binding!!) {
-
+        header = OrderDetailHeaderAdapter()
+        rvOrderDetail.adapter = ConcatAdapter(header)
     }
 
     override fun onDestroyView() {
