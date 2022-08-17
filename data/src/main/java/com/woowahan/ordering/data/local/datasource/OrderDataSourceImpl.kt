@@ -4,8 +4,9 @@ import com.woowahan.ordering.data.datasource.OrderDataSource
 import com.woowahan.ordering.data.local.dao.OrderDao
 import com.woowahan.ordering.data.mapper.toEntity
 import com.woowahan.ordering.data.mapper.toModel
-import com.woowahan.ordering.domain.model.Cart
+import com.woowahan.ordering.data.mapper.toOrderList
 import com.woowahan.ordering.domain.model.Order
+import com.woowahan.ordering.domain.model.OrderedCartList
 import com.woowahan.ordering.domain.model.SimpleOrder
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -24,9 +25,9 @@ class OrderDataSourceImpl @Inject constructor(
         }
     }
 
-    override fun getOrderedCartByDeliveryTime(deliveryTime: Long): Flow<List<Cart>> {
+    override fun getOrderedCartByDeliveryTime(deliveryTime: Long): Flow<OrderedCartList> {
         return orderDao.getOrderedCartByDeliveryTime(deliveryTime).map {
-            it.map { cart -> cart.toModel() }
+            it.toOrderList()
         }
     }
 
