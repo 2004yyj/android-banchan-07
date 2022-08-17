@@ -16,7 +16,7 @@ import com.woowahan.ordering.databinding.FragmentCartBinding
 import com.woowahan.ordering.ui.adapter.cart.CartAdapter
 import com.woowahan.ordering.ui.adapter.cart.CartRecentlyAdapter
 import com.woowahan.ordering.ui.fragment.cart.recently.RecentlyViewedFragment
-import com.woowahan.ordering.ui.util.replace
+import com.woowahan.ordering.util.replace
 import com.woowahan.ordering.ui.viewmodel.CartViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch

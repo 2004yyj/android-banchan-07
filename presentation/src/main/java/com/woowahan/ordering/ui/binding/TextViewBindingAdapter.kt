@@ -3,7 +3,7 @@ package com.woowahan.ordering.ui.binding
 import android.graphics.Paint
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
-import com.woowahan.ordering.util.getDiffFromNow
+import com.woowahan.ordering.contracts.getDiffFromNow
 
 @BindingAdapter("android:lineThrough")
 fun TextView.setTextLineThrough(boolean: Boolean) {

@@ -1,9 +1,8 @@
-package com.woowahan.ordering.ui.util
+package com.woowahan.ordering.util
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import java.util.function.Function
 
 fun <T: Fragment> FragmentManager.add(
     fragmentClass: Class<T>,

@@ -2,11 +2,14 @@ package com.woowahan.ordering.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.woowahan.ordering.contracts.DEFAULT_DELIVERY_FEE
+import com.woowahan.ordering.contracts.DELIVERY_FREE_LIMIT
+import com.woowahan.ordering.contracts.DELIVERY_TIME
+import com.woowahan.ordering.contracts.ORDER_MINIMUM_AMOUNT
 import com.woowahan.ordering.domain.model.*
 import com.woowahan.ordering.domain.usecase.cart.*
 import com.woowahan.ordering.domain.usecase.order.InsertOrderUseCase
 import com.woowahan.ordering.domain.usecase.recently.GetSimpleRecentlyUseCase
-import com.woowahan.ordering.ui.contracts.DELIVERY_TIME
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
@@ -149,11 +152,5 @@ class CartViewModel @Inject constructor(
                 // TODO
             }
         }
-    }
-
-    companion object {
-        private const val DELIVERY_FREE_LIMIT = 40000
-        private const val DEFAULT_DELIVERY_FEE = 2500
-        private const val ORDER_MINIMUM_AMOUNT = 10000
     }
 }
