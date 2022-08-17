@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="simpleOrder"
+            type="com.woowahan.ordering.domain.model.SimpleOrder" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/dv_top"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:dividerColor="@color/line"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_food"
+            android:layout_width="@dimen/image_small_size"
+            android:layout_height="@dimen/image_small_size"
+            android:layout_margin="@dimen/space_horizontal"
+            android:adjustViewBounds="true"
+            android:image="@{simpleOrder.thumbnail}"
+            app:layout_constraintBottom_toTopOf="@id/dv_bottom"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:background="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            style="@style/Body2.Bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_text_horizontal_large"
+            android:text="@{simpleOrder.productCount > 1 ? @string/simple_order_title(simpleOrder.title, simpleOrder.productCount - 1) : simpleOrder.title}"
+            app:layout_constraintStart_toEndOf="@id/iv_food"
+            app:layout_constraintTop_toTopOf="@id/iv_food"
+            tools:text="새콤달콤 오징어무침 외 1개" />
+
+        <TextView
+            android:id="@+id/tv_sum_of_price"
+            style="@style/Body2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{@string/currency_format(simpleOrder.totalPrice)}"
+            app:layout_constraintStart_toStartOf="@id/tv_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_title"
+            tools:text="21,140원" />
+
+        <TextView
+            android:id="@+id/tv_delivery_state"
+            style="@style/Body2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:deliveryTime="@{simpleOrder.deliveryTime}"
+            app:deliveringColor="@{@color/primary_accent}"
+            app:deliveredColor="@{@color/black}"
+            app:layout_constraintStart_toStartOf="@id/tv_sum_of_price"
+            app:layout_constraintTop_toBottomOf="@id/tv_sum_of_price"
+            tools:text="배송 준비중" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/space_horizontal"
+            android:src="@drawable/ic_arrow_right"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/dv_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:dividerColor="@color/line"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
