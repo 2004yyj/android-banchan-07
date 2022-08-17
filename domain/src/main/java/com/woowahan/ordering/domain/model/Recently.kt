@@ -6,5 +6,6 @@ data class Recently(
     val thumbnail: String,
     val price: Long,
     val discountedPrice: Long,
-    val latestViewedTime: Long
+    val latestViewedTime: Long,
+    var isAdded: Boolean = false
 )
