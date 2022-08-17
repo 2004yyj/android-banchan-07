@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -22,7 +21,7 @@ import com.woowahan.ordering.ui.fragment.cart.CartFragment
 import com.woowahan.ordering.ui.fragment.home.HomeFragment.Companion.HASH
 import com.woowahan.ordering.ui.fragment.home.HomeFragment.Companion.TITLE
 import com.woowahan.ordering.ui.uistate.DetailUiState
-import com.woowahan.ordering.ui.util.replace
+import com.woowahan.ordering.util.replace
 import com.woowahan.ordering.ui.viewmodel.DetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch

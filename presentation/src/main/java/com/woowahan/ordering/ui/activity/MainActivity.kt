@@ -15,11 +15,10 @@ import com.woowahan.ordering.ui.fragment.cart.recently.RecentlyViewedFragment
 import com.woowahan.ordering.ui.fragment.detail.DetailFragment
 import com.woowahan.ordering.ui.fragment.home.HomeFragment
 import com.woowahan.ordering.ui.fragment.order.OrderListFragment
-import com.woowahan.ordering.ui.util.add
-import com.woowahan.ordering.ui.util.replace
+import com.woowahan.ordering.util.add
+import com.woowahan.ordering.util.replace
 import com.woowahan.ordering.ui.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {

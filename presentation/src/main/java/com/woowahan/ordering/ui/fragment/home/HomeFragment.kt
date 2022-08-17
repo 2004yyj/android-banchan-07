@@ -16,7 +16,7 @@ import com.woowahan.ordering.ui.fragment.home.best.BestFragment
 import com.woowahan.ordering.ui.fragment.home.main.MainDishFragment
 import com.woowahan.ordering.ui.fragment.home.other.OtherDishFragment
 import com.woowahan.ordering.ui.fragment.home.other.kind.OtherKind
-import com.woowahan.ordering.ui.util.replace
+import com.woowahan.ordering.util.replace
 
 class HomeFragment : Fragment() {
 
