@@ -25,6 +25,12 @@ object CartUseCaseModule {
 
     @Provides
     @Singleton
+    fun providesGetCartResultUseCase(repository: CartRepository): GetCartResultUseCase {
+        return GetCartResultUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
     fun providesInsertCartUseCase(repository: CartRepository): InsertCartUseCase {
         return InsertCartUseCase(repository)
     }
