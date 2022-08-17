@@ -33,4 +33,5 @@
     <string name="cart_order_button">%,d원 주문하기</string>
     <string name="cart_delivery_free_info">%,d원을 더 담으면 무료배송!</string>
     <string name="add_to_cart">주문하기</string>
+    <string name="simple_order_title">%s 외 %d개</string>
 </resources>

@@ -1,12 +1,9 @@
 package com.woowahan.ordering.ui.adapter
 
 import androidx.recyclerview.widget.DiffUtil
-import com.woowahan.ordering.domain.model.Best
-import com.woowahan.ordering.domain.model.CartListItem
-import com.woowahan.ordering.domain.model.Food
-import com.woowahan.ordering.domain.model.Recently
+import com.woowahan.ordering.domain.model.*
 
-val foodDiffUtil = object: DiffUtil.ItemCallback<Food>() {
+val foodDiffUtil = object : DiffUtil.ItemCallback<Food>() {
     override fun areItemsTheSame(oldItem: Food, newItem: Food): Boolean {
         return oldItem == newItem
     }
@@ -16,7 +13,7 @@ val foodDiffUtil = object: DiffUtil.ItemCallback<Food>() {
     }
 }
 
-val bestDiffUtil = object: DiffUtil.ItemCallback<Best>() {
+val bestDiffUtil = object : DiffUtil.ItemCallback<Best>() {
     override fun areItemsTheSame(oldItem: Best, newItem: Best): Boolean {
         return oldItem == newItem
     }
@@ -26,7 +23,7 @@ val bestDiffUtil = object: DiffUtil.ItemCallback<Best>() {
     }
 }
 
-val stringDiffUtil = object: DiffUtil.ItemCallback<String>() {
+val stringDiffUtil = object : DiffUtil.ItemCallback<String>() {
     override fun areItemsTheSame(oldItem: String, newItem: String): Boolean {
         return oldItem == newItem
     }
@@ -60,6 +57,17 @@ val recentlyDiffUtil = object : DiffUtil.ItemCallback<Recently>() {
 
     override fun areContentsTheSame(oldItem: Recently, newItem: Recently): Boolean {
         return oldItem.detailHash == newItem.detailHash && oldItem.latestViewedTime == newItem.latestViewedTime
+    }
+
+}
+
+val simpleOrderDiffUtil = object : DiffUtil.ItemCallback<SimpleOrder>() {
+    override fun areItemsTheSame(oldItem: SimpleOrder, newItem: SimpleOrder): Boolean {
+        return oldItem == newItem
+    }
+
+    override fun areContentsTheSame(oldItem: SimpleOrder, newItem: SimpleOrder): Boolean {
+        return oldItem.deliveryTime == newItem.deliveryTime
     }
 
 }
