@@ -13,6 +13,7 @@ import com.woowahan.ordering.databinding.ActivityMainBinding
 import com.woowahan.ordering.ui.fragment.cart.CartFragment
 import com.woowahan.ordering.ui.fragment.detail.DetailFragment
 import com.woowahan.ordering.ui.fragment.home.HomeFragment
+import com.woowahan.ordering.ui.fragment.order.OrderListFragment
 import com.woowahan.ordering.ui.util.add
 import com.woowahan.ordering.ui.util.replace
 import com.woowahan.ordering.ui.viewmodel.MainViewModel
@@ -72,6 +73,13 @@ class MainActivity : AppCompatActivity() {
                             toolbarHome.isVisible = false
                             toolbarOrder.isVisible = false
                             toolbarCart.isVisible = true
+                            toolbarCart.title = "Cart"
+                        }
+                        is OrderListFragment -> {
+                            toolbarHome.isVisible = false
+                            toolbarOrder.isVisible = false
+                            toolbarCart.isVisible = true
+                            toolbarCart.title = "Order List"
                         }
                         is HomeFragment, is DetailFragment -> {
                             toolbarHome.isVisible = true
