@@ -20,5 +20,5 @@ fun Long.getDiffFromNow(): String {
 
 fun Long.isTimeout(): Boolean {
     val currentTime = System.currentTimeMillis()
-    return this < currentTime
+    return currentTime - this < 0
 }

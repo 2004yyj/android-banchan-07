@@ -19,9 +19,9 @@ class OrderDetailHeaderAdapter: RecyclerView.Adapter<OrderDetailHeaderAdapter.Or
     inner class OrderDetailHeaderViewHolder(
         private val binding: ItemOrderDetailHeaderBinding
     ): RecyclerView.ViewHolder(binding.root) {
-        fun bind() = with(binding) {
-            this.deliveryTime = deliveryTime
-            this.count = count
+        fun bind() {
+            binding.deliveryTime = deliveryTime
+            binding.count = count
         }
     }
 

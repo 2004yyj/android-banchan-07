@@ -8,12 +8,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ConcatAdapter
-import com.woowahan.ordering.R
 import com.woowahan.ordering.databinding.FragmentOrderDetailBinding
 import com.woowahan.ordering.ui.adapter.order.OrderDetailHeaderAdapter
 import com.woowahan.ordering.ui.viewmodel.OrderDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class OrderDetailFragment : Fragment() {
@@ -50,7 +48,7 @@ class OrderDetailFragment : Fragment() {
     }
 
     private fun initArguments() {
-        deliveryTime = requireArguments().getLong("deliveryTime", 0L)
+        deliveryTime = requireArguments().getLong(DETAIL_TIME, 0L)
     }
 
     private fun initRecyclerView() = with(binding!!) {
@@ -61,5 +59,9 @@ class OrderDetailFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
+    }
+
+    companion object {
+        const val DETAIL_TIME = "detailTime"
     }
 }

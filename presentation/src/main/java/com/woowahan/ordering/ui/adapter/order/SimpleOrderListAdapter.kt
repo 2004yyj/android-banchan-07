@@ -9,16 +9,16 @@ import com.woowahan.ordering.domain.model.SimpleOrder
 import com.woowahan.ordering.ui.adapter.simpleOrderDiffUtil
 
 class SimpleOrderListAdapter(
-    private val onClickOrderItem: () -> Unit
+    private val onClickOrderItem: (deliveryTime: Long) -> Unit
 ) : ListAdapter<SimpleOrder, SimpleOrderListAdapter.ViewHolder>(
     simpleOrderDiffUtil
 ) {
     inner class ViewHolder(private val binding: ItemOrderSimpleBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(simpleOrder: SimpleOrder, onClickOrderItem: () -> Unit) {
+        fun bind(simpleOrder: SimpleOrder, onClickOrderItem: (deliveryTime: Long) -> Unit) {
             binding.simpleOrder = simpleOrder
             binding.root.setOnClickListener {
-                onClickOrderItem()
+                onClickOrderItem(simpleOrder.deliveryTime)
             }
         }
     }
