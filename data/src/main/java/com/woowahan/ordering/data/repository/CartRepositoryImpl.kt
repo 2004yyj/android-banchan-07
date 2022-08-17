@@ -2,6 +2,7 @@ package com.woowahan.ordering.data.repository
 
 import com.woowahan.ordering.data.datasource.CartDataSource
 import com.woowahan.ordering.domain.model.Cart
+import com.woowahan.ordering.domain.model.CartResult
 import com.woowahan.ordering.domain.repository.CartRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -39,5 +40,9 @@ class CartRepositoryImpl @Inject constructor(
 
     override fun deleteAllSelectedItems() {
         dataSource.deleteAllSelectedItems()
+    }
+
+    override fun getCartResult(): Flow<CartResult> {
+        return dataSource.getCartResult()
     }
 }

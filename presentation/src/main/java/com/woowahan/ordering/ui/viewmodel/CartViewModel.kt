@@ -2,14 +2,15 @@ package com.woowahan.ordering.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.woowahan.ordering.contracts.DEFAULT_DELIVERY_FEE
-import com.woowahan.ordering.contracts.DELIVERY_FREE_LIMIT
 import com.woowahan.ordering.contracts.DELIVERY_TIME
-import com.woowahan.ordering.contracts.ORDER_MINIMUM_AMOUNT
-import com.woowahan.ordering.domain.model.*
+import com.woowahan.ordering.domain.model.Cart
+import com.woowahan.ordering.domain.model.Order
+import com.woowahan.ordering.domain.model.Recently
+import com.woowahan.ordering.domain.model.Result
 import com.woowahan.ordering.domain.usecase.cart.*
 import com.woowahan.ordering.domain.usecase.order.InsertOrderUseCase
 import com.woowahan.ordering.domain.usecase.recently.GetSimpleRecentlyUseCase
+import com.woowahan.ordering.ui.fragment.cart.CartListItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
@@ -18,7 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CartViewModel @Inject constructor(
-    private val getCartUseCase: GetCartUseCase,
+    private val getCartResultUseCase: GetCartResultUseCase,
     private val updateCartUseCase: UpdateCartUseCase,
     private val deleteCartUseCase: DeleteCartUseCase,
     private val deleteAllSelectedCartUseCase: DeleteAllSelectedCartUseCase,
@@ -46,40 +47,22 @@ class CartViewModel @Inject constructor(
 
     fun getAllCart() {
         viewModelScope.launch(Dispatchers.IO) {
-            getCartUseCase().collect { result ->
-                when (result) {
-                    is Result.Success -> {
-                        val list = result.value
-                        val checkedList = list.filter { it.isChecked }
+            getCartResultUseCase().collect { result ->
+                _isSelectedAll.emit(result.isSelectedAll)
 
-                        if (list.size != checkedList.size) {
-                            _isSelectedAll.emit(false)
-                        } else {
-                            _isSelectedAll.emit(true)
-                        }
-
-                        val sum = checkedList.sumOf { it.price * it.count }
-
-                        val deliveryFee =
-                            if (sum >= DELIVERY_FREE_LIMIT) 0 else DEFAULT_DELIVERY_FEE
-                        val insufficientAmount =
-                            if (sum >= DELIVERY_FREE_LIMIT) 0 else DELIVERY_FREE_LIMIT - sum
-
-                        val mergedList = mutableListOf<CartListItem>().apply {
-                            addAll(list.map { CartListItem.Content(it) })
-                            add(0, CartListItem.Header(isSelectedAll.value))
-                            add(
-                                CartListItem.Footer(
-                                    sum = sum,
-                                    deliveryFee = deliveryFee,
-                                    insufficientAmount = insufficientAmount.toInt(),
-                                    enableToOrder = sum >= ORDER_MINIMUM_AMOUNT
-                                )
-                            )
-                        }
-                        _cartList.emit(mergedList)
-                    }
+                val mergedList = mutableListOf<CartListItem>().apply {
+                    addAll(result.list.map { CartListItem.Content(it) })
+                    add(0, CartListItem.Header(result.isSelectedAll))
+                    add(
+                        CartListItem.Footer(
+                            sum = result.sum,
+                            deliveryFee = result.deliveryFee,
+                            insufficientAmount = result.insufficientAmount,
+                            enableToOrder = result.enableToOrder
+                        )
+                    )
                 }
+                _cartList.emit(mergedList)
             }
         }
     }

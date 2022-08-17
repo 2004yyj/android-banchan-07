@@ -2,6 +2,7 @@ package com.woowahan.ordering.ui.adapter
 
 import androidx.recyclerview.widget.DiffUtil
 import com.woowahan.ordering.domain.model.*
+import com.woowahan.ordering.ui.fragment.cart.CartListItem
 
 val foodDiffUtil = object : DiffUtil.ItemCallback<Food>() {
     override fun areItemsTheSame(oldItem: Food, newItem: Food): Boolean {

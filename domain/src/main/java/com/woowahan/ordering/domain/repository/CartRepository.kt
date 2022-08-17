@@ -1,6 +1,7 @@
 package com.woowahan.ordering.domain.repository
 
 import com.woowahan.ordering.domain.model.Cart
+import com.woowahan.ordering.domain.model.CartResult
 import kotlinx.coroutines.flow.Flow
 
 interface CartRepository {
@@ -12,4 +13,5 @@ interface CartRepository {
     fun selectAllCartItem(option: Boolean)
     fun updateAllSelectedItemsOrderId(orderId: Long)
     fun deleteAllSelectedItems()
+    fun getCartResult() : Flow<CartResult>
 }
