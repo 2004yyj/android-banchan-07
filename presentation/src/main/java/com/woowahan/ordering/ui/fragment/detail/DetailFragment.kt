@@ -36,9 +36,9 @@ class DetailFragment : Fragment() {
     private lateinit var hash: String
     private lateinit var title: String
 
-    private val detailThumbImagesAdapter by lazy { DetailThumbImagesAdapter() }
-    private val detailInfoAdapter by lazy { DetailInfoAdapter(viewModel, title) }
-    private val detailImagesFooterAdapter by lazy { DetailImagesFooterAdapter() }
+    private lateinit var detailThumbImagesAdapter: DetailThumbImagesAdapter
+    private lateinit var detailInfoAdapter: DetailInfoAdapter
+    private lateinit var detailImagesFooterAdapter: DetailImagesFooterAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -111,6 +111,9 @@ class DetailFragment : Fragment() {
     }
 
     private fun initRecyclerView() = with(binding!!) {
+        detailThumbImagesAdapter = DetailThumbImagesAdapter()
+        detailInfoAdapter = DetailInfoAdapter(viewModel, title)
+        detailImagesFooterAdapter = DetailImagesFooterAdapter()
         val adapter = ConcatAdapter(detailThumbImagesAdapter, detailInfoAdapter, detailImagesFooterAdapter)
         rvDetail.adapter = adapter
     }
