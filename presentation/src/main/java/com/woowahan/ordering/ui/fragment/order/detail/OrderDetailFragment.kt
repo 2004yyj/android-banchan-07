@@ -9,8 +9,13 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ConcatAdapter
 import com.woowahan.ordering.databinding.FragmentOrderDetailBinding
+import com.woowahan.ordering.ui.adapter.order.OrderDetailFooterAdapter
 import com.woowahan.ordering.ui.adapter.order.OrderDetailHeaderAdapter
+import com.woowahan.ordering.ui.adapter.order.OrderDetailListAdapter
+import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader
+import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader.Companion.VERTICAL
 import com.woowahan.ordering.ui.viewmodel.OrderDetailViewModel
+import com.woowahan.ordering.util.dp
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -21,6 +26,8 @@ class OrderDetailFragment : Fragment() {
     private var deliveryTime: Long = 0L
 
     private lateinit var header: OrderDetailHeaderAdapter
+    private lateinit var ordersAdapter: OrderDetailListAdapter
+    private lateinit var footer: OrderDetailFooterAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,6 +50,8 @@ class OrderDetailFragment : Fragment() {
         lifecycleScope.launchWhenStarted {
             viewModel.orderedCartList.collect {
                 header.submitData(deliveryTime, it.count)
+                ordersAdapter.submitList(it.list)
+                footer.submitData(it.sumOfPrice, it.isNeedDeliveryFee)
             }
         }
     }
@@ -53,7 +62,17 @@ class OrderDetailFragment : Fragment() {
 
     private fun initRecyclerView() = with(binding!!) {
         header = OrderDetailHeaderAdapter()
-        rvOrderDetail.adapter = ConcatAdapter(header)
+        ordersAdapter = OrderDetailListAdapter()
+        footer = OrderDetailFooterAdapter()
+
+        rvOrderDetail.adapter = ConcatAdapter(header, ordersAdapter, footer)
+        rvOrderDetail.addItemDecoration(
+            ItemSpacingDecoratorWithHeader(
+                spacing = 16.dp,
+                removeSpacePosition = listOf(0),
+                layoutDirection = VERTICAL
+            )
+        )
     }
 
     override fun onDestroyView() {
