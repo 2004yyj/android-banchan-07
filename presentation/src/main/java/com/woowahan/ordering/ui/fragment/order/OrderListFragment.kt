@@ -49,7 +49,9 @@ class OrderListFragment : Fragment() {
     }
 
     private fun initRecyclerView() = with(binding!!) {
-        adapter = SimpleOrderListAdapter()
+        adapter = SimpleOrderListAdapter {
+            // OrderDetail 로 이동
+        }
         rvOrderList.adapter = adapter
         rvOrderList.addItemDecoration(ItemSpacingDecoratorWithHeader(
             spacing = 9.dp,

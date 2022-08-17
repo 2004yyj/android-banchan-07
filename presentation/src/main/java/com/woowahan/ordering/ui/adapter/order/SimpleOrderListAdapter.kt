@@ -8,13 +8,18 @@ import com.woowahan.ordering.databinding.ItemOrderSimpleBinding
 import com.woowahan.ordering.domain.model.SimpleOrder
 import com.woowahan.ordering.ui.adapter.simpleOrderDiffUtil
 
-class SimpleOrderListAdapter : ListAdapter<SimpleOrder, SimpleOrderListAdapter.ViewHolder>(
+class SimpleOrderListAdapter(
+    private val onClickOrderItem: () -> Unit
+) : ListAdapter<SimpleOrder, SimpleOrderListAdapter.ViewHolder>(
     simpleOrderDiffUtil
 ) {
     inner class ViewHolder(private val binding: ItemOrderSimpleBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(simpleOrder: SimpleOrder) {
+        fun bind(simpleOrder: SimpleOrder, onClickOrderItem: () -> Unit) {
             binding.simpleOrder = simpleOrder
+            binding.root.setOnClickListener {
+                onClickOrderItem()
+            }
         }
     }
 
@@ -25,6 +30,6 @@ class SimpleOrderListAdapter : ListAdapter<SimpleOrder, SimpleOrderListAdapter.V
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position), onClickOrderItem)
     }
 }
