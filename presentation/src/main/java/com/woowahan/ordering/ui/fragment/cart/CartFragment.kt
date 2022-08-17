@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.woowahan.ordering.databinding.FragmentCartBinding
 import com.woowahan.ordering.ui.adapter.cart.CartAdapter
 import com.woowahan.ordering.ui.adapter.cart.CartRecentlyAdapter
+import com.woowahan.ordering.ui.fragment.cart.recently.RecentlyViewedFragment
+import com.woowahan.ordering.ui.util.replace
 import com.woowahan.ordering.ui.viewmodel.CartViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -52,7 +54,10 @@ class CartFragment : Fragment() {
             viewModel::deleteAll,
             viewModel::orderClick
         )
-        cartRecentlyAdapter = CartRecentlyAdapter()
+        cartRecentlyAdapter = CartRecentlyAdapter {
+            replaceToRecentlyViewed()
+        }
+
         rvCart.adapter = ConcatAdapter(cartAdapter, cartRecentlyAdapter)
         rvCart.layoutManager = LinearLayoutManager(context)
     }
@@ -79,6 +84,14 @@ class CartFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun replaceToRecentlyViewed() {
+        parentFragmentManager.replace(
+            RecentlyViewedFragment::class.java,
+            (requireView().parent as View).id,
+            "RecentlyFragment"
+        )
     }
 
     override fun onDestroyView() {
