@@ -20,7 +20,7 @@ class CartDialogFragment : DialogFragment() {
     }
 
     companion object {
-        lateinit var navigateToCart: () -> Unit
+        private lateinit var navigateToCart: () -> Unit
 
         fun newInstance(navigateToCart: () -> Unit): CartDialogFragment {
             this.navigateToCart = navigateToCart
