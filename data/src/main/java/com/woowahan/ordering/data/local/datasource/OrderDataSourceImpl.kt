@@ -25,10 +25,7 @@ class OrderDataSourceImpl @Inject constructor(
         }
     }
 
-    override fun getOrderedCartByDeliveryTime(deliveryTime: Long): Flow<OrderedCartList> {
-        return orderDao.getOrderedCartByDeliveryTime(deliveryTime).map {
-            it.toOrderList()
-        }
+    override fun getOrderedCartByDeliveryTime(deliveryTime: Long): OrderedCartList {
+        return orderDao.getOrderedCartByDeliveryTime(deliveryTime).toOrderList()
     }
-
 }
