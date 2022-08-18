@@ -7,8 +7,6 @@ class GetOrderedCartByDeliveryTimeUseCase(
     private val repository: OrderRepository
 ) {
     operator fun invoke(deliveryTime: Long) = flow {
-        repository.getOrderedCartByDeliveryTime(deliveryTime).collect {
-            emit(it)
-        }
+        emit(repository.getOrderedCartByDeliveryTime(deliveryTime))
     }
 }

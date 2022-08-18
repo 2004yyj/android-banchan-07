@@ -5,23 +5,28 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.woowahan.ordering.databinding.ItemOrderDetailHeaderBinding
 
-class OrderDetailHeaderAdapter: RecyclerView.Adapter<OrderDetailHeaderAdapter.OrderDetailHeaderViewHolder>() {
+class OrderDetailHeaderAdapter :
+    RecyclerView.Adapter<OrderDetailHeaderAdapter.OrderDetailHeaderViewHolder>() {
 
     private var deliveryTime: Long = 0L
     private var count: Int = 0
+    private var isDelivered: Boolean = false
 
     fun submitData(deliveryTime: Long, count: Int) {
+        val current = System.currentTimeMillis()
         this.deliveryTime = deliveryTime
         this.count = count
+        this.isDelivered = current >= deliveryTime
         notifyDataSetChanged()
     }
 
     inner class OrderDetailHeaderViewHolder(
         private val binding: ItemOrderDetailHeaderBinding
-    ): RecyclerView.ViewHolder(binding.root) {
+    ) : RecyclerView.ViewHolder(binding.root) {
         fun bind() {
             binding.deliveryTime = deliveryTime
             binding.count = count
+            binding.isDelivered = isDelivered
         }
     }
 

@@ -1,8 +1,6 @@
 package com.woowahan.ordering.ui.binding
 
 import android.graphics.Paint
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter

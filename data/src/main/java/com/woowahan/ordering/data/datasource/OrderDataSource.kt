@@ -8,5 +8,5 @@ import kotlinx.coroutines.flow.Flow
 interface OrderDataSource {
     fun insertOrder(order: Order): Long
     fun getSimpleOrder(): Flow<List<SimpleOrder>>
-    fun getOrderedCartByDeliveryTime(deliveryTime: Long): Flow<OrderedCartList>
+    fun getOrderedCartByDeliveryTime(deliveryTime: Long): OrderedCartList
 }

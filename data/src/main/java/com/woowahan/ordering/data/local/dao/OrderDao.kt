@@ -22,5 +22,5 @@ interface OrderDao {
         "SELECT c.* FROM Orders as o LEFT JOIN Cart as c ON o.id = c.orderId " +
                 "WHERE o.deliveryTime = :deliveryTime ORDER BY o.deliveryTime DESC"
     )
-    fun getOrderedCartByDeliveryTime(deliveryTime: Long): Flow<List<CartEntity>>
+    fun getOrderedCartByDeliveryTime(deliveryTime: Long): List<CartEntity>
 }

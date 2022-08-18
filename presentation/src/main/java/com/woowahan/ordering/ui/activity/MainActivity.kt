@@ -74,25 +74,25 @@ class MainActivity : AppCompatActivity() {
                     when (it) {
                         is CartFragment -> {
                             toolbarHome.isVisible = false
-                            toolbarOrder.isVisible = false
                             toolbarCart.isVisible = true
                             toolbarCart.title = "Cart"
                         }
                         is OrderListFragment -> {
                             toolbarHome.isVisible = false
-                            toolbarOrder.isVisible = false
                             toolbarCart.isVisible = true
                             toolbarCart.title = "Order List"
                         }
                         is RecentlyViewedFragment -> {
                             toolbarHome.isVisible = false
-                            toolbarOrder.isVisible = false
                             toolbarCart.isVisible = true
                             toolbarCart.title = "Recently viewed products"
                         }
                         is HomeFragment, is DetailFragment -> {
                             toolbarHome.isVisible = true
-                            toolbarOrder.isVisible = false
+                            toolbarCart.isVisible = false
+                        }
+                        else -> {
+                            toolbarHome.isVisible = false
                             toolbarCart.isVisible = false
                         }
                     }
