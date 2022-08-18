@@ -18,8 +18,6 @@ import com.woowahan.ordering.ui.adapter.detail.DetailThumbImagesAdapter
 import com.woowahan.ordering.ui.dialog.CartDialogFragment
 import com.woowahan.ordering.ui.dialog.IsExistsCartDialogFragment
 import com.woowahan.ordering.ui.fragment.cart.CartFragment
-import com.woowahan.ordering.ui.fragment.home.HomeFragment.Companion.HASH
-import com.woowahan.ordering.ui.fragment.home.HomeFragment.Companion.TITLE
 import com.woowahan.ordering.ui.uistate.DetailUiState
 import com.woowahan.ordering.util.replace
 import com.woowahan.ordering.ui.viewmodel.DetailViewModel
@@ -128,5 +126,10 @@ class DetailFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
+    }
+
+    companion object {
+        const val TITLE = "title"
+        const val HASH = "hash"
     }
 }

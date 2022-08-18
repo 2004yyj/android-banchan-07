@@ -20,6 +20,8 @@ import com.woowahan.ordering.ui.adapter.cart.CartAdapter
 import com.woowahan.ordering.ui.adapter.cart.CartRecentlyAdapter
 import com.woowahan.ordering.ui.fragment.cart.recently.RecentlyViewedFragment
 import com.woowahan.ordering.ui.fragment.detail.DetailFragment
+import com.woowahan.ordering.ui.fragment.detail.DetailFragment.Companion.HASH
+import com.woowahan.ordering.ui.fragment.detail.DetailFragment.Companion.TITLE
 import com.woowahan.ordering.ui.fragment.home.HomeFragment
 import com.woowahan.ordering.ui.receiver.CartReceiver
 import com.woowahan.ordering.ui.receiver.CartReceiver.Companion.DELIVERY_FINISHED_TIME
@@ -129,7 +131,7 @@ class CartFragment : Fragment() {
             DetailFragment::class.java,
             (requireView().parent as View).id,
             "Detail",
-            bundleOf(HomeFragment.TITLE to title, HomeFragment.HASH to hash)
+            bundleOf(TITLE to title, HASH to hash)
         )
     }
 

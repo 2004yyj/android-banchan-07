@@ -12,6 +12,8 @@ import com.woowahan.ordering.databinding.FragmentHomeBinding
 import com.woowahan.ordering.ui.adapter.home.ViewPagerAdapter
 import com.woowahan.ordering.ui.fragment.cart.CartFragment
 import com.woowahan.ordering.ui.fragment.detail.DetailFragment
+import com.woowahan.ordering.ui.fragment.detail.DetailFragment.Companion.HASH
+import com.woowahan.ordering.ui.fragment.detail.DetailFragment.Companion.TITLE
 import com.woowahan.ordering.ui.fragment.home.best.BestFragment
 import com.woowahan.ordering.ui.fragment.home.main.MainDishFragment
 import com.woowahan.ordering.ui.fragment.home.other.OtherDishFragment
@@ -90,10 +92,5 @@ class HomeFragment : Fragment() {
     override fun onDestroy() {
         tabLayoutMediator.detach()
         super.onDestroy()
-    }
-
-    companion object {
-        const val TITLE = "title"
-        const val HASH = "hash"
     }
 }
