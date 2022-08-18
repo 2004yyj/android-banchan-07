@@ -36,10 +36,13 @@ fun List<CartEntity>.toCartResult(): CartResult{
     val list = map { cart -> cart.toModel() }
     val checkedList = list.filter { it.isChecked }
     val sum = checkedList.sumOf { it.price * it.count }
-    val count = list.size
+    val maxPriceTitle =
+        if (list.isNotEmpty())
+            list.maxByOrNull { it.price }!!.title
+        else ""
 
     return CartResult(
-        title = if (list.isNotEmpty()) list[0].title else "",
+        title = maxPriceTitle,
         count = list.size,
         isSelectedAll = checkedList.size == this.size,
         list = list,
