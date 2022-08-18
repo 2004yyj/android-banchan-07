@@ -6,6 +6,10 @@
     <data>
 
         <variable
+            name="isDelivered"
+            type="Boolean" />
+
+        <variable
             name="deliveryTime"
             type="Long" />
 
@@ -26,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_horizontal"
             android:layout_marginTop="@dimen/space_order_detail_header_footer"
-            android:text="@string/delivery_success"
+            android:text="@{isDelivered ? @string/delivery_success : @string/order_reception}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
