@@ -52,7 +52,10 @@ class CartFragment : Fragment() {
             viewModel::plusItemClick,
             viewModel::deleteItemClick,
             viewModel::deleteAll,
-            viewModel::orderClick
+            orderClick = { title, count ->
+                val deliveryTime = System.currentTimeMillis() + DELIVERY_TIME
+                viewModel.orderClick(deliveryTime)
+            }
         )
         cartRecentlyAdapter = CartRecentlyAdapter {
             replaceToRecentlyViewed()
