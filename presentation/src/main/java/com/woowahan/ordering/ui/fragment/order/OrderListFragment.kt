@@ -70,7 +70,7 @@ class OrderListFragment : Fragment() {
         parentFragmentManager.replace(
             OrderDetailFragment::class.java,
             (requireView().parent as View).id,
-            "OrderDetail",
+            OrderDetailFragment.TAG,
             bundleOf(DETAIL_TIME to deliveryTime)
         )
     }

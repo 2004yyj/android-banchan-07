@@ -57,7 +57,7 @@ class HomeFragment : Fragment() {
         parentFragmentManager.replace(
             DetailFragment::class.java,
             (requireView().parent as View).id,
-            "Detail",
+            DetailFragment.TAG,
             bundleOf(TITLE to title, HASH to hash)
         )
     }
@@ -66,7 +66,7 @@ class HomeFragment : Fragment() {
         parentFragmentManager.replace(
             CartFragment::class.java,
             (requireView().parent as View).id,
-            "Cart"
+            CartFragment.TAG
         )
     }
 
