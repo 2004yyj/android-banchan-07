@@ -52,19 +52,6 @@
                 app:navigationIcon="@drawable/ic_arrow_left"
                 app:title="Cart"
                 tools:title="Cart" />
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar_order"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/primary_main"
-                android:theme="@style/ToolbarTheme"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:menu="@menu/menu_toolbar_order"
-                app:navigationIcon="@drawable/ic_arrow_left" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
