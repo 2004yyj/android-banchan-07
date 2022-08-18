@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.woowahan.ordering.R
 import com.woowahan.ordering.databinding.ItemCartBinding
 import com.woowahan.ordering.databinding.ItemCartHeaderBinding
+import com.woowahan.ordering.databinding.ItemEmptyBinding
 import com.woowahan.ordering.databinding.ItemTotalPriceBinding
 import com.woowahan.ordering.domain.model.Cart
 import com.woowahan.ordering.ui.fragment.cart.CartListItem
@@ -75,6 +76,8 @@ class CartAdapter(
 
     }
 
+    class EmptyViewHolder(binding: ItemEmptyBinding) : RecyclerView.ViewHolder(binding.root)
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
         when (viewType) {
             R.layout.item_cart -> CartContentViewHolder(
@@ -93,6 +96,13 @@ class CartAdapter(
             )
             R.layout.item_total_price -> CartTotalViewHolder(
                 ItemTotalPriceBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
+            )
+            R.layout.item_empty -> EmptyViewHolder(
+                ItemEmptyBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
                     false
@@ -123,6 +133,7 @@ class CartAdapter(
             is CartListItem.Header -> R.layout.item_cart_header
             is CartListItem.Content -> R.layout.item_cart
             is CartListItem.Footer -> R.layout.item_total_price
+            is CartListItem.Empty -> R.layout.item_empty
         }
     }
 }
