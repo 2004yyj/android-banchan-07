@@ -26,7 +26,7 @@ class CartRecentlyAdapter(
         private val decoration = ItemSpacingDecoratorWithHeader(8.dp)
 
         fun bind(list: List<Recently>, seeAllClick: () -> Unit) = with(binding) {
-            val adapter = RecentlyAdapter(true)
+            val adapter = RecentlyAdapter()
             adapter.submitList(list)
 
             tvSeeAll.setOnClickListener { seeAllClick() }

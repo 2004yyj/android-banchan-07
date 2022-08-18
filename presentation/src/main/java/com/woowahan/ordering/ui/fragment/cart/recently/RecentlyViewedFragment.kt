@@ -43,9 +43,7 @@ class RecentlyViewedFragment : Fragment() {
     }
 
     private fun initRecyclerView() = with(binding!!) {
-        adapter = RecentlyAdapter(false) {
-            showCartBottomSheet(it)
-        }
+        adapter = RecentlyAdapter()
         rvRecently.adapter = adapter
         rvRecently.addItemDecoration(
             ItemSpacingDecoratorWithHeader(
