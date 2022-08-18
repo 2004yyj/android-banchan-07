@@ -143,7 +143,7 @@ class CartFragment : Fragment() {
     }
 
     companion object {
-
+        const val TAG = "Cart"
         fun newInstance() = CartFragment()
     }
 }

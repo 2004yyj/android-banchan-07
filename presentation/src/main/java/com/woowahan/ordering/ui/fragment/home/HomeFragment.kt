@@ -98,4 +98,8 @@ class HomeFragment : Fragment() {
         tabLayoutMediator.detach()
         super.onDestroy()
     }
+
+    companion object {
+        const val TAG = "Home"
+    }
 }

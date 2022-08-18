@@ -131,5 +131,6 @@ class DetailFragment : Fragment() {
     companion object {
         const val TITLE = "title"
         const val HASH = "hash"
+        const val TAG = "Detail"
     }
 }

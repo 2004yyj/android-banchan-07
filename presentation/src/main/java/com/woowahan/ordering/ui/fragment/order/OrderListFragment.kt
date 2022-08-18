@@ -79,4 +79,8 @@ class OrderListFragment : Fragment() {
         super.onDestroyView()
         binding = null
     }
+
+    companion object {
+        const val TAG = "OrderList"
+    }
 }
