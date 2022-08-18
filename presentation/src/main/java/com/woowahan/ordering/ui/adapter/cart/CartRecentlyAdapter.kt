@@ -4,11 +4,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.woowahan.ordering.databinding.ItemCartRecentlyBinding
+import com.woowahan.ordering.domain.model.Food
 import com.woowahan.ordering.domain.model.Recently
 import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader
 import com.woowahan.ordering.util.dp
 
 class CartRecentlyAdapter(
+    private val onDetailClick: (String, String) -> Unit,
     private val seeAllClick: () -> Unit
 ) : RecyclerView.Adapter<CartRecentlyAdapter.CartRecentlyItemViewHolder>() {
 
@@ -20,14 +22,15 @@ class CartRecentlyAdapter(
         notifyDataSetChanged()
     }
 
-    class CartRecentlyItemViewHolder(private val binding: ItemCartRecentlyBinding) :
+    inner class CartRecentlyItemViewHolder(private val binding: ItemCartRecentlyBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         private val decoration = ItemSpacingDecoratorWithHeader(8.dp)
 
         fun bind(list: List<Recently>, seeAllClick: () -> Unit) = with(binding) {
-            val adapter = RecentlyAdapter()
+            val adapter = RecentlyAdapter(RecentlyAdapter.RecentlyItemViewType.HorizontalItem)
             adapter.submitList(list)
+            adapter.setOnClick(onDetailClick)
 
             tvSeeAll.setOnClickListener { seeAllClick() }
             rvRecently.adapter = adapter
