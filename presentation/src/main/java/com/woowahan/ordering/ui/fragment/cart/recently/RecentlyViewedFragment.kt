@@ -50,15 +50,21 @@ class RecentlyViewedFragment : Fragment() {
         initFlow()
     }
 
-    private fun initRecyclerView() = with(binding!!) {
+    private fun initRecyclerView() {
         adapter = RecentlyAdapter()
-        rvRecently.adapter = adapter
-        rvRecently.addItemDecoration(
-            ItemSpacingDecoratorWithHeader(
-                spacing = 16.dp,
-                layoutDirection = GRID
-            )
+        adapter.setOnClick(
+            onDetailClick = this::replaceToDetail,
+            onCartClick = this::showCartBottomSheet
         )
+        with(binding!!) {
+            rvRecently.adapter = adapter
+            rvRecently.addItemDecoration(
+                ItemSpacingDecoratorWithHeader(
+                    spacing = 16.dp,
+                    layoutDirection = GRID
+                )
+            )
+        }
     }
 
     private fun initFlow() {
@@ -88,7 +94,7 @@ class RecentlyViewedFragment : Fragment() {
     }
 
     private fun replaceToCart() {
-        parentFragmentManager.clearAllBackStack(tag)
+        parentFragmentManager.clearAllBackStack()
         parentFragmentManager.replace(
             CartFragment::class.java,
             (requireView().parent as View).id,
@@ -97,7 +103,7 @@ class RecentlyViewedFragment : Fragment() {
     }
 
     private fun replaceToDetail(title: String, hash: String) {
-        parentFragmentManager.clearAllBackStack(tag)
+        parentFragmentManager.clearAllBackStack()
         parentFragmentManager.replace(
             DetailFragment::class.java,
             (requireView().parent as View).id,
