@@ -29,6 +29,7 @@ import com.woowahan.ordering.ui.receiver.CartReceiver.Companion.FOOD_COUNT
 import com.woowahan.ordering.ui.receiver.CartReceiver.Companion.FOOD_TITLE
 import com.woowahan.ordering.util.replace
 import com.woowahan.ordering.ui.viewmodel.CartViewModel
+import com.woowahan.ordering.util.clearAllBackStack
 import com.woowahan.ordering.util.startAlarmReceiver
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -127,6 +128,7 @@ class CartFragment : Fragment() {
     }
 
     private fun replaceToDetail(title: String, hash: String) {
+        parentFragmentManager.clearAllBackStack(tag)
         parentFragmentManager.replace(
             DetailFragment::class.java,
             (requireView().parent as View).id,

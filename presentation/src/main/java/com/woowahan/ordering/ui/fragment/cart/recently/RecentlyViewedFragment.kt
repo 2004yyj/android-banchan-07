@@ -22,6 +22,7 @@ import com.woowahan.ordering.ui.fragment.detail.DetailFragment.Companion.HASH
 import com.woowahan.ordering.ui.fragment.detail.DetailFragment.Companion.TITLE
 import com.woowahan.ordering.ui.fragment.home.HomeFragment
 import com.woowahan.ordering.ui.viewmodel.RecentlyViewedViewModel
+import com.woowahan.ordering.util.clearAllBackStack
 import com.woowahan.ordering.util.dp
 import com.woowahan.ordering.util.replace
 import dagger.hilt.android.AndroidEntryPoint
@@ -87,6 +88,7 @@ class RecentlyViewedFragment : Fragment() {
     }
 
     private fun replaceToCart() {
+        parentFragmentManager.clearAllBackStack(tag)
         parentFragmentManager.replace(
             CartFragment::class.java,
             (requireView().parent as View).id,
@@ -95,6 +97,7 @@ class RecentlyViewedFragment : Fragment() {
     }
 
     private fun replaceToDetail(title: String, hash: String) {
+        parentFragmentManager.clearAllBackStack(tag)
         parentFragmentManager.replace(
             DetailFragment::class.java,
             (requireView().parent as View).id,
