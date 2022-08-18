@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -15,8 +16,14 @@ import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader.Compani
 import com.woowahan.ordering.ui.dialog.CartBottomSheet
 import com.woowahan.ordering.ui.dialog.CartDialogFragment
 import com.woowahan.ordering.ui.dialog.IsExistsCartDialogFragment
+import com.woowahan.ordering.ui.fragment.cart.CartFragment
+import com.woowahan.ordering.ui.fragment.detail.DetailFragment
+import com.woowahan.ordering.ui.fragment.detail.DetailFragment.Companion.HASH
+import com.woowahan.ordering.ui.fragment.detail.DetailFragment.Companion.TITLE
+import com.woowahan.ordering.ui.fragment.home.HomeFragment
 import com.woowahan.ordering.ui.viewmodel.RecentlyViewedViewModel
 import com.woowahan.ordering.util.dp
+import com.woowahan.ordering.util.replace
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -64,7 +71,7 @@ class RecentlyViewedFragment : Fragment() {
     private fun showCartBottomSheet(food: Food) {
         if (food.isAdded) {
             IsExistsCartDialogFragment.newInstance {
-                navigateToCart()
+                replaceToCart()
             }.show(parentFragmentManager, tag)
         } else {
             CartBottomSheet.newInstance(food) {
@@ -75,12 +82,25 @@ class RecentlyViewedFragment : Fragment() {
 
     private fun showCartDialog() {
         CartDialogFragment.newInstance {
-            navigateToCart()
+            replaceToCart()
         }.show(parentFragmentManager, tag)
     }
 
-    private fun navigateToCart() {
-        // TODO
+    private fun replaceToCart() {
+        parentFragmentManager.replace(
+            CartFragment::class.java,
+            (requireView().parent as View).id,
+            "Cart",
+        )
+    }
+
+    private fun replaceToDetail(title: String, hash: String) {
+        parentFragmentManager.replace(
+            DetailFragment::class.java,
+            (requireView().parent as View).id,
+            "Detail",
+            bundleOf(TITLE to title, HASH to hash)
+        )
     }
 
     override fun onDestroyView() {
