@@ -5,6 +5,7 @@ import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import androidx.core.content.ContextCompat
 import com.woowahan.ordering.R
 import com.woowahan.ordering.util.NotificationUtil.CART_CHANNEL_ID
 import com.woowahan.ordering.util.executeRandom
@@ -22,6 +23,7 @@ class CartReceiver: BroadcastReceiver() {
         val notification =
             Notification.Builder(context, CART_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_notification)
+                .setColor(ContextCompat.getColor(context, R.color.primary_main))
                 .setContentTitle(title)
                 .setContentText(contentText)
                 .setStyle(Notification.BigTextStyle().bigText(contentText))
