@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ConcatAdapter
+import com.woowahan.ordering.R
 import com.woowahan.ordering.databinding.FragmentOrderDetailBinding
 import com.woowahan.ordering.ui.adapter.order.OrderDetailFooterAdapter
 import com.woowahan.ordering.ui.adapter.order.OrderDetailHeaderAdapter
@@ -44,6 +45,21 @@ class OrderDetailFragment : Fragment() {
         initArguments()
         initRecyclerView()
         viewModel.getOrderedCart(deliveryTime)
+        initToolbar()
+    }
+
+    private fun initToolbar() = with(binding!!) {
+        toolbarOrder.setNavigationOnClickListener {
+            parentFragmentManager.popBackStack()
+        }
+        toolbarOrder.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.item_refresh -> {
+                    viewModel.getOrderedCart(deliveryTime)
+                }
+            }
+            true
+        }
     }
 
     private fun initFlow() {
