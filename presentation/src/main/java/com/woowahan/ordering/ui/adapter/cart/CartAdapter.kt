@@ -19,7 +19,7 @@ class CartAdapter(
     private val plusItemClick: (Cart) -> Unit,
     private val deleteItemClick: (Cart) -> Unit,
     private val deleteAllClick: () -> Unit,
-    private val orderClick: () -> Unit
+    private val orderClick: (String, Int) -> Unit
 ) : ListAdapter<CartListItem, RecyclerView.ViewHolder>(cartListDiffUtil) {
 
     class CartHeaderViewHolder(private val binding: ItemCartHeaderBinding) :
@@ -60,7 +60,7 @@ class CartAdapter(
     class CartTotalViewHolder(private val binding: ItemTotalPriceBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(data: CartListItem.Footer, orderClick: () -> Unit) {
+        fun bind(data: CartListItem.Footer, orderClick: (String, Int) -> Unit) {
             with(binding) {
                 isCart = true
                 sumOfPrice = data.sum
@@ -69,7 +69,7 @@ class CartAdapter(
                 totalPrice = data.sum + data.deliveryFee
                 enableToOrder = data.enableToOrder
 
-                btnOrder.setOnClickListener { orderClick() }
+                btnOrder.setOnClickListener { orderClick(data.title, data.count) }
             }
         }
 

@@ -1,5 +1,6 @@
 package com.woowahan.ordering.ui.fragment.cart
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,12 +13,18 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.woowahan.ordering.contracts.DELIVERY_TIME
 import com.woowahan.ordering.databinding.FragmentCartBinding
 import com.woowahan.ordering.ui.adapter.cart.CartAdapter
 import com.woowahan.ordering.ui.adapter.cart.CartRecentlyAdapter
 import com.woowahan.ordering.ui.fragment.cart.recently.RecentlyViewedFragment
+import com.woowahan.ordering.ui.receiver.CartReceiver
+import com.woowahan.ordering.ui.receiver.CartReceiver.Companion.DELIVERY_FINISHED_TIME
+import com.woowahan.ordering.ui.receiver.CartReceiver.Companion.FOOD_COUNT
+import com.woowahan.ordering.ui.receiver.CartReceiver.Companion.FOOD_TITLE
 import com.woowahan.ordering.util.replace
 import com.woowahan.ordering.ui.viewmodel.CartViewModel
+import com.woowahan.ordering.util.startAlarmReceiver
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -52,7 +59,11 @@ class CartFragment : Fragment() {
             viewModel::plusItemClick,
             viewModel::deleteItemClick,
             viewModel::deleteAll,
-            viewModel::orderClick
+            orderClick = { title, count ->
+                val deliveryTime = System.currentTimeMillis() + DELIVERY_TIME
+                viewModel.orderClick(deliveryTime)
+                createNotificationTray(title, count, deliveryTime)
+            }
         )
         cartRecentlyAdapter = CartRecentlyAdapter {
             replaceToRecentlyViewed()
@@ -61,6 +72,17 @@ class CartFragment : Fragment() {
         rvCart.adapter = ConcatAdapter(cartAdapter, cartRecentlyAdapter)
         rvCart.layoutManager = LinearLayoutManager(context)
         rvCart.itemAnimator = null
+    }
+
+    private fun createNotificationTray(title: String, count: Int, deliveryTime: Long) {
+        with(requireContext()) {
+            val intent = Intent(this, CartReceiver::class.java).apply {
+                putExtra(DELIVERY_FINISHED_TIME, deliveryTime)
+                putExtra(FOOD_TITLE, title)
+                putExtra(FOOD_COUNT, count)
+            }
+            startAlarmReceiver(intent, deliveryTime)
+        }
     }
 
     private fun initFlow() {

@@ -12,6 +12,8 @@ sealed class CartListItem {
     ) : CartListItem()
 
     data class Footer(
+        val title: String,
+        val count: Int,
         val sum: Long,
         val deliveryFee: Int,
         val insufficientAmount: Int,

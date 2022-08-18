@@ -2,7 +2,6 @@ package com.woowahan.ordering.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.woowahan.ordering.contracts.DELIVERY_TIME
 import com.woowahan.ordering.domain.model.Cart
 import com.woowahan.ordering.domain.model.Order
 import com.woowahan.ordering.domain.model.Recently
@@ -55,6 +54,8 @@ class CartViewModel @Inject constructor(
                     add(0, CartListItem.Header(result.isSelectedAll))
                     add(
                         CartListItem.Footer(
+                            title = result.title,
+                            count = result.count,
                             sum = result.sum,
                             deliveryFee = result.deliveryFee,
                             insufficientAmount = result.insufficientAmount,
@@ -128,8 +129,8 @@ class CartViewModel @Inject constructor(
         }
     }
 
-    fun orderClick() {
-        val order = Order(id = 0, deliveryTime = System.currentTimeMillis() + DELIVERY_TIME)
+    fun orderClick(deliveryTime: Long) {
+        val order = Order(id = 0, deliveryTime = deliveryTime)
         viewModelScope.launch(Dispatchers.IO) {
             insertOrderUseCase(order).collect {
                 // TODO
