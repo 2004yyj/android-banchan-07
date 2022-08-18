@@ -8,6 +8,6 @@ import android.content.Intent
 
 fun Context.startAlarmReceiver(intent: Intent, time: Long) {
     val alarmManager = getSystemService(AlarmManager::class.java)
-    val pendingIntent = PendingIntent.getBroadcast(this, 1, intent, PendingIntent.FLAG_IMMUTABLE)
+    val pendingIntent = PendingIntent.getBroadcast(this, executeRandom(), intent, PendingIntent.FLAG_IMMUTABLE)
     alarmManager[AlarmManager.RTC, time] = pendingIntent
 }
