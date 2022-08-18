@@ -12,6 +12,7 @@ class DetailThumbImagesAdapter() :
     private val thumbImages = arrayListOf<String>()
 
     fun submitList(thumbImages: List<String>) {
+        this.thumbImages.clear()
         this.thumbImages.addAll(thumbImages)
         notifyDataSetChanged()
     }
