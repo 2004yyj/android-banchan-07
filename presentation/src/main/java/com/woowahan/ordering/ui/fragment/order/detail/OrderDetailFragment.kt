@@ -97,6 +97,7 @@ class OrderDetailFragment : Fragment() {
     }
 
     companion object {
+        const val TAG = "OrderDetail"
         const val DETAIL_TIME = "detailTime"
     }
 }

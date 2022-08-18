@@ -113,7 +113,7 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.replace(
             CartFragment::class.java,
             binding.fcvMain.id,
-            "CartFragment"
+            CartFragment.TAG
         )
     }
 
@@ -121,7 +121,7 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.replace(
             OrderListFragment::class.java,
             binding.fcvMain.id,
-            "OrderListFragment"
+            OrderListFragment.TAG
         )
     }
 }

@@ -119,7 +119,7 @@ class DetailFragment : Fragment() {
         parentFragmentManager.replace(
             CartFragment::class.java,
             (requireView().parent as View).id,
-            "Cart"
+            CartFragment.TAG
         )
     }
 
@@ -131,5 +131,6 @@ class DetailFragment : Fragment() {
     companion object {
         const val TITLE = "title"
         const val HASH = "hash"
+        const val TAG = "Detail"
     }
 }
