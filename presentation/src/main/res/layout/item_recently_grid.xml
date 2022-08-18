@@ -8,20 +8,13 @@
         <import type="android.view.View" />
 
         <variable
-            name="isCart"
-            type="Boolean" />
-
-        <variable
             name="recently"
             type="com.woowahan.ordering.domain.model.Recently" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:match_parent="@{!isCart}"
-        app:width="@{@dimen/cart_recent_list_image_size}"
-        tools:layout_width="match_parent">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/iv_food"
@@ -45,7 +38,6 @@
             android:backgroundTint="@{recently.added ? @color/primary_accent : @color/white}"
             android:elevation="2dp"
             android:src="@{recently.added ? @drawable/ic_check : @drawable/ic_cart_disabled}"
-            android:visibility="@{isCart ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="@id/iv_food"
             app:layout_constraintEnd_toEndOf="@id/iv_food" />
 

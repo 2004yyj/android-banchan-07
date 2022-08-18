@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -18,12 +19,17 @@ import com.woowahan.ordering.databinding.FragmentCartBinding
 import com.woowahan.ordering.ui.adapter.cart.CartAdapter
 import com.woowahan.ordering.ui.adapter.cart.CartRecentlyAdapter
 import com.woowahan.ordering.ui.fragment.cart.recently.RecentlyViewedFragment
+import com.woowahan.ordering.ui.fragment.detail.DetailFragment
+import com.woowahan.ordering.ui.fragment.detail.DetailFragment.Companion.HASH
+import com.woowahan.ordering.ui.fragment.detail.DetailFragment.Companion.TITLE
+import com.woowahan.ordering.ui.fragment.home.HomeFragment
 import com.woowahan.ordering.ui.receiver.CartReceiver
 import com.woowahan.ordering.ui.receiver.CartReceiver.Companion.DELIVERY_FINISHED_TIME
 import com.woowahan.ordering.ui.receiver.CartReceiver.Companion.FOOD_COUNT
 import com.woowahan.ordering.ui.receiver.CartReceiver.Companion.FOOD_TITLE
 import com.woowahan.ordering.util.replace
 import com.woowahan.ordering.ui.viewmodel.CartViewModel
+import com.woowahan.ordering.util.clearAllBackStack
 import com.woowahan.ordering.util.startAlarmReceiver
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -51,7 +57,7 @@ class CartFragment : Fragment() {
         initFlow()
     }
 
-    private fun initRecyclerView() = with(binding!!) {
+    private fun initRecyclerView() {
         cartAdapter = CartAdapter(
             viewModel::selectAll,
             viewModel::checkItemClick,
@@ -65,13 +71,17 @@ class CartFragment : Fragment() {
                 createNotificationTray(title, count, deliveryTime)
             }
         )
-        cartRecentlyAdapter = CartRecentlyAdapter {
-            replaceToRecentlyViewed()
-        }
 
-        rvCart.adapter = ConcatAdapter(cartAdapter, cartRecentlyAdapter)
-        rvCart.layoutManager = LinearLayoutManager(context)
-        rvCart.itemAnimator = null
+        cartRecentlyAdapter = CartRecentlyAdapter(
+            onDetailClick = this::replaceToDetail,
+            seeAllClick = this::replaceToRecentlyViewed
+        )
+
+        with(binding!!) {
+            rvCart.adapter = ConcatAdapter(cartAdapter, cartRecentlyAdapter)
+            rvCart.layoutManager = LinearLayoutManager(context)
+            rvCart.itemAnimator = null
+        }
     }
 
     private fun createNotificationTray(title: String, count: Int, deliveryTime: Long) {
@@ -114,6 +124,16 @@ class CartFragment : Fragment() {
             RecentlyViewedFragment::class.java,
             (requireView().parent as View).id,
             "RecentlyFragment"
+        )
+    }
+
+    private fun replaceToDetail(title: String, hash: String) {
+        parentFragmentManager.clearAllBackStack(tag)
+        parentFragmentManager.replace(
+            DetailFragment::class.java,
+            (requireView().parent as View).id,
+            "Detail",
+            bundleOf(TITLE to title, HASH to hash)
         )
     }
 

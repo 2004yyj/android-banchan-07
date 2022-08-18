@@ -37,3 +37,7 @@ fun <T: Fragment> FragmentManager.replace(
         commit()
     }
 }
+
+fun FragmentManager.clearAllBackStack(tag: String? = "") {
+    popBackStack(tag, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+}
