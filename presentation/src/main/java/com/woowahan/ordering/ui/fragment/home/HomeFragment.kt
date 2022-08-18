@@ -22,7 +22,7 @@ import com.woowahan.ordering.util.replace
 
 class HomeFragment : Fragment() {
 
-    private lateinit var binding: FragmentHomeBinding
+    private var binding: FragmentHomeBinding? = null
 
     private val bestFragment = BestFragment.newInstance { replaceToCart() }
     private val mainDishFragment = MainDishFragment.newInstance { replaceToCart() }
@@ -34,9 +34,9 @@ class HomeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         binding = FragmentHomeBinding.inflate(inflater)
-        return binding.root
+        return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -70,7 +70,7 @@ class HomeFragment : Fragment() {
         )
     }
 
-    private fun initViewPager() = with(binding) {
+    private fun initViewPager() = with(binding!!) {
         val tabs = resources.getStringArray(R.array.tabs)
 
         vpHome.adapter =
@@ -87,6 +87,11 @@ class HomeFragment : Fragment() {
             tab.text = tabs[position]
         }
         tabLayoutMediator.attach()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 
     override fun onDestroy() {
