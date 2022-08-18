@@ -11,16 +11,14 @@ import com.woowahan.ordering.util.executeRandom
 
 class CartReceiver: BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
-
         val food = intent.getStringExtra(FOOD_TITLE)
         val foodCount = intent.getIntExtra(FOOD_COUNT, 0) - 1
-        val foodTitleWithCount = if (foodCount > 1) "$food 외 ${foodCount}개" else food
-        val time = intent.getLongExtra(DELIVERY_FINISHED_TIME, 0L)
+        val foodTitleWithCount = if (foodCount > 0) "$food 외 ${foodCount}개" else food
 
         val notificationManager = context.getSystemService(NotificationManager::class.java)
         val notification =
             Notification.Builder(context, CART_CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_app)
+                .setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle("배달이 완료되었어요!")
                 .setStyle(
                     Notification.BigTextStyle()
