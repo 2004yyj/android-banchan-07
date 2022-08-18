@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import com.woowahan.ordering.R
 import com.woowahan.ordering.util.NotificationUtil.CART_CHANNEL_ID
+import com.woowahan.ordering.util.executeRandom
 
 class CartReceiver: BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
@@ -25,7 +26,7 @@ class CartReceiver: BroadcastReceiver() {
                     Notification.BigTextStyle()
                         .bigText("고객님께서 주문하신 ${foodTitleWithCount}이(가) 배달되었어요.")
                 ).build()
-        notificationManager.notify(time.toString(), 0, notification)
+        notificationManager.notify(executeRandom(), notification)
     }
 
     companion object {
