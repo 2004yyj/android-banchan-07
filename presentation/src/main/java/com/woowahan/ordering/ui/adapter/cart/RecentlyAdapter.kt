@@ -7,18 +7,17 @@ import com.woowahan.ordering.databinding.ItemRecentlyGridBinding
 import com.woowahan.ordering.databinding.ItemRecentlyHorizontalBinding
 import com.woowahan.ordering.domain.model.Food
 import com.woowahan.ordering.domain.model.Recently
-import com.woowahan.ordering.ui.adapter.home.FoodAdapter
 import com.woowahan.ordering.ui.adapter.recentlyDiffUtil
 import com.woowahan.ordering.ui.adapter.viewholder.ItemRecentlyViewHolder
 
 class RecentlyAdapter(
-    private var itemViewType: FoodAdapter.FoodItemViewType = FoodAdapter.FoodItemViewType.GridItem
+    private var itemViewType: RecentlyItemViewType = RecentlyItemViewType.GridItem
 ) : ListAdapter<Recently, ItemRecentlyViewHolder>(recentlyDiffUtil) {
 
     private var onDetailClick: (String, String) -> Unit = { _, _ -> }
     private var onCartClick: (Food) -> Unit = {}
 
-    fun setOnClick(onDetailClick: (String, String) -> Unit, onCartClick: (Food) -> Unit) {
+    fun setOnClick(onDetailClick: (String, String) -> Unit, onCartClick: (Food) -> Unit = {}) {
         this.onDetailClick = onDetailClick
         this.onCartClick = onCartClick
     }
@@ -41,7 +40,10 @@ class RecentlyAdapter(
     }
 
     override fun onBindViewHolder(holder: ItemRecentlyViewHolder, position: Int) {
-        holder.bind(getItem(position), onDetailClick, onCartClick)
+        when(holder) {
+            is ItemRecentlyViewHolder.Grid -> holder.bind(getItem(position), onDetailClick, onCartClick)
+            is ItemRecentlyViewHolder.Horizontal -> holder.bind(getItem(position), onDetailClick)
+        }
     }
 
     override fun getItemViewType(position: Int): Int {

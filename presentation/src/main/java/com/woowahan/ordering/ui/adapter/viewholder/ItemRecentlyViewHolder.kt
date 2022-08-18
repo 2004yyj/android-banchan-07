@@ -8,14 +8,9 @@ import com.woowahan.ordering.domain.model.Food
 import com.woowahan.ordering.domain.model.Recently
 
 sealed class ItemRecentlyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    abstract fun bind(
-        recently: Recently,
-        onDetailClick: (String, String) -> Unit,
-        onCartClick: (Food) -> Unit
-    )
 
     class Grid(private val binding: ItemRecentlyGridBinding) : ItemRecentlyViewHolder(binding.root) {
-        override fun bind(
+        fun bind(
             recently: Recently,
             onDetailClick: (String, String) -> Unit,
             onCartClick: (Food) -> Unit
@@ -31,10 +26,9 @@ sealed class ItemRecentlyViewHolder(view: View) : RecyclerView.ViewHolder(view) 
     }
 
     class Horizontal(private val binding: ItemRecentlyHorizontalBinding) : ItemRecentlyViewHolder(binding.root) {
-        override fun bind(
+        fun bind(
             recently: Recently,
-            onDetailClick: (String, String) -> Unit,
-            onCartClick: (Food) -> Unit
+            onDetailClick: (String, String) -> Unit
         ) {
             binding.recently = recently
             binding.root.setOnClickListener {
