@@ -40,9 +40,6 @@ sealed class ItemRecentlyViewHolder(view: View) : RecyclerView.ViewHolder(view) 
             binding.root.setOnClickListener {
                 onDetailClick(recently.title, recently.detailHash)
             }
-            binding.btnAddCart.setOnClickListener {
-                onCartClick(recently.toFoodModel())
-            }
         }
     }
 }

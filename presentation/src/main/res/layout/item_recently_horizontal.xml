@@ -27,20 +27,6 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/ic_launcher_background" />
 
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/btn_add_cart"
-            style="@style/RoundedMediumButton"
-            android:layout_width="@dimen/button_size"
-            android:layout_height="@dimen/button_size"
-            android:layout_marginHorizontal="@dimen/space_horizontal"
-            android:layout_marginVertical="@dimen/space_vertical"
-            android:tint="@{recently.added ? @color/white : @color/black}"
-            android:backgroundTint="@{recently.added ? @color/primary_accent : @color/white}"
-            android:elevation="2dp"
-            android:src="@{recently.added ? @drawable/ic_check : @drawable/ic_cart_disabled}"
-            app:layout_constraintBottom_toBottomOf="@id/iv_food"
-            app:layout_constraintEnd_toEndOf="@id/iv_food" />
-
         <TextView
             android:id="@+id/tv_food_title"
             style="@style/Body2"
