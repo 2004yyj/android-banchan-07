@@ -15,15 +15,17 @@ class CartReceiver: BroadcastReceiver() {
         val foodCount = intent.getIntExtra(FOOD_COUNT, 0) - 1
         val foodTitleWithCount = if (foodCount > 0) "$food 외 ${foodCount}개" else food
 
+        val title = "배달이 완료되었어요!"
+        val contentText = "고객님께서 주문하신 ${foodTitleWithCount}이(가) 배달되었어요."
+
         val notificationManager = context.getSystemService(NotificationManager::class.java)
         val notification =
             Notification.Builder(context, CART_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_notification)
-                .setContentTitle("배달이 완료되었어요!")
-                .setStyle(
-                    Notification.BigTextStyle()
-                        .bigText("고객님께서 주문하신 ${foodTitleWithCount}이(가) 배달되었어요.")
-                ).build()
+                .setContentTitle(title)
+                .setContentText(contentText)
+                .setStyle(Notification.BigTextStyle().bigText(contentText))
+                .build()
         notificationManager.notify(executeRandom(), notification)
     }
 
