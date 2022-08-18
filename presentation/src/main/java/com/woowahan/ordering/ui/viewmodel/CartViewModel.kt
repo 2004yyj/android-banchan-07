@@ -10,6 +10,7 @@ import com.woowahan.ordering.domain.usecase.cart.*
 import com.woowahan.ordering.domain.usecase.order.InsertOrderUseCase
 import com.woowahan.ordering.domain.usecase.recently.GetSimpleRecentlyUseCase
 import com.woowahan.ordering.ui.fragment.cart.CartListItem
+import com.woowahan.ordering.ui.uistate.CartUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
@@ -31,44 +32,47 @@ class CartViewModel @Inject constructor(
     val cartList = _cartList.asStateFlow()
 
     private val _isSelectedAll = MutableStateFlow(true)
-    val isSelectedAll = _isSelectedAll.asStateFlow()
 
     private val _recentlyList = MutableStateFlow<List<Recently>>(listOf())
     val recentlyList = _recentlyList.asStateFlow()
 
-    private val _message = MutableSharedFlow<String>()
-    val message = _message.asSharedFlow()
+    private val _uiState = MutableSharedFlow<CartUiState>()
+    val uiState = _uiState.asSharedFlow()
 
     init {
         getAllCart()
         getRecently()
     }
 
-    fun getAllCart() {
+    private fun getAllCart() {
         viewModelScope.launch(Dispatchers.IO) {
             getCartResultUseCase().collect { result ->
                 _isSelectedAll.emit(result.isSelectedAll)
 
-                val mergedList = mutableListOf<CartListItem>().apply {
-                    addAll(result.list.map { CartListItem.Content(it) })
-                    add(0, CartListItem.Header(result.isSelectedAll))
-                    add(
-                        CartListItem.Footer(
-                            title = result.title,
-                            count = result.count,
-                            sum = result.sum,
-                            deliveryFee = result.deliveryFee,
-                            insufficientAmount = result.insufficientAmount,
-                            enableToOrder = result.enableToOrder
+                if (result.list.isEmpty()) {
+                    _cartList.emit(listOf(CartListItem.Empty))
+                } else {
+                    val mergedList = mutableListOf<CartListItem>().apply {
+                        addAll(result.list.map { CartListItem.Content(it) })
+                        add(0, CartListItem.Header(result.isSelectedAll))
+                        add(
+                            CartListItem.Footer(
+                                title = result.title,
+                                count = result.count,
+                                sum = result.sum,
+                                deliveryFee = result.deliveryFee,
+                                insufficientAmount = result.insufficientAmount,
+                                enableToOrder = result.enableToOrder
+                            )
                         )
-                    )
+                    }
+                    _cartList.emit(mergedList)
                 }
-                _cartList.emit(mergedList)
             }
         }
     }
 
-    fun getRecently() {
+    private fun getRecently() {
         viewModelScope.launch(Dispatchers.IO) {
             getSimpleRecentlyUseCase().collect {
                 when (it) {
@@ -82,7 +86,7 @@ class CartViewModel @Inject constructor(
 
     fun selectAll() {
         viewModelScope.launch(Dispatchers.IO) {
-            selectAllCartUseCase(isSelectedAll.value.not()).collect {
+            selectAllCartUseCase(_isSelectedAll.value.not()).collect {
 
             }
         }
@@ -100,8 +104,6 @@ class CartViewModel @Inject constructor(
         if (cart.count > 1) {
             viewModelScope.launch(Dispatchers.IO) {
                 updateCartUseCase(cart.copy(count = cart.count - 1)).collect {
-                    if (it is Result.Success) {
-                    }
                 }
             }
         }
@@ -110,8 +112,6 @@ class CartViewModel @Inject constructor(
     fun plusItemClick(cart: Cart) {
         viewModelScope.launch(Dispatchers.IO) {
             updateCartUseCase(cart.copy(count = cart.count + 1)).collect {
-                if (it is Result.Success) {
-                }
             }
 
         }
@@ -129,11 +129,27 @@ class CartViewModel @Inject constructor(
         }
     }
 
-    fun orderClick(deliveryTime: Long) {
+    fun orderClick(deliveryTime: Long, title: String, count: Int) {
         val order = Order(id = 0, deliveryTime = deliveryTime)
         viewModelScope.launch(Dispatchers.IO) {
             insertOrderUseCase(order).collect {
-                // TODO
+                when (it) {
+                    is Result.Loading -> {
+                        _uiState.emit(CartUiState.Loading)
+                    }
+                    is Result.Success -> {
+                        _uiState.emit(
+                            CartUiState.SuccessOrder(
+                                deliveryTime = deliveryTime,
+                                title = title,
+                                count = count
+                            )
+                        )
+                    }
+                    is Result.Failure -> {
+                        _uiState.emit(CartUiState.Error(it.cause.message ?: "error"))
+                    }
+                }
             }
         }
     }

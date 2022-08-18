@@ -22,11 +22,12 @@ import com.woowahan.ordering.ui.fragment.cart.recently.RecentlyViewedFragment
 import com.woowahan.ordering.ui.fragment.detail.DetailFragment
 import com.woowahan.ordering.ui.fragment.detail.DetailFragment.Companion.HASH
 import com.woowahan.ordering.ui.fragment.detail.DetailFragment.Companion.TITLE
-import com.woowahan.ordering.ui.fragment.home.HomeFragment
+import com.woowahan.ordering.ui.fragment.order.detail.OrderDetailFragment
 import com.woowahan.ordering.ui.receiver.CartReceiver
 import com.woowahan.ordering.ui.receiver.CartReceiver.Companion.DELIVERY_FINISHED_TIME
 import com.woowahan.ordering.ui.receiver.CartReceiver.Companion.FOOD_COUNT
 import com.woowahan.ordering.ui.receiver.CartReceiver.Companion.FOOD_TITLE
+import com.woowahan.ordering.ui.uistate.CartUiState
 import com.woowahan.ordering.util.replace
 import com.woowahan.ordering.ui.viewmodel.CartViewModel
 import com.woowahan.ordering.util.clearAllBackStack
@@ -67,8 +68,7 @@ class CartFragment : Fragment() {
             viewModel::deleteAll,
             orderClick = { title, count ->
                 val deliveryTime = System.currentTimeMillis() + DELIVERY_TIME
-                viewModel.orderClick(deliveryTime)
-                createNotificationTray(title, count, deliveryTime)
+                viewModel.orderClick(deliveryTime, title, count)
             }
         )
 
@@ -112,11 +112,32 @@ class CartFragment : Fragment() {
         }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.message.collect {
-                    Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+                viewModel.uiState.collect {
+                    when (it) {
+                        is CartUiState.Loading -> {}
+                        is CartUiState.SuccessOrder -> {
+                            replaceToOrderDetail(it.deliveryTime)
+                            createNotificationTray(it.title, it.count, it.deliveryTime)
+                        }
+                        is CartUiState.Error -> {
+                            Toast.makeText(requireContext(), "오류가 발생했습니다.", Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                    }
                 }
+
             }
         }
+    }
+
+    private fun replaceToOrderDetail(deliveryTime: Long) {
+        parentFragmentManager.clearAllBackStack(tag)
+        parentFragmentManager.replace(
+            OrderDetailFragment::class.java,
+            (requireView().parent as View).id,
+            OrderDetailFragment.TAG,
+            bundleOf(OrderDetailFragment.DETAIL_TIME to deliveryTime)
+        )
     }
 
     private fun replaceToRecentlyViewed() {
