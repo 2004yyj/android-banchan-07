@@ -19,6 +19,7 @@ import com.woowahan.ordering.ui.fragment.order.OrderListFragment
 import com.woowahan.ordering.util.add
 import com.woowahan.ordering.util.replace
 import com.woowahan.ordering.ui.viewmodel.MainViewModel
+import com.woowahan.ordering.util.replaceWithPopBackstack
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -110,7 +111,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun replaceToCart() {
-        supportFragmentManager.replace(
+        supportFragmentManager.replaceWithPopBackstack(
             CartFragment::class.java,
             binding.fcvMain.id,
             CartFragment.TAG
