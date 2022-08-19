@@ -14,8 +14,3 @@ fun NotificationManager.createChannel(channelId: String, channelName: String) {
     channel.lockscreenVisibility = VISIBILITY_PRIVATE
     createNotificationChannel(channel)
 }
-
-object NotificationUtil {
-    const val CART_CHANNEL_ID = "cart"
-    const val CART_CHANNEL_NAME = "장바구니"
-}
