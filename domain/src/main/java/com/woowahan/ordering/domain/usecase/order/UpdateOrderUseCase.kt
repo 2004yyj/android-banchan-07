@@ -9,5 +9,5 @@ import kotlinx.coroutines.flow.flow
 class UpdateOrderUseCase(
     private val repository: OrderRepository
 ) {
-    operator fun invoke(order: Order) = repository.updateOrder(order)
+    operator fun invoke(id: Long, isDelivered: Boolean) = repository.updateOrder(id, isDelivered)
 }
