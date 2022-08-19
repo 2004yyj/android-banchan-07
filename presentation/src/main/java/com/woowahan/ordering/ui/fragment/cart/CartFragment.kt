@@ -31,6 +31,7 @@ import com.woowahan.ordering.ui.uistate.CartUiState
 import com.woowahan.ordering.util.replace
 import com.woowahan.ordering.ui.viewmodel.CartViewModel
 import com.woowahan.ordering.util.clearAllBackStack
+import com.woowahan.ordering.util.replaceWithPopBackstack
 import com.woowahan.ordering.util.startAlarmReceiver
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -131,8 +132,7 @@ class CartFragment : Fragment() {
     }
 
     private fun replaceToOrderDetail(deliveryTime: Long) {
-        parentFragmentManager.clearAllBackStack(tag)
-        parentFragmentManager.replace(
+        parentFragmentManager.replaceWithPopBackstack(
             OrderDetailFragment::class.java,
             (requireView().parent as View).id,
             OrderDetailFragment.TAG,

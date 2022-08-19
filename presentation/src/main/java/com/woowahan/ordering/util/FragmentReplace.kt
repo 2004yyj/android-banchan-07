@@ -38,6 +38,25 @@ fun <T: Fragment> FragmentManager.replace(
     }
 }
 
+fun <T: Fragment> FragmentManager.replaceWithPopBackstack(
+    fragmentClass: Class<T>,
+    containerViewId: Int,
+    tag: String,
+    arguments: Bundle = Bundle()
+) {
+    beginTransaction().apply {
+        val constructor = fragmentClass.getConstructor()
+        val fragment: Fragment = findFragmentByTag(tag) ?: constructor.newInstance()
+        fragment.arguments = arguments
+        replace(containerViewId, fragment, tag)
+        popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        if (findFragmentByTag(tag) == null) {
+            addToBackStack(tag)
+        }
+        commit()
+    }
+}
+
 fun FragmentManager.clearAllBackStack(tag: String? = null) {
     popBackStack(tag, FragmentManager.POP_BACK_STACK_INCLUSIVE)
 }

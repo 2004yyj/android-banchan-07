@@ -25,6 +25,7 @@ import com.woowahan.ordering.ui.viewmodel.RecentlyViewedViewModel
 import com.woowahan.ordering.util.clearAllBackStack
 import com.woowahan.ordering.util.dp
 import com.woowahan.ordering.util.replace
+import com.woowahan.ordering.util.replaceWithPopBackstack
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -95,17 +96,11 @@ class RecentlyViewedFragment : Fragment() {
     }
 
     private fun replaceToCart() {
-        parentFragmentManager.clearAllBackStack()
-        parentFragmentManager.replace(
-            CartFragment::class.java,
-            (requireView().parent as View).id,
-            CartFragment.TAG,
-        )
+        parentFragmentManager.popBackStack()
     }
 
     private fun replaceToDetail(title: String, hash: String) {
-        parentFragmentManager.clearAllBackStack()
-        parentFragmentManager.replace(
+        parentFragmentManager.replaceWithPopBackstack(
             DetailFragment::class.java,
             (requireView().parent as View).id,
             DetailFragment.TAG,
