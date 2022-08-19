@@ -12,7 +12,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/space_vertical">
 
         <TextView
             android:id="@+id/tv_total_count"
@@ -20,7 +21,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/space_horizontal"
-            android:layout_marginVertical="@dimen/space_vertical"
             android:text="@{@string/total_count_format(count)}"
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -33,7 +33,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/space_horizontal"
-            android:layout_marginVertical="@dimen/space_vertical"
             android:background="@null"
             android:dropDownWidth="150dp"
             android:overlapAnchor="false"
