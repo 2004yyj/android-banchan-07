@@ -42,4 +42,8 @@
     <string name="product_count_title">주문한 상품</string>
     <string name="order_detail_count_format">%d개</string>
     <string name="empty_message">아무것도 없어요..</string>
+    <string name="cart_channel_id">cart</string>
+    <string name="cart_channel_name">장바구니</string>
+    <string name="cart_notification_content">고객님께서 주문하신 %s이(가) 배달되었어요.</string>
+    <string name="cart_notification_content_with_count">고객님께서 주문하신 %s 외 %d이(가) 배달되었어요.</string>
 </resources>
