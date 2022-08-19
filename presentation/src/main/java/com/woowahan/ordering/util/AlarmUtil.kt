@@ -9,5 +9,5 @@ import android.content.Intent
 fun Context.startAlarmReceiver(intent: Intent, time: Long) {
     val alarmManager = getSystemService(AlarmManager::class.java)
     val pendingIntent = PendingIntent.getBroadcast(this, executeRandom(), intent, PendingIntent.FLAG_IMMUTABLE)
-    alarmManager[AlarmManager.RTC, time] = pendingIntent
+    alarmManager.setExact(AlarmManager.RTC, time, pendingIntent)
 }
