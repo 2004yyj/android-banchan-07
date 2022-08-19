@@ -9,14 +9,15 @@ fun <T: Fragment> FragmentManager.add(
     containerViewId: Int,
     tag: String,
     arguments: Bundle = Bundle()
-) {
-    beginTransaction().apply {
+): Fragment {
+    return beginTransaction().run {
         val constructor = fragmentClass.getConstructor()
         val fragment: Fragment = findFragmentByTag(tag) ?: constructor.newInstance()
         fragment.arguments = arguments
         if (findFragmentByTag(tag) == null)
             add(containerViewId, fragment, tag)
         commit()
+        fragment
     }
 }
 
@@ -25,8 +26,8 @@ fun <T: Fragment> FragmentManager.replace(
     containerViewId: Int,
     tag: String,
     arguments: Bundle = Bundle()
-) {
-    beginTransaction().apply {
+): Fragment {
+    return beginTransaction().run {
         val constructor = fragmentClass.getConstructor()
         val fragment: Fragment = findFragmentByTag(tag) ?: constructor.newInstance()
         fragment.arguments = arguments
@@ -35,16 +36,17 @@ fun <T: Fragment> FragmentManager.replace(
             addToBackStack(tag)
         }
         commit()
+        fragment
     }
 }
 
-fun <T: Fragment> FragmentManager.replaceWithPopBackstack(
+fun <T : Fragment> FragmentManager.replaceWithPopBackstack(
     fragmentClass: Class<T>,
     containerViewId: Int,
     tag: String,
     arguments: Bundle = Bundle()
-) {
-    beginTransaction().apply {
+): Fragment {
+    return beginTransaction().run {
         val constructor = fragmentClass.getConstructor()
         val fragment: Fragment = findFragmentByTag(tag) ?: constructor.newInstance()
         fragment.arguments = arguments
@@ -54,6 +56,7 @@ fun <T: Fragment> FragmentManager.replaceWithPopBackstack(
             addToBackStack(tag)
         }
         commit()
+        fragment
     }
 }
 
