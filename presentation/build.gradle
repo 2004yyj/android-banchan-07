@@ -80,4 +80,10 @@ dependencies {
 
     //Splash Screen
     implementation 'androidx.core:core-splashscreen:1.0.0'
+
+    //WorkManager
+    implementation 'androidx.work:work-runtime-ktx:2.7.1'
+
+    //Hilt-WorkManager
+    implementation 'androidx.hilt:hilt-work:1.0.0'
 }
