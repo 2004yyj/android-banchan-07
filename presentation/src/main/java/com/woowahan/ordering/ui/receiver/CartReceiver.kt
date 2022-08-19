@@ -6,7 +6,11 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import androidx.core.content.ContextCompat
+import androidx.work.Data
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.woowahan.ordering.R
+import com.woowahan.ordering.ui.worker.DeliveryTimeWorker
 import com.woowahan.ordering.util.createChannel
 import com.woowahan.ordering.util.executeRandom
 
@@ -14,6 +18,9 @@ class CartReceiver: BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         val food = intent.getStringExtra(FOOD_TITLE)
         val foodCount = intent.getIntExtra(FOOD_COUNT, 0) - 1
+        val deliveryTime = intent.getLongExtra(DELIVERY_FINISHED_TIME, 0L)
+        callWorker(context, deliveryTime)
+
         val content =
             if (foodCount > 0)
                 context.getString(R.string.cart_notification_content_with_count, food, foodCount)
@@ -34,6 +41,21 @@ class CartReceiver: BroadcastReceiver() {
                 .setStyle(Notification.BigTextStyle().bigText(content))
                 .build()
         notificationManager.notify(executeRandom(), notification)
+    }
+
+    private fun callWorker(context: Context, deliveryTime: Long) {
+        val data = Data.Builder()
+            .putLong("deliveryTime", deliveryTime)
+            .build()
+
+        val deliveryWorkRequest = OneTimeWorkRequestBuilder<DeliveryTimeWorker>()
+            .addTag("${executeRandom()}")
+            .setInputData(data)
+            .build()
+
+        WorkManager
+            .getInstance(context)
+            .enqueue(deliveryWorkRequest)
     }
 
     companion object {
