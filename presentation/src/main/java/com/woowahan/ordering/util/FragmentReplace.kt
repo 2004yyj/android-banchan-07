@@ -38,6 +38,6 @@ fun <T: Fragment> FragmentManager.replace(
     }
 }
 
-fun FragmentManager.clearAllBackStack(tag: String? = "") {
+fun FragmentManager.clearAllBackStack(tag: String? = null) {
     popBackStack(tag, FragmentManager.POP_BACK_STACK_INCLUSIVE)
 }
