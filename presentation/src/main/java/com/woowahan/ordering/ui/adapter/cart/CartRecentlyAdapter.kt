@@ -26,13 +26,13 @@ class CartRecentlyAdapter(
     inner class CartRecentlyItemViewHolder(private val binding: ItemCartRecentlyBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+        private val adapter = RecentlyAdapter(RecentlyAdapter.RecentlyItemViewType.HorizontalItem)
+        private val decoration = ItemSpacingDecoratorWithHeader(
+            spacing = 8.dp,
+            spaceAdapters = listOf(adapter)
+        )
 
         fun bind(list: List<Recently>, seeAllClick: () -> Unit) = with(binding) {
-            val adapter = RecentlyAdapter(RecentlyAdapter.RecentlyItemViewType.HorizontalItem)
-            val decoration = ItemSpacingDecoratorWithHeader(
-                spacing = 8.dp,
-                spaceAdapters = listOf(adapter)
-            )
             adapter.submitList(list)
             adapter.setOnClick(onDetailClick)
 
