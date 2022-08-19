@@ -130,7 +130,7 @@ class CartViewModel @Inject constructor(
     }
 
     fun orderClick(deliveryTime: Long, title: String, count: Int) {
-        val order = Order(id = 0, deliveryTime = deliveryTime)
+        val order = Order(id = 0, deliveryTime = deliveryTime, isDelivered = false)
         viewModelScope.launch(Dispatchers.IO) {
             insertOrderUseCase(order).collect {
                 when (it) {
