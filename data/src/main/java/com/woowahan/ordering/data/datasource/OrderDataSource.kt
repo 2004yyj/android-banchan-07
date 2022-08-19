@@ -9,4 +9,5 @@ interface OrderDataSource {
     fun insertOrder(order: Order): Long
     fun getSimpleOrder(): Flow<List<SimpleOrder>>
     fun getOrderedCartByDeliveryTime(deliveryTime: Long): OrderedCartList
+    fun updateOrder(order: Order)
 }

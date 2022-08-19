@@ -19,6 +19,10 @@ class OrderDataSourceImpl @Inject constructor(
         return orderDao.insertOrder(order.toEntity())
     }
 
+    override fun updateOrder(order: Order) {
+        return orderDao.updateOrder(order.toEntity())
+    }
+
     override fun getSimpleOrder(): Flow<List<SimpleOrder>> {
         return orderDao.getSimpleOrder().map {
             it.map { simpleOrder -> simpleOrder.toModel() }

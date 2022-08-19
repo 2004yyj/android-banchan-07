@@ -15,6 +15,10 @@ class OrderRepositoryImpl @Inject constructor(
         return dataSource.insertOrder(order)
     }
 
+    override fun updateOrder(order: Order) {
+        return dataSource.updateOrder(order)
+    }
+
     override fun getSimpleOrder(): Flow<List<SimpleOrder>> {
         return dataSource.getSimpleOrder()
     }
