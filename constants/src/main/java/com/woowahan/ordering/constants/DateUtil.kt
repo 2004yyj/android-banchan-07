@@ -1,4 +1,4 @@
-package com.woowahan.ordering.contracts
+package com.woowahan.ordering.constants
 
 fun Long.getDiffFromNow(): String {
     val now = System.currentTimeMillis()

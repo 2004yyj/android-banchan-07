@@ -1,8 +1,8 @@
 package com.woowahan.ordering.data.mapper
 
-import com.woowahan.ordering.contracts.DEFAULT_DELIVERY_FEE
-import com.woowahan.ordering.contracts.DELIVERY_FREE_LIMIT
-import com.woowahan.ordering.contracts.ORDER_MINIMUM_AMOUNT
+import com.woowahan.ordering.constants.DEFAULT_DELIVERY_FEE
+import com.woowahan.ordering.constants.DELIVERY_FREE_LIMIT
+import com.woowahan.ordering.constants.ORDER_MINIMUM_AMOUNT
 import com.woowahan.ordering.data.entity.CartEntity
 import com.woowahan.ordering.domain.model.Cart
 import com.woowahan.ordering.domain.model.CartResult

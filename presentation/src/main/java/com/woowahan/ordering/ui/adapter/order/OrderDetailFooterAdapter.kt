@@ -3,7 +3,7 @@ package com.woowahan.ordering.ui.adapter.order
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.woowahan.ordering.contracts.DEFAULT_DELIVERY_FEE
+import com.woowahan.ordering.constants.DEFAULT_DELIVERY_FEE
 import com.woowahan.ordering.databinding.ItemOrderDetailFooterBinding
 
 class OrderDetailFooterAdapter : RecyclerView.Adapter<OrderDetailFooterAdapter.ViewHolder>() {
