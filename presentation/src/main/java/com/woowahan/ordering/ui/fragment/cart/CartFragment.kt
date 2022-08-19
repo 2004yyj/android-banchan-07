@@ -149,8 +149,7 @@ class CartFragment : Fragment() {
     }
 
     private fun replaceToDetail(title: String, hash: String) {
-        parentFragmentManager.clearAllBackStack(tag)
-        parentFragmentManager.replace(
+        parentFragmentManager.replaceWithPopBackstack(
             DetailFragment::class.java,
             (requireView().parent as View).id,
             DetailFragment.TAG,

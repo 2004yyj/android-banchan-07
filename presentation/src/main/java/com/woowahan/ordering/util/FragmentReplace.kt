@@ -48,8 +48,8 @@ fun <T: Fragment> FragmentManager.replaceWithPopBackstack(
         val constructor = fragmentClass.getConstructor()
         val fragment: Fragment = findFragmentByTag(tag) ?: constructor.newInstance()
         fragment.arguments = arguments
-        replace(containerViewId, fragment, tag)
         popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        replace(containerViewId, fragment, tag)
         if (findFragmentByTag(tag) == null) {
             addToBackStack(tag)
         }
