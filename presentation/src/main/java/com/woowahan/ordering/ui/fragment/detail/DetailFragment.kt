@@ -89,8 +89,6 @@ class DetailFragment : Fragment() {
     }
 
     private fun showCartDialog() {
-        parentFragmentManager.popBackStack()
-        
         CartDialogFragment.newInstance {
             replaceToCart()
         }.show(parentFragmentManager, tag)
