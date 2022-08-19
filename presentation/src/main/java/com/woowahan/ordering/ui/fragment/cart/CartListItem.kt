@@ -19,4 +19,6 @@ sealed class CartListItem {
         val insufficientAmount: Int,
         val enableToOrder: Boolean
     ) : CartListItem()
+
+    object Empty : CartListItem()
 }
