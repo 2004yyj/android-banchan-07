@@ -61,6 +61,7 @@ class RecentlyViewedFragment : Fragment() {
             rvRecently.addItemDecoration(
                 ItemSpacingDecoratorWithHeader(
                     spacing = 16.dp,
+                    spaceAdapters = listOf(adapter),
                     layoutDirection = GRID
                 )
             )

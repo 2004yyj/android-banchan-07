@@ -13,14 +13,16 @@ class ItemFoodBestViewHolder(
     private val binding: ItemFoodBestBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    private val decoration = ItemSpacingDecoratorWithHeader(8.dp)
-
     fun bind(
         best: Best,
         onDetailClick: (String, String) -> Unit,
         onCartClick: (Food) -> Unit
     ) {
         val adapter = FoodAdapter(FoodItemViewType.HorizontalItem)
+        val decoration = ItemSpacingDecoratorWithHeader(
+            spacing = 8.dp,
+            spaceAdapters = listOf(adapter)
+        )
         adapter.submitList(best.items)
         adapter.setOnClick(onDetailClick, onCartClick)
 

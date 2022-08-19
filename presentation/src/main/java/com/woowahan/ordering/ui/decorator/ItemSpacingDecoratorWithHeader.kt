@@ -7,43 +7,41 @@ import androidx.recyclerview.widget.RecyclerView
 
 class ItemSpacingDecoratorWithHeader(
     private val spacing: Int = 0,
-    private val removeSpacePosition: List<Int> = listOf(-1),
+    private val spaceAdapters: List<RecyclerView.Adapter<*>>,
     private val layoutDirection: Int = HORIZONTAL
 ) : RecyclerView.ItemDecoration() {
+    private fun isSpaceAdapter(adapter: RecyclerView.Adapter<*>?) = spaceAdapters.contains(adapter)
+
     override fun getItemOffsets(
         outRect: Rect,
         view: View,
         parent: RecyclerView,
         state: RecyclerView.State
     ) {
-        val adapterPosition = parent.getChildAdapterPosition(view)
-        val itemCount = parent.adapter?.itemCount ?: 0
-
-        with(outRect) {
-            if (layoutDirection == HORIZONTAL) {
-                if (!removeSpacePosition.contains(adapterPosition)) {
+        val viewHolder = parent.getChildViewHolder(view)
+        val adapterPosition = viewHolder.bindingAdapterPosition
+        val itemCount = viewHolder.bindingAdapter?.itemCount ?: 0
+        if (isSpaceAdapter(viewHolder.bindingAdapter)) {
+            with(outRect) {
+                if (layoutDirection == HORIZONTAL) {
                     left = spacing
                     if (adapterPosition == itemCount - 1)
                         right = spacing
                 }
-            }
 
-            if (layoutDirection == VERTICAL) {
-                if (!removeSpacePosition.contains(adapterPosition)) {
+                if (layoutDirection == VERTICAL) {
                     top = spacing
                     if (adapterPosition == itemCount - 1)
                         bottom = spacing
                 }
-            }
 
-            if (layoutDirection == GRID) {
-                if (!removeSpacePosition.contains(adapterPosition)) {
+                if (layoutDirection == GRID) {
                     val layoutManager = parent.layoutManager as? GridLayoutManager ?: return
 
                     val cols: Int = layoutManager.spanCount
                     val rows = itemCount / cols
 
-                    if (adapterPosition > cols + 1) outRect.top = spacing
+                    outRect.top = spacing
                     outRect.left = if (adapterPosition % cols == 0) spacing else spacing / 2
                     outRect.right = if (adapterPosition % cols == cols - 1) spacing else spacing / 2
                     outRect.bottom = if (adapterPosition / cols == rows - 1) spacing else 0

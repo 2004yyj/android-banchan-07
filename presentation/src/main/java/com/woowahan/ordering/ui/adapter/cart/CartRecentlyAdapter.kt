@@ -7,6 +7,7 @@ import com.woowahan.ordering.databinding.ItemCartRecentlyBinding
 import com.woowahan.ordering.domain.model.Food
 import com.woowahan.ordering.domain.model.Recently
 import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader
+import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader.Companion.GRID
 import com.woowahan.ordering.util.dp
 
 class CartRecentlyAdapter(
@@ -25,10 +26,13 @@ class CartRecentlyAdapter(
     inner class CartRecentlyItemViewHolder(private val binding: ItemCartRecentlyBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        private val decoration = ItemSpacingDecoratorWithHeader(8.dp)
 
         fun bind(list: List<Recently>, seeAllClick: () -> Unit) = with(binding) {
             val adapter = RecentlyAdapter(RecentlyAdapter.RecentlyItemViewType.HorizontalItem)
+            val decoration = ItemSpacingDecoratorWithHeader(
+                spacing = 8.dp,
+                spaceAdapters = listOf(adapter)
+            )
             adapter.submitList(list)
             adapter.setOnClick(onDetailClick)
 

@@ -85,7 +85,7 @@ class OrderDetailFragment : Fragment() {
         rvOrderDetail.addItemDecoration(
             ItemSpacingDecoratorWithHeader(
                 spacing = 16.dp,
-                removeSpacePosition = listOf(0),
+                spaceAdapters = listOf(ordersAdapter),
                 layoutDirection = VERTICAL
             )
         )
