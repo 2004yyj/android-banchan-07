@@ -2,6 +2,7 @@ package com.woowahan.ordering.ui.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.isVisible
@@ -45,6 +46,7 @@ class MainActivity : AppCompatActivity() {
         initFlow()
 
         viewModel.getCartSize()
+        viewModel.isExistsNotDeliveredOrder()
     }
 
     private fun initFragment() = with(binding) {
@@ -106,6 +108,12 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launchWhenStarted {
             viewModel.cartSize.collect {
                 cartBinding.count = it
+            }
+        }
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.isExistsNotDelivered.collect {
+                orderBinding.isExistsNotDelivered = it
             }
         }
     }
