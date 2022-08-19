@@ -1,11 +1,15 @@
 package com.woowahan.ordering.ui.activity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
+import androidx.core.os.bundleOf
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.woowahan.ordering.R
 import com.woowahan.ordering.databinding.ActionCartBinding
@@ -16,9 +20,12 @@ import com.woowahan.ordering.ui.fragment.cart.recently.RecentlyViewedFragment
 import com.woowahan.ordering.ui.fragment.detail.DetailFragment
 import com.woowahan.ordering.ui.fragment.home.HomeFragment
 import com.woowahan.ordering.ui.fragment.order.OrderListFragment
+import com.woowahan.ordering.ui.fragment.order.detail.OrderDetailFragment
+import com.woowahan.ordering.ui.receiver.CartReceiver
 import com.woowahan.ordering.util.add
 import com.woowahan.ordering.util.replace
 import com.woowahan.ordering.ui.viewmodel.MainViewModel
+import com.woowahan.ordering.util.clearAllBackStack
 import com.woowahan.ordering.util.replaceWithPopBackstack
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -39,18 +46,30 @@ class MainActivity : AppCompatActivity() {
         orderBinding = ActionOrderBinding.inflate(layoutInflater)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        initFragment()
+        initFlow()
         initToolbar()
         initListener()
-        initFlow()
 
         viewModel.getCartSize()
+
+        onNewIntent(intent)
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        this.intent = intent
+        initFragment()
     }
 
     private fun initFragment() = with(binding) {
-        val id = binding.fcvMain.id
-        val fragmentManager = supportFragmentManager
-        fragmentManager.add(HomeFragment::class.java, id, "HomeFragment")
+        supportFragmentManager.clearAllBackStack()
+        supportFragmentManager.add(
+            HomeFragment::class.java,
+            binding.fcvMain.id,
+            HomeFragment.TAG
+        )
+        val deliveryTime = intent.getLongExtra(CartReceiver.DELIVERY_FINISHED_TIME, 0L)
+        if (deliveryTime != 0L) replaceToOrderDetail(deliveryTime)
     }
 
     private fun initToolbar() = with(binding) {
@@ -69,35 +88,8 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.popBackStack()
         }
         supportFragmentManager.addOnBackStackChangedListener {
-            // 툴바 분기처리
             supportFragmentManager.fragments.forEach {
-                if (it.isVisible) {
-                    when (it) {
-                        is CartFragment -> {
-                            toolbarHome.isVisible = false
-                            toolbarCart.isVisible = true
-                            toolbarCart.title = "Cart"
-                        }
-                        is OrderListFragment -> {
-                            toolbarHome.isVisible = false
-                            toolbarCart.isVisible = true
-                            toolbarCart.title = "Order List"
-                        }
-                        is RecentlyViewedFragment -> {
-                            toolbarHome.isVisible = false
-                            toolbarCart.isVisible = true
-                            toolbarCart.title = "Recently viewed products"
-                        }
-                        is HomeFragment, is DetailFragment -> {
-                            toolbarHome.isVisible = true
-                            toolbarCart.isVisible = false
-                        }
-                        else -> {
-                            toolbarHome.isVisible = false
-                            toolbarCart.isVisible = false
-                        }
-                    }
-                }
+                if (it.isVisible) changeToolbar(it)
             }
         }
     }
@@ -106,6 +98,34 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launchWhenStarted {
             viewModel.cartSize.collect {
                 cartBinding.count = it
+            }
+        }
+    }
+
+    private fun changeToolbar(fragment: Fragment) = with(binding) {
+        when (fragment) {
+            is OrderDetailFragment -> {
+                toolbarHome.isVisible = false
+                toolbarCart.isVisible = false
+            }
+            is CartFragment -> {
+                toolbarHome.isVisible = false
+                toolbarCart.isVisible = true
+                toolbarCart.title = "Cart"
+            }
+            is OrderListFragment -> {
+                toolbarHome.isVisible = false
+                toolbarCart.isVisible = true
+                toolbarCart.title = "Order List"
+            }
+            is RecentlyViewedFragment -> {
+                toolbarHome.isVisible = false
+                toolbarCart.isVisible = true
+                toolbarCart.title = "Recently viewed products"
+            }
+            is HomeFragment, is DetailFragment -> {
+                toolbarHome.isVisible = true
+                toolbarCart.isVisible = false
             }
         }
     }
@@ -123,6 +143,17 @@ class MainActivity : AppCompatActivity() {
             OrderListFragment::class.java,
             binding.fcvMain.id,
             OrderListFragment.TAG
+        )
+    }
+
+    private fun replaceToOrderDetail(deliveryTime: Long) {
+        changeToolbar(
+            supportFragmentManager.replace(
+                OrderDetailFragment::class.java,
+                binding.fcvMain.id,
+                OrderDetailFragment.TAG,
+                bundleOf(OrderDetailFragment.DETAIL_TIME to deliveryTime)
+            )
         )
     }
 }
