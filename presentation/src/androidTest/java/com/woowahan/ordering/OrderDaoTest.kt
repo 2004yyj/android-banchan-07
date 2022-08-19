@@ -46,6 +46,15 @@ class OrderDaoTest {
         }
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun isExistsNotDeliveredOrder_test() = runTest {
+        try {
+            orderDao.isExistNotDeliveredOrder()
+        } catch (e: IOException) {
+            assertThat(e.cause, equalTo(null))
+        }
+    }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
