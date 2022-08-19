@@ -1,7 +1,7 @@
 package com.woowahan.ordering.data.mapper
 
 import com.woowahan.ordering.data.entity.FoodDetailResponse
-import com.woowahan.ordering.contracts.toMoneyLong
+import com.woowahan.ordering.data.util.toMoneyLong
 import com.woowahan.ordering.domain.model.FoodDetail
 
 fun FoodDetailResponse.toModel(): FoodDetail {

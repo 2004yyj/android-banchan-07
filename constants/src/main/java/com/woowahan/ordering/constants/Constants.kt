@@ -1,4 +1,4 @@
-package com.woowahan.ordering.contracts
+package com.woowahan.ordering.constants
 
 const val DELIVERY_TIME = 1000 * 20
 const val DELIVERY_FREE_LIMIT = 40000

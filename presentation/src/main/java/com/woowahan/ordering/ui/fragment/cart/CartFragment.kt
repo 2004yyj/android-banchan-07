@@ -14,7 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.woowahan.ordering.contracts.DELIVERY_TIME
+import com.woowahan.ordering.constants.DELIVERY_TIME
 import com.woowahan.ordering.databinding.FragmentCartBinding
 import com.woowahan.ordering.ui.adapter.cart.CartAdapter
 import com.woowahan.ordering.ui.adapter.cart.CartRecentlyAdapter
@@ -30,7 +30,6 @@ import com.woowahan.ordering.ui.receiver.CartReceiver.Companion.FOOD_TITLE
 import com.woowahan.ordering.ui.uistate.CartUiState
 import com.woowahan.ordering.util.replace
 import com.woowahan.ordering.ui.viewmodel.CartViewModel
-import com.woowahan.ordering.util.clearAllBackStack
 import com.woowahan.ordering.util.replaceWithPopBackstack
 import com.woowahan.ordering.util.startAlarmReceiver
 import dagger.hilt.android.AndroidEntryPoint
