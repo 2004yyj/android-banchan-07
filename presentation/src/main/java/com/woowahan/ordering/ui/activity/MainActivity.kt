@@ -25,6 +25,7 @@ import com.woowahan.ordering.ui.receiver.CartReceiver
 import com.woowahan.ordering.util.add
 import com.woowahan.ordering.util.replace
 import com.woowahan.ordering.ui.viewmodel.MainViewModel
+import com.woowahan.ordering.util.clearAllBackStack
 import com.woowahan.ordering.util.replaceWithPopBackstack
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -48,7 +49,6 @@ class MainActivity : AppCompatActivity() {
         initFlow()
         initToolbar()
         initListener()
-        initFragment()
 
         viewModel.getCartSize()
 
@@ -58,9 +58,11 @@ class MainActivity : AppCompatActivity() {
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         this.intent = intent
+        initFragment()
     }
 
     private fun initFragment() = with(binding) {
+        supportFragmentManager.clearAllBackStack()
         supportFragmentManager.add(
             HomeFragment::class.java,
             binding.fcvMain.id,
