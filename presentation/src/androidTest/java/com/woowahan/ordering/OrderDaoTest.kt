@@ -59,9 +59,8 @@ class OrderDaoTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun updateOrder_test() = runTest {
-        val orderEntity = OrderEntity(1, System.currentTimeMillis(), false)
         try {
-            orderDao.updateOrder(orderEntity)
+            orderDao.updateOrder(1, true)
         } catch (e: IOException) {
             assertThat(e.cause, equalTo(null))
         }
