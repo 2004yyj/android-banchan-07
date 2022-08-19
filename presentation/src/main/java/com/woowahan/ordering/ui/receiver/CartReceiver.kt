@@ -32,6 +32,7 @@ class CartReceiver: BroadcastReceiver() {
                 .setContentTitle(context.getString(R.string.delivery_success))
                 .setContentText(content)
                 .setStyle(Notification.BigTextStyle().bigText(content))
+                .setAutoCancel(true)
                 .build()
         notificationManager.notify(executeRandom(), notification)
     }
