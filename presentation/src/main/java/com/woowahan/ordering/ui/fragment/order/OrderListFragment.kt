@@ -61,7 +61,7 @@ class OrderListFragment : Fragment() {
         rvOrderList.adapter = adapter
         rvOrderList.addItemDecoration(ItemSpacingDecoratorWithHeader(
             spacing = 9.dp,
-            removeSpacePosition = listOf(),
+            spaceAdapters = listOf(adapter),
             layoutDirection = VERTICAL
         ))
     }

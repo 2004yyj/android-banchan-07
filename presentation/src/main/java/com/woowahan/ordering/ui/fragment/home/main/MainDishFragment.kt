@@ -36,18 +36,6 @@ class MainDishFragment : Fragment() {
     private val typeAndFilterAdapter by lazy { TypeAndFilterAdapter() }
     private lateinit var foodAdapter: FoodAdapter
 
-    private val gridDecoration = ItemSpacingDecoratorWithHeader(
-        spacing = 18.dp,
-        removeSpacePosition = listOf(0, 1),
-        GRID
-    )
-
-    private val linearDecoration = ItemSpacingDecoratorWithHeader(
-        spacing = 18.dp,
-        removeSpacePosition = listOf(0, 1, 2),
-        VERTICAL
-    )
-
     private var onDetailClick: (title: String, hash: String) -> Unit = { _, _ -> }
     fun setOnDetailClick(onDetailClick: (title: String, hash: String) -> Unit) {
         this.onDetailClick = onDetailClick
@@ -90,6 +78,17 @@ class MainDishFragment : Fragment() {
         foodAdapter = FoodAdapter()
         val headerAdapter = HeaderAdapter("모두가 좋아하는\n든든한 메인 요리")
         val concatAdapter = ConcatAdapter(headerAdapter, typeAndFilterAdapter, foodAdapter)
+        val gridDecoration = ItemSpacingDecoratorWithHeader(
+            spacing = 18.dp,
+            spaceAdapters = listOf(foodAdapter),
+            GRID
+        )
+
+        val linearDecoration = ItemSpacingDecoratorWithHeader(
+            spacing = 18.dp,
+            spaceAdapters = listOf(foodAdapter),
+            VERTICAL
+        )
 
         typeAndFilterAdapter.setOnItemSelected {
             viewModel.getMenuList(Menu.Main, it)

@@ -97,7 +97,7 @@ class OtherDishFragment : Fragment() {
         }
         val decoration = ItemSpacingDecoratorWithHeader(
             spacing = 18.dp,
-            removeSpacePosition = listOf(0, 1),
+            spaceAdapters = listOf(foodAdapter),
             layoutDirection = GRID
         )
 
