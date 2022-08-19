@@ -5,8 +5,8 @@
 
     <data>
         <variable
-            name="count"
-            type="Integer" />
+            name="isExistsNotDelivered"
+            type="boolean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/space_horizontal"
             android:background="@drawable/bg_toolbar_menu_button_ripple"
-            android:src="@{count > 0 ? @drawable/ic_user_enabled : @drawable/ic_user_disabled, default=@drawable/ic_user_disabled}"
+            android:src="@{isExistsNotDelivered ? @drawable/ic_user_enabled : @drawable/ic_user_disabled, default=@drawable/ic_user_disabled}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
