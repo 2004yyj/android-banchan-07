@@ -7,5 +7,6 @@ import androidx.room.PrimaryKey
 data class OrderEntity(
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0,
-    val deliveryTime: Long
+    val deliveryTime: Long,
+    val isDelivered: Boolean
 )
