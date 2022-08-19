@@ -32,4 +32,8 @@ class OrderDataSourceImpl @Inject constructor(
     override fun getOrderedCartByDeliveryTime(deliveryTime: Long): OrderedCartList {
         return orderDao.getOrderedCartByDeliveryTime(deliveryTime).toOrderList()
     }
+
+    override fun isExistNotDeliveredOrder(): Flow<Boolean> {
+        return orderDao.isExistNotDeliveredOrder()
+    }
 }

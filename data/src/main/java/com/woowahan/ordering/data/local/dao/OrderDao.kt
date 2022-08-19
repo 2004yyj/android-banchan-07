@@ -26,4 +26,10 @@ interface OrderDao {
                 "WHERE o.deliveryTime = :deliveryTime ORDER BY o.deliveryTime DESC"
     )
     fun getOrderedCartByDeliveryTime(deliveryTime: Long): List<CartEntity>
+
+    @Query(
+        "SELECT EXISTS (SELECT c.* FROM Orders as o LEFT JOIN Cart as c ON o.id = c.orderId " +
+                "WHERE o.isDelivered = 0)"
+    )
+    fun isExistNotDeliveredOrder(): Flow<Boolean>
 }

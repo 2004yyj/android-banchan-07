@@ -1,6 +1,7 @@
 package com.woowahan.ordering.data.repository
 
 import com.woowahan.ordering.data.datasource.OrderDataSource
+import com.woowahan.ordering.data.mapper.toEntity
 import com.woowahan.ordering.domain.model.Order
 import com.woowahan.ordering.domain.model.OrderedCartList
 import com.woowahan.ordering.domain.model.SimpleOrder
@@ -25,5 +26,9 @@ class OrderRepositoryImpl @Inject constructor(
 
     override fun getOrderedCartByDeliveryTime(deliveryTime: Long): OrderedCartList {
         return dataSource.getOrderedCartByDeliveryTime(deliveryTime)
+    }
+
+    override fun isExistNotDeliveredOrder(): Flow<Boolean> {
+        return dataSource.isExistNotDeliveredOrder()
     }
 }
