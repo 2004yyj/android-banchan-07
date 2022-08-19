@@ -10,5 +10,5 @@ interface OrderRepository {
     fun getSimpleOrder(): Flow<List<SimpleOrder>>
     fun getOrderedCartByDeliveryTime(deliveryTime: Long): OrderedCartList
     fun isExistNotDeliveredOrder(): Flow<Boolean>
-    fun updateOrder(id: Long, isDelivered: Boolean)
+    fun updateOrder(deliveryTime: Long, isDelivered: Boolean)
 }

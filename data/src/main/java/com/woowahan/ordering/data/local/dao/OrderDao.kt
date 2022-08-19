@@ -11,8 +11,8 @@ interface OrderDao {
     @Insert
     fun insertOrder(order: OrderEntity): Long
 
-    @Query("UPDATE Orders SET isDelivered = :isDelivered WHERE id = :id")
-    fun updateOrder(id: Long, isDelivered: Boolean)
+    @Query("UPDATE Orders SET isDelivered = :isDelivered WHERE deliveryTime = :deliveryTime")
+    fun updateOrder(deliveryTime: Long, isDelivered: Boolean)
 
     @Query(
         "SELECT c.title, c.thumbnail, o.deliveryTime, total(c.price) as totalPrice, count(o.deliveryTime) as productCount " +

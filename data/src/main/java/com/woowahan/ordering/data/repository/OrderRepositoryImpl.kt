@@ -1,7 +1,6 @@
 package com.woowahan.ordering.data.repository
 
 import com.woowahan.ordering.data.datasource.OrderDataSource
-import com.woowahan.ordering.data.mapper.toEntity
 import com.woowahan.ordering.domain.model.Order
 import com.woowahan.ordering.domain.model.OrderedCartList
 import com.woowahan.ordering.domain.model.SimpleOrder
@@ -16,8 +15,8 @@ class OrderRepositoryImpl @Inject constructor(
         return dataSource.insertOrder(order)
     }
 
-    override fun updateOrder(id: Long, isDelivered: Boolean) {
-        return dataSource.updateOrder(id, isDelivered)
+    override fun updateOrder(deliveryTime: Long, isDelivered: Boolean) {
+        return dataSource.updateOrder(deliveryTime, isDelivered)
     }
 
     override fun getSimpleOrder(): Flow<List<SimpleOrder>> {

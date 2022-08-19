@@ -19,8 +19,8 @@ class OrderDataSourceImpl @Inject constructor(
         return orderDao.insertOrder(order.toEntity())
     }
 
-    override fun updateOrder(id: Long, isDelivered: Boolean) {
-        return orderDao.updateOrder(id, isDelivered)
+    override fun updateOrder(deliveryTime: Long, isDelivered: Boolean) {
+        return orderDao.updateOrder(deliveryTime, isDelivered)
     }
 
     override fun getSimpleOrder(): Flow<List<SimpleOrder>> {

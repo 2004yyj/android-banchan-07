@@ -60,7 +60,7 @@ class OrderDaoTest {
     @Test
     fun updateOrder_test() = runTest {
         try {
-            orderDao.updateOrder(1, true)
+            orderDao.updateOrder(System.currentTimeMillis(), true)
         } catch (e: IOException) {
             assertThat(e.cause, equalTo(null))
         }
