@@ -5,6 +5,7 @@ import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.woowahan.ordering.domain.usecase.order.UpdateOrderUseCase
+import com.woowahan.ordering.ui.receiver.CartReceiver.Companion.DELIVERY_FINISHED_TIME
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.coroutineScope
@@ -17,7 +18,7 @@ class DeliveryTimeWorker @AssistedInject constructor(
 ): CoroutineWorker(context, workerParameters) {
     override suspend fun doWork(): Result {
         coroutineScope {
-            val deliveryTime = inputData.getLong("deliveryTime", 0)
+            val deliveryTime = inputData.getLong(DELIVERY_FINISHED_TIME, 0)
             updateOrderUseCase(deliveryTime, true)
         }
 
