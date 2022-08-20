@@ -64,7 +64,7 @@ class CartReceiver: BroadcastReceiver() {
             .build()
 
         val deliveryWorkRequest = OneTimeWorkRequestBuilder<DeliveryTimeWorker>()
-            .addTag("${executeRandom()}")
+            .addTag("${deliveryTime}")
             .setInputData(data)
             .build()
 
