@@ -43,7 +43,7 @@ class CartBottomSheetViewModel @Inject constructor(
             id = 0,
             title = food.title,
             thumbnail = food.image,
-            price = food.discountedPrice,
+            discountedPrice = food.discountedPrice,
             count = _count.value,
             detailHash = food.detailHash
         )

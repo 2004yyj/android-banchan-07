@@ -1,6 +1,5 @@
 package com.woowahan.ordering.ui.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.woowahan.ordering.domain.model.Cart
@@ -77,7 +76,7 @@ class DetailViewModel @Inject constructor(
             id = 0,
             title = title,
             thumbnail = food.thumbImages[0],
-            price = food.discountedPrice,
+            discountedPrice = food.discountedPrice,
             count = _count.value,
             detailHash = food.hash
         )

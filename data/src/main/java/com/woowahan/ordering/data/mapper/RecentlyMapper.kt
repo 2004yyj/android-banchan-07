@@ -1,6 +1,7 @@
 package com.woowahan.ordering.data.mapper
 
 import com.woowahan.ordering.data.entity.RecentlyEntity
+import com.woowahan.ordering.data.util.getDiscountRate
 import com.woowahan.ordering.domain.model.Cart
 import com.woowahan.ordering.domain.model.Food
 import com.woowahan.ordering.domain.model.Recently
@@ -29,11 +30,11 @@ fun RecentlyEntity.toModel(): Recently {
 
 fun Recently.toCartModel(): Cart {
     return Cart(
-        id = 0,
         title = title,
         thumbnail = thumbnail,
-        price = discountedPrice,
-        count = 1,
+        discountedRate = discountedPrice.getDiscountRate(price),
+        discountedPrice = discountedPrice,
+        originalPrice = price,
         detailHash = detailHash
     )
 }
