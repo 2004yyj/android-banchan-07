@@ -10,8 +10,8 @@ import com.woowahan.ordering.databinding.ItemCartHeaderBinding
 import com.woowahan.ordering.databinding.ItemEmptyBinding
 import com.woowahan.ordering.databinding.ItemTotalPriceBinding
 import com.woowahan.ordering.domain.model.Cart
-import com.woowahan.ordering.ui.fragment.cart.CartListItem
 import com.woowahan.ordering.ui.adapter.cartListDiffUtil
+import com.woowahan.ordering.ui.fragment.cart.CartListItem
 
 class CartAdapter(
     private val selectAllClick: () -> Unit,
@@ -23,30 +23,30 @@ class CartAdapter(
     private val orderClick: (String, Int) -> Unit
 ) : ListAdapter<CartListItem, RecyclerView.ViewHolder>(cartListDiffUtil) {
 
-    class CartHeaderViewHolder(private val binding: ItemCartHeaderBinding) :
+    class CartHeaderViewHolder(
+        private val binding: ItemCartHeaderBinding,
+        private val selectAllClick: () -> Unit,
+        private val deleteAllClick: () -> Unit
+    ) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(
-            data: CartListItem.Header,
-            selectAllClick: () -> Unit,
-            deleteAllClick: () -> Unit
-        ) = with(binding) {
+        fun bind(data: CartListItem.Header) = with(binding) {
             isSelectedAll = data.isSelectedAll
             btnDeselect.setOnClickListener { selectAllClick() }
             btnDelete.setOnClickListener { deleteAllClick() }
         }
     }
 
-    class CartContentViewHolder(private val binding: ItemCartBinding) :
+    class CartContentViewHolder(
+        private val binding: ItemCartBinding,
+        private val checkItemClick: (Cart) -> Unit,
+        private val minusItemClick: (Cart) -> Unit,
+        private val plusItemClick: (Cart) -> Unit,
+        private val deleteItemClick: (Cart) -> Unit
+    ) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(
-            data: CartListItem.Content,
-            checkItemClick: (Cart) -> Unit,
-            minusItemClick: (Cart) -> Unit,
-            plusItemClick: (Cart) -> Unit,
-            deleteItemClick: (Cart) -> Unit,
-        ) = with(binding) {
+        fun bind(data: CartListItem.Content) = with(binding) {
             cart = data.cart
 
             with(data.cart) {
@@ -58,22 +58,21 @@ class CartAdapter(
         }
     }
 
-    class CartTotalViewHolder(private val binding: ItemTotalPriceBinding) :
+    class CartTotalViewHolder(
+        private val binding: ItemTotalPriceBinding,
+        private val orderClick: (String, Int) -> Unit
+    ) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(data: CartListItem.Footer, orderClick: (String, Int) -> Unit) {
-            with(binding) {
-                isCart = true
-                sumOfPrice = data.sum
-                deliveryFee = data.deliveryFee
-                insufficientAmount = data.insufficientAmount
-                totalPrice = data.sum + data.deliveryFee
-                enableToOrder = data.enableToOrder
+        fun bind(data: CartListItem.Footer) = with(binding) {
+            sumOfPrice = data.sum
+            deliveryFee = data.deliveryFee
+            insufficientAmount = data.insufficientAmount
+            totalPrice = data.sum + data.deliveryFee
+            enableToOrder = data.enableToOrder
 
-                btnOrder.setOnClickListener { orderClick(data.title, data.count) }
-            }
+            btnOrder.setOnClickListener { orderClick(data.title, data.count) }
         }
-
     }
 
     class EmptyViewHolder(binding: ItemEmptyBinding) : RecyclerView.ViewHolder(binding.root)
@@ -85,21 +84,24 @@ class CartAdapter(
                     LayoutInflater.from(parent.context),
                     parent,
                     false
-                )
+                ),
+                checkItemClick, minusItemClick, plusItemClick, deleteItemClick
             )
             R.layout.item_cart_header -> CartHeaderViewHolder(
                 ItemCartHeaderBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
                     false
-                )
+                ),
+                selectAllClick, deleteAllClick
             )
             R.layout.item_total_price -> CartTotalViewHolder(
                 ItemTotalPriceBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
                     false
-                )
+                ),
+                orderClick
             )
             R.layout.item_empty -> EmptyViewHolder(
                 ItemEmptyBinding.inflate(
@@ -113,18 +115,28 @@ class CartAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
-            is CartHeaderViewHolder -> holder.bind(
-                getItem(position) as CartListItem.Header,
-                selectAllClick, deleteAllClick
-            )
-            is CartContentViewHolder -> holder.bind(
-                getItem(position) as CartListItem.Content,
-                checkItemClick, minusItemClick, plusItemClick, deleteItemClick
-            )
-            is CartTotalViewHolder -> holder.bind(
-                getItem(position) as CartListItem.Footer,
-                orderClick
-            )
+            is CartHeaderViewHolder -> holder.bind(getItem(position) as CartListItem.Header)
+            is CartContentViewHolder -> holder.bind(getItem(position) as CartListItem.Content)
+            is CartTotalViewHolder -> holder.bind(getItem(position) as CartListItem.Footer)
+        }
+    }
+
+    override fun onBindViewHolder(
+        holder: RecyclerView.ViewHolder,
+        position: Int,
+        payloads: MutableList<Any>
+    ) {
+        if (payloads.isEmpty()) {
+            super.onBindViewHolder(holder, position, payloads)
+            return
+        }
+
+        payloads.forEach {
+            if (it is Boolean) {
+                onBindViewHolder(holder, position)
+            } else {
+                super.onBindViewHolder(holder, position, payloads)
+            }
         }
     }
 
