@@ -137,7 +137,7 @@
             android:enabled="@{enableToOrder, default = false}"
             android:paddingHorizontal="@dimen/space_horizontal"
             android:paddingVertical="@dimen/space_vertical"
-            android:text="@{@string/cart_order_button(sumOfPrice + deliveryFee)}"
+            android:text="@{enableToOrder ? @string/cart_order_button(sumOfPrice + deliveryFee) : @string/cart_check_minimum}"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="@id/gl_end"
             app:layout_constraintStart_toStartOf="@id/gl_start"

@@ -32,6 +32,7 @@
     <string name="total_price">총 주문 금액</string>
     <string name="cart_order_button">%,d원 주문하기</string>
     <string name="cart_delivery_free_info">%,d원을 더 담으면 무료배송!</string>
+    <string name="cart_check_minimum">10,000원부터 주문할 수 있어요</string>
     <string name="add_to_cart">주문하기</string>
     <string name="simple_order_title">%s 외 %d개</string>
     <string name="order_reception">주문이 접수되었습니다.</string>
