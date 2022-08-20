@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ConcatAdapter
+import com.woowahan.ordering.R
 import com.woowahan.ordering.databinding.FragmentBestBinding
 import com.woowahan.ordering.domain.model.Food
 import com.woowahan.ordering.ui.adapter.home.BestFoodAdapter
@@ -63,7 +64,10 @@ class BestFragment : Fragment() {
     }
 
     private fun initRecyclerView() = with(binding!!) {
-        val headerAdapter = HeaderAdapter("한 번 주문하면\n두 번 반하는 반찬들", "기획전")
+        val headerAdapter = HeaderAdapter(
+            getString(R.string.main_header_best),
+            getString(R.string.main_header_best_chip)
+        )
         rvBest.adapter = ConcatAdapter(headerAdapter, adapter)
     }
 
