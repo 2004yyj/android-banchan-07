@@ -60,7 +60,7 @@ class CartReceiver: BroadcastReceiver() {
 
     private fun callWorker(context: Context, deliveryTime: Long) {
         val data = Data.Builder()
-            .putLong("deliveryTime", deliveryTime)
+            .putLong(DELIVERY_FINISHED_TIME, deliveryTime)
             .build()
 
         val deliveryWorkRequest = OneTimeWorkRequestBuilder<DeliveryTimeWorker>()
