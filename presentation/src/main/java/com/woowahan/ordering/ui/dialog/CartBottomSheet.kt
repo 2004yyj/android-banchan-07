@@ -13,9 +13,9 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.woowahan.ordering.R
 import com.woowahan.ordering.databinding.BottomSheetCartBinding
-import com.woowahan.ordering.domain.model.Food
-import com.woowahan.ordering.ui.viewmodel.CartBottomSheetViewModel
+import com.woowahan.ordering.domain.model.Cart
 import com.woowahan.ordering.ui.uistate.CartBottomSheetUiState
+import com.woowahan.ordering.ui.viewmodel.CartBottomSheetViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -38,7 +38,7 @@ class CartBottomSheet : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding?.let {
-            it.food = food
+            it.cart = cart
             it.vm = viewModel
             it.lifecycleOwner = viewLifecycleOwner
         }
@@ -95,11 +95,12 @@ class CartBottomSheet : BottomSheetDialogFragment() {
     }
 
     companion object {
-        lateinit var food: Food
-        lateinit var onAddAction: () -> Unit
+        const val TAG = "CartBottomSheet"
+        private lateinit var cart: Cart
+        private lateinit var onAddAction: () -> Unit
 
-        fun newInstance(food: Food, onAddAction: () -> Unit): CartBottomSheet {
-            this.food = food
+        fun newInstance(cart: Cart, onAddAction: () -> Unit): CartBottomSheet {
+            this.cart = cart
             this.onAddAction = onAddAction
             return CartBottomSheet()
         }

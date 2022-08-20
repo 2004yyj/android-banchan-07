@@ -10,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.woowahan.ordering.R
 import com.woowahan.ordering.databinding.FragmentMainDishBinding
 import com.woowahan.ordering.domain.model.Food
 import com.woowahan.ordering.domain.model.Menu
@@ -20,9 +21,6 @@ import com.woowahan.ordering.ui.adapter.home.TypeAndFilterAdapter
 import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader
 import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader.Companion.GRID
 import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader.Companion.VERTICAL
-import com.woowahan.ordering.ui.dialog.CartBottomSheet
-import com.woowahan.ordering.ui.dialog.CartDialogFragment
-import com.woowahan.ordering.ui.dialog.IsExistsCartDialogFragment
 import com.woowahan.ordering.ui.viewmodel.MainDishViewModel
 import com.woowahan.ordering.util.dp
 import dagger.hilt.android.AndroidEntryPoint
@@ -70,13 +68,13 @@ class MainDishFragment : Fragment() {
     private fun initListener() {
         foodAdapter.setOnClick(
             onDetailClick = onDetailClick,
-            onCartClick = this::showCartBottomSheet
+            onCartClick = openBottomSheet
         )
     }
 
     private fun initRecyclerView() = with(binding!!) {
         foodAdapter = FoodAdapter()
-        val headerAdapter = HeaderAdapter("모두가 좋아하는\n든든한 메인 요리")
+        val headerAdapter = HeaderAdapter(getString(R.string.main_header_main_dish))
         val concatAdapter = ConcatAdapter(headerAdapter, typeAndFilterAdapter, foodAdapter)
         val gridDecoration = ItemSpacingDecoratorWithHeader(
             spacing = 18.dp,
@@ -127,34 +125,16 @@ class MainDishFragment : Fragment() {
         rvMainDish.layoutManager = LinearLayoutManager(context)
     }
 
-    private fun showCartBottomSheet(food: Food) {
-        if (food.isAdded) {
-            IsExistsCartDialogFragment.newInstance {
-                navigateToCart()
-            }.show(parentFragmentManager, tag)
-        } else {
-            CartBottomSheet.newInstance(food) {
-                showCartDialog()
-            }.show(parentFragmentManager, tag)
-        }
-    }
-
-    private fun showCartDialog() {
-        CartDialogFragment.newInstance {
-            navigateToCart()
-        }.show(parentFragmentManager, tag)
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
     }
 
     companion object {
-        private lateinit var navigateToCart: () -> Unit
+        private lateinit var openBottomSheet: (Food) -> Unit
 
-        fun newInstance(navigateToCart: () -> Unit): MainDishFragment {
-            this.navigateToCart = navigateToCart
+        fun newInstance(openBottomSheet: (Food) -> Unit): MainDishFragment {
+            this.openBottomSheet = openBottomSheet
             return MainDishFragment()
         }
     }

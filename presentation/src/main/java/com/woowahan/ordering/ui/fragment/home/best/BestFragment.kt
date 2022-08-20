@@ -8,13 +8,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ConcatAdapter
+import com.woowahan.ordering.R
 import com.woowahan.ordering.databinding.FragmentBestBinding
 import com.woowahan.ordering.domain.model.Food
 import com.woowahan.ordering.ui.adapter.home.BestFoodAdapter
 import com.woowahan.ordering.ui.adapter.home.HeaderAdapter
-import com.woowahan.ordering.ui.dialog.CartBottomSheet
-import com.woowahan.ordering.ui.dialog.CartDialogFragment
-import com.woowahan.ordering.ui.dialog.IsExistsCartDialogFragment
 import com.woowahan.ordering.ui.viewmodel.BestViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -61,31 +59,16 @@ class BestFragment : Fragment() {
     private fun initListener() {
         adapter.setOnClick(
             onDetailClick = onDetailClick,
-            onCartClick = this::showCartBottomSheet
+            onCartClick = openBottomSheet
         )
     }
 
     private fun initRecyclerView() = with(binding!!) {
-        val headerAdapter = HeaderAdapter("한 번 주문하면\n두 번 반하는 반찬들", "기획전")
+        val headerAdapter = HeaderAdapter(
+            getString(R.string.main_header_best),
+            getString(R.string.main_header_best_chip)
+        )
         rvBest.adapter = ConcatAdapter(headerAdapter, adapter)
-    }
-
-    private fun showCartBottomSheet(food: Food) {
-        if (food.isAdded) {
-            IsExistsCartDialogFragment.newInstance {
-                navigateToCart()
-            }.show(parentFragmentManager, tag)
-        } else {
-            CartBottomSheet.newInstance(food) {
-                showCartDialog()
-            }.show(parentFragmentManager, tag)
-        }
-    }
-
-    private fun showCartDialog() {
-        CartDialogFragment.newInstance {
-            navigateToCart()
-        }.show(parentFragmentManager, tag)
     }
 
     override fun onDestroyView() {
@@ -94,10 +77,10 @@ class BestFragment : Fragment() {
     }
 
     companion object {
-        private lateinit var navigateToCart: () -> Unit
+        private lateinit var openBottomSheet: (Food) -> Unit
 
-        fun newInstance(navigateToCart: () -> Unit) : BestFragment {
-            this.navigateToCart = navigateToCart
+        fun newInstance(openBottomSheet: (Food) -> Unit): BestFragment {
+            this.openBottomSheet = openBottomSheet
             return BestFragment()
         }
     }

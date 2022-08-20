@@ -20,6 +20,7 @@ class IsExistsCartDialogFragment : DialogFragment() {
     }
 
     companion object {
+        const val TAG = "ExistDialog"
         private lateinit var navigateToCart: () -> Unit
 
         fun newInstance(navigateToCart: () -> Unit): IsExistsCartDialogFragment {

@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
+import com.woowahan.ordering.R
 import com.woowahan.ordering.databinding.FragmentOtherDishBinding
 import com.woowahan.ordering.domain.model.Food
 import com.woowahan.ordering.ui.adapter.home.CountAndFilterAdapter
@@ -17,9 +18,6 @@ import com.woowahan.ordering.ui.adapter.home.FoodAdapter
 import com.woowahan.ordering.ui.adapter.home.HeaderAdapter
 import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader
 import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader.Companion.GRID
-import com.woowahan.ordering.ui.dialog.CartBottomSheet
-import com.woowahan.ordering.ui.dialog.CartDialogFragment
-import com.woowahan.ordering.ui.dialog.IsExistsCartDialogFragment
 import com.woowahan.ordering.ui.fragment.home.other.kind.OtherKind
 import com.woowahan.ordering.ui.viewmodel.OtherDishViewModel
 import com.woowahan.ordering.util.dp
@@ -73,7 +71,7 @@ class OtherDishFragment : Fragment() {
     private fun initListener() {
         foodAdapter.setOnClick(
             onDetailClick = onDetailClick,
-            onCartClick = this::showCartBottomSheet
+            onCartClick = openBottomSheet
         )
         countAndFilterAdapter.setOnItemSelectedListener {
             viewModel.getMenuList(kind, it)
@@ -82,8 +80,8 @@ class OtherDishFragment : Fragment() {
 
     private fun initRecyclerView() = with(binding!!) {
         val title = when (kind) {
-            OtherKind.Soup -> "정성이 담긴\n뜨끈뜨끈 국물 요리"
-            OtherKind.Side -> "식탁을 풍성하게 하는\n정갈한 밑반찬"
+            OtherKind.Soup -> getString(R.string.main_header_soup)
+            OtherKind.Side -> getString(R.string.main_header_side)
         }
         val headerAdapter = HeaderAdapter(title)
         val concatAdapter = ConcatAdapter(headerAdapter, countAndFilterAdapter, foodAdapter)
@@ -108,35 +106,17 @@ class OtherDishFragment : Fragment() {
         }
     }
 
-    private fun showCartBottomSheet(food: Food) {
-        if (food.isAdded) {
-            IsExistsCartDialogFragment.newInstance {
-                navigateToCart()
-            }.show(parentFragmentManager, tag)
-        } else {
-            CartBottomSheet.newInstance(food) {
-                showCartDialog()
-            }.show(parentFragmentManager, tag)
-        }
-    }
-
-    private fun showCartDialog() {
-        CartDialogFragment.newInstance {
-            navigateToCart()
-        }.show(parentFragmentManager, tag)
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
     }
 
     companion object {
-        private lateinit var navigateToCart: () -> Unit
+        private lateinit var openBottomSheet: (Food) -> Unit
         private const val OTHER_KIND = "otherKind"
 
-        fun newInstance(otherKind: OtherKind, navigateToCart: () -> Unit): OtherDishFragment {
-            this.navigateToCart = navigateToCart
+        fun newInstance(otherKind: OtherKind, openBottomSheet: (Food) -> Unit): OtherDishFragment {
+            this.openBottomSheet = openBottomSheet
             return OtherDishFragment().apply {
                 arguments = bundleOf(OTHER_KIND to otherKind)
             }

@@ -20,6 +20,7 @@ class CartDialogFragment : DialogFragment() {
     }
 
     companion object {
+        const val TAG = "CartDialog"
         private lateinit var navigateToCart: () -> Unit
 
         fun newInstance(navigateToCart: () -> Unit): CartDialogFragment {
