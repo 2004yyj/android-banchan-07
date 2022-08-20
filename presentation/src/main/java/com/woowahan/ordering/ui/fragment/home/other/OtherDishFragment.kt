@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
+import com.woowahan.ordering.R
 import com.woowahan.ordering.databinding.FragmentOtherDishBinding
 import com.woowahan.ordering.domain.model.Food
 import com.woowahan.ordering.ui.adapter.home.CountAndFilterAdapter
@@ -79,8 +80,8 @@ class OtherDishFragment : Fragment() {
 
     private fun initRecyclerView() = with(binding!!) {
         val title = when (kind) {
-            OtherKind.Soup -> "정성이 담긴\n뜨끈뜨끈 국물 요리"
-            OtherKind.Side -> "식탁을 풍성하게 하는\n정갈한 밑반찬"
+            OtherKind.Soup -> getString(R.string.main_header_soup)
+            OtherKind.Side -> getString(R.string.main_header_side)
         }
         val headerAdapter = HeaderAdapter(title)
         val concatAdapter = ConcatAdapter(headerAdapter, countAndFilterAdapter, foodAdapter)

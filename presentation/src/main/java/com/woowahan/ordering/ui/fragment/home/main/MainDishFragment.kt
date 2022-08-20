@@ -10,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.woowahan.ordering.R
 import com.woowahan.ordering.databinding.FragmentMainDishBinding
 import com.woowahan.ordering.domain.model.Food
 import com.woowahan.ordering.domain.model.Menu
@@ -73,7 +74,7 @@ class MainDishFragment : Fragment() {
 
     private fun initRecyclerView() = with(binding!!) {
         foodAdapter = FoodAdapter()
-        val headerAdapter = HeaderAdapter("모두가 좋아하는\n든든한 메인 요리")
+        val headerAdapter = HeaderAdapter(getString(R.string.main_header_main_dish))
         val concatAdapter = ConcatAdapter(headerAdapter, typeAndFilterAdapter, foodAdapter)
         val gridDecoration = ItemSpacingDecoratorWithHeader(
             spacing = 18.dp,
