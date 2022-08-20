@@ -12,8 +12,8 @@
             type="com.woowahan.ordering.ui.viewmodel.CartBottomSheetViewModel" />
 
         <variable
-            name="food"
-            type="com.woowahan.ordering.domain.model.Food" />
+            name="cart"
+            type="com.woowahan.ordering.domain.model.Cart" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -62,7 +62,7 @@
             android:layout_height="60dp"
             android:layout_marginStart="@dimen/space_horizontal"
             android:layout_marginTop="20dp"
-            android:image="@{food.image}"
+            android:image="@{cart.thumbnail}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_add_cart_title"
             tools:src="@drawable/ic_launcher_background" />
@@ -73,7 +73,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/space_horizontal"
-            android:text="@{food.title}"
+            android:text="@{cart.title}"
             android:textColor="@color/black"
             app:layout_constraintBottom_toTopOf="@+id/tv_discount_rate"
             app:layout_constraintEnd_toEndOf="parent"
@@ -89,7 +89,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_horizontal"
             android:layout_marginEnd="@dimen/space_text_horizontal"
-            android:text='@{food.discountRate > 0 ? @string/discount_rate_format(food.discountRate) : ""}'
+            android:text='@{cart.discountedRate > 0 ? @string/discount_rate_format(cart.discountedRate) : ""}'
             android:textColor="@color/primary_accent"
             app:layout_constraintBottom_toBottomOf="@id/iv_food"
             app:layout_constraintStart_toEndOf="@id/iv_food"
@@ -102,7 +102,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            android:text="@{@string/currency_format(food.discountedPrice)}"
+            android:text="@{@string/currency_format(cart.discountedPrice)}"
             android:textColor="@color/black"
             app:layout_constraintBaseline_toBaselineOf="@id/tv_discount_rate"
             app:layout_constraintStart_toEndOf="@id/tv_discount_rate"
@@ -116,9 +116,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:lineThrough="@{true}"
-            android:text="@{@string/currency_format(food.price)}"
+            android:text="@{@string/currency_format(cart.originalPrice)}"
             android:textColor="@color/gray_default"
-            android:visibility="@{food.discountRate > 0 ? View.VISIBLE : View.GONE}"
+            android:visibility="@{cart.discountedRate > 0 ? View.VISIBLE : View.GONE}"
             app:layout_constraintBaseline_toBaselineOf="@id/tv_discount_rate"
             app:layout_constraintStart_toEndOf="@id/tv_discount_price"
             tools:text="15,800원" />
@@ -130,7 +130,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/space_horizontal"
             android:layout_marginVertical="@dimen/space_vertical"
-            android:text="@{@string/currency_format(food.discountedPrice * vm.count)}"
+            android:text="@{@string/currency_format(cart.discountedPrice * vm.count)}"
             android:textColor="@color/black"
             app:layout_constraintBaseline_toBaselineOf="@id/tv_count"
             app:layout_constraintStart_toStartOf="parent"
@@ -182,7 +182,7 @@
             android:layout_marginHorizontal="@dimen/space_horizontal"
             android:layout_marginVertical="@dimen/space_vertical"
             android:backgroundTint="@color/primary_main"
-            android:onClick="@{() -> vm.addToCart(food)}"
+            android:onClick="@{() -> vm.addToCart(cart)}"
             android:paddingHorizontal="@dimen/space_horizontal"
             android:paddingVertical="@dimen/space_vertical"
             android:text="@{@string/bottom_sheet_add_button(vm.count)}"

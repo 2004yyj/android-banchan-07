@@ -8,6 +8,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayoutMediator
 import com.woowahan.ordering.R
+import com.woowahan.ordering.data.mapper.toCartModel
 import com.woowahan.ordering.databinding.FragmentHomeBinding
 import com.woowahan.ordering.domain.model.Food
 import com.woowahan.ordering.ui.adapter.home.ViewPagerAdapter
@@ -99,7 +100,7 @@ class HomeFragment : Fragment() {
                 replaceToCart()
             }.show(parentFragmentManager, IsExistsCartDialogFragment.TAG)
         } else {
-            CartBottomSheet.newInstance(food) {
+            CartBottomSheet.newInstance(food.toCartModel()) {
                 showCartDialog()
             }.show(parentFragmentManager, CartBottomSheet.TAG)
         }

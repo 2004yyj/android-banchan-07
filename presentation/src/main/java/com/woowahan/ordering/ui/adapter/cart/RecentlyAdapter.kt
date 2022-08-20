@@ -11,13 +11,13 @@ import com.woowahan.ordering.ui.adapter.recentlyDiffUtil
 import com.woowahan.ordering.ui.adapter.viewholder.ItemRecentlyViewHolder
 
 class RecentlyAdapter(
-    private var itemViewType: RecentlyItemViewType = RecentlyItemViewType.GridItem
+    private val itemViewType: RecentlyItemViewType = RecentlyItemViewType.GridItem
 ) : ListAdapter<Recently, ItemRecentlyViewHolder>(recentlyDiffUtil) {
 
     private var onDetailClick: (String, String) -> Unit = { _, _ -> }
-    private var onCartClick: (Food) -> Unit = {}
+    private var onCartClick: (Recently) -> Unit = {}
 
-    fun setOnClick(onDetailClick: (String, String) -> Unit, onCartClick: (Food) -> Unit = {}) {
+    fun setOnClick(onDetailClick: (String, String) -> Unit, onCartClick: (Recently) -> Unit = {}) {
         this.onDetailClick = onDetailClick
         this.onCartClick = onCartClick
     }

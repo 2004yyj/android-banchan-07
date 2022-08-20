@@ -8,23 +8,20 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.woowahan.ordering.data.mapper.toCartModel
 import com.woowahan.ordering.databinding.FragmentRecentlyViewedBinding
-import com.woowahan.ordering.domain.model.Food
+import com.woowahan.ordering.domain.model.Recently
 import com.woowahan.ordering.ui.adapter.cart.RecentlyAdapter
 import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader
 import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader.Companion.GRID
 import com.woowahan.ordering.ui.dialog.CartBottomSheet
 import com.woowahan.ordering.ui.dialog.CartDialogFragment
 import com.woowahan.ordering.ui.dialog.IsExistsCartDialogFragment
-import com.woowahan.ordering.ui.fragment.cart.CartFragment
 import com.woowahan.ordering.ui.fragment.detail.DetailFragment
 import com.woowahan.ordering.ui.fragment.detail.DetailFragment.Companion.HASH
 import com.woowahan.ordering.ui.fragment.detail.DetailFragment.Companion.TITLE
-import com.woowahan.ordering.ui.fragment.home.HomeFragment
 import com.woowahan.ordering.ui.viewmodel.RecentlyViewedViewModel
-import com.woowahan.ordering.util.clearAllBackStack
 import com.woowahan.ordering.util.dp
-import com.woowahan.ordering.util.replace
 import com.woowahan.ordering.util.replaceWithPopBackstack
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -77,13 +74,13 @@ class RecentlyViewedFragment : Fragment() {
         }
     }
 
-    private fun showCartBottomSheet(food: Food) {
-        if (food.isAdded) {
+    private fun showCartBottomSheet(recently: Recently) {
+        if (recently.isAdded) {
             IsExistsCartDialogFragment.newInstance {
                 replaceToCart()
             }.show(parentFragmentManager, tag)
         } else {
-            CartBottomSheet.newInstance(food) {
+            CartBottomSheet.newInstance(recently.toCartModel()) {
                 showCartDialog()
             }.show(parentFragmentManager, tag)
         }

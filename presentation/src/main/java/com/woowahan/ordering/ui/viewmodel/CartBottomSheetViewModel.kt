@@ -3,7 +3,6 @@ package com.woowahan.ordering.ui.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.woowahan.ordering.domain.model.Cart
-import com.woowahan.ordering.domain.model.Food
 import com.woowahan.ordering.domain.model.Result
 import com.woowahan.ordering.domain.usecase.cart.InsertCartUseCase
 import com.woowahan.ordering.ui.uistate.CartBottomSheetUiState
@@ -18,8 +17,8 @@ class CartBottomSheetViewModel @Inject constructor(
     private val insertCartUseCase: InsertCartUseCase
 ) : ViewModel() {
 
-    private val _BottomSheet_uiState = MutableSharedFlow<CartBottomSheetUiState>()
-    val uiState = _BottomSheet_uiState.asSharedFlow()
+    private val _uiState = MutableSharedFlow<CartBottomSheetUiState>()
+    val uiState = _uiState.asSharedFlow()
 
     private var _count = MutableStateFlow(1)
     val count = _count.asStateFlow()
@@ -35,30 +34,21 @@ class CartBottomSheetViewModel @Inject constructor(
     }
 
     fun cancel() = viewModelScope.launch {
-        _BottomSheet_uiState.emit(CartBottomSheetUiState.Finished)
+        _uiState.emit(CartBottomSheetUiState.Finished)
     }
 
-    fun addToCart(food: Food) {
-        val cart = Cart(
-            id = 0,
-            title = food.title,
-            thumbnail = food.image,
-            discountedPrice = food.discountedPrice,
-            count = _count.value,
-            detailHash = food.detailHash
-        )
-
+    fun addToCart(cart: Cart) {
         viewModelScope.launch(Dispatchers.IO) {
-            insertCartUseCase(cart).collect {
+            insertCartUseCase(cart.copy(count = _count.value)).collect {
                 when (it) {
                     is Result.Loading -> {
-                        _BottomSheet_uiState.emit(CartBottomSheetUiState.Loading)
+                        _uiState.emit(CartBottomSheetUiState.Loading)
                     }
                     is Result.Success -> {
-                        _BottomSheet_uiState.emit(CartBottomSheetUiState.Success)
+                        _uiState.emit(CartBottomSheetUiState.Success)
                     }
                     is Result.Failure -> {
-                        _BottomSheet_uiState.emit(CartBottomSheetUiState.Error(it.cause.toString()))
+                        _uiState.emit(CartBottomSheetUiState.Error(it.cause.toString()))
                     }
                 }
             }
