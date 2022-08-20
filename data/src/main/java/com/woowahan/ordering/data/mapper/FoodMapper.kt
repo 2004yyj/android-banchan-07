@@ -1,14 +1,16 @@
 package com.woowahan.ordering.data.mapper
 
 import com.woowahan.ordering.data.entity.FoodEntity
+import com.woowahan.ordering.data.util.getDiscountRate
 import com.woowahan.ordering.data.util.toMoneyLong
+import com.woowahan.ordering.domain.model.Cart
 import com.woowahan.ordering.domain.model.Food
 
 fun FoodEntity.toModel(): Food {
 
     val price = price?.toMoneyLong() ?: 0L
     val discountedPrice = discountedPrice.toMoneyLong()
-    val discountedRate = if (price == 0L) 0 else (1 - (discountedPrice.toFloat() / price.toFloat())) * 100
+    val discountedRate = discountedPrice.getDiscountRate(price)
 
     return Food(
         detailHash = detailHash,
@@ -20,6 +22,17 @@ fun FoodEntity.toModel(): Food {
         price = price,
         discountedPrice = discountedPrice,
         badge = badge,
-        discountRate = discountedRate.toInt()
+        discountRate = discountedRate
+    )
+}
+
+fun Food.toCartModel(): Cart {
+    return Cart(
+        title = title,
+        thumbnail = image,
+        discountedRate = discountRate,
+        originalPrice = price,
+        discountedPrice = discountedPrice,
+        detailHash = detailHash
     )
 }
