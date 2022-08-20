@@ -1,15 +1,19 @@
 package com.woowahan.ordering.ui.fragment.home
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayoutMediator
 import com.woowahan.ordering.R
 import com.woowahan.ordering.databinding.FragmentHomeBinding
+import com.woowahan.ordering.domain.model.Food
 import com.woowahan.ordering.ui.adapter.home.ViewPagerAdapter
+import com.woowahan.ordering.ui.dialog.CartBottomSheet
+import com.woowahan.ordering.ui.dialog.CartDialogFragment
+import com.woowahan.ordering.ui.dialog.IsExistsCartDialogFragment
 import com.woowahan.ordering.ui.fragment.cart.CartFragment
 import com.woowahan.ordering.ui.fragment.detail.DetailFragment
 import com.woowahan.ordering.ui.fragment.detail.DetailFragment.Companion.HASH
@@ -24,10 +28,10 @@ class HomeFragment : Fragment() {
 
     private var binding: FragmentHomeBinding? = null
 
-    private val bestFragment = BestFragment.newInstance { replaceToCart() }
-    private val mainDishFragment = MainDishFragment.newInstance { replaceToCart() }
-    private val soupDishFragment = OtherDishFragment.newInstance(OtherKind.Soup) { replaceToCart() }
-    private val sideDishFragment = OtherDishFragment.newInstance(OtherKind.Side) { replaceToCart() }
+    private val bestFragment = BestFragment.newInstance { showCartBottomSheet(it) }
+    private val mainDishFragment = MainDishFragment.newInstance { showCartBottomSheet(it) }
+    private val soupDishFragment = OtherDishFragment.newInstance(OtherKind.Soup) { showCartBottomSheet(it) }
+    private val sideDishFragment = OtherDishFragment.newInstance(OtherKind.Side) { showCartBottomSheet(it) }
 
     private lateinit var tabLayoutMediator: TabLayoutMediator
 
@@ -87,6 +91,24 @@ class HomeFragment : Fragment() {
             tab.text = tabs[position]
         }
         tabLayoutMediator.attach()
+    }
+
+    private fun showCartBottomSheet(food: Food) {
+        if (food.isAdded) {
+            IsExistsCartDialogFragment.newInstance {
+                replaceToCart()
+            }.show(parentFragmentManager, IsExistsCartDialogFragment.TAG)
+        } else {
+            CartBottomSheet.newInstance(food) {
+                showCartDialog()
+            }.show(parentFragmentManager, CartBottomSheet.TAG)
+        }
+    }
+
+    private fun showCartDialog() {
+        CartDialogFragment.newInstance {
+            replaceToCart()
+        }.show(parentFragmentManager, CartDialogFragment.TAG)
     }
 
     override fun onDestroyView() {

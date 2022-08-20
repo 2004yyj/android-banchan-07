@@ -12,9 +12,6 @@ import com.woowahan.ordering.databinding.FragmentBestBinding
 import com.woowahan.ordering.domain.model.Food
 import com.woowahan.ordering.ui.adapter.home.BestFoodAdapter
 import com.woowahan.ordering.ui.adapter.home.HeaderAdapter
-import com.woowahan.ordering.ui.dialog.CartBottomSheet
-import com.woowahan.ordering.ui.dialog.CartDialogFragment
-import com.woowahan.ordering.ui.dialog.IsExistsCartDialogFragment
 import com.woowahan.ordering.ui.viewmodel.BestViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -61,7 +58,7 @@ class BestFragment : Fragment() {
     private fun initListener() {
         adapter.setOnClick(
             onDetailClick = onDetailClick,
-            onCartClick = this::showCartBottomSheet
+            onCartClick = openBottomSheet
         )
     }
 
@@ -70,34 +67,16 @@ class BestFragment : Fragment() {
         rvBest.adapter = ConcatAdapter(headerAdapter, adapter)
     }
 
-    private fun showCartBottomSheet(food: Food) {
-        if (food.isAdded) {
-            IsExistsCartDialogFragment.newInstance {
-                navigateToCart()
-            }.show(parentFragmentManager, tag)
-        } else {
-            CartBottomSheet.newInstance(food) {
-                showCartDialog()
-            }.show(parentFragmentManager, tag)
-        }
-    }
-
-    private fun showCartDialog() {
-        CartDialogFragment.newInstance {
-            navigateToCart()
-        }.show(parentFragmentManager, tag)
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
     }
 
     companion object {
-        private lateinit var navigateToCart: () -> Unit
+        private lateinit var openBottomSheet: (Food) -> Unit
 
-        fun newInstance(navigateToCart: () -> Unit) : BestFragment {
-            this.navigateToCart = navigateToCart
+        fun newInstance(openBottomSheet: (Food) -> Unit): BestFragment {
+            this.openBottomSheet = openBottomSheet
             return BestFragment()
         }
     }

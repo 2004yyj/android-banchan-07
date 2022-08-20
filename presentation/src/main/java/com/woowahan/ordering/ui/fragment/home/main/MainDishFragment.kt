@@ -20,9 +20,6 @@ import com.woowahan.ordering.ui.adapter.home.TypeAndFilterAdapter
 import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader
 import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader.Companion.GRID
 import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader.Companion.VERTICAL
-import com.woowahan.ordering.ui.dialog.CartBottomSheet
-import com.woowahan.ordering.ui.dialog.CartDialogFragment
-import com.woowahan.ordering.ui.dialog.IsExistsCartDialogFragment
 import com.woowahan.ordering.ui.viewmodel.MainDishViewModel
 import com.woowahan.ordering.util.dp
 import dagger.hilt.android.AndroidEntryPoint
@@ -70,7 +67,7 @@ class MainDishFragment : Fragment() {
     private fun initListener() {
         foodAdapter.setOnClick(
             onDetailClick = onDetailClick,
-            onCartClick = this::showCartBottomSheet
+            onCartClick = openBottomSheet
         )
     }
 
@@ -127,34 +124,16 @@ class MainDishFragment : Fragment() {
         rvMainDish.layoutManager = LinearLayoutManager(context)
     }
 
-    private fun showCartBottomSheet(food: Food) {
-        if (food.isAdded) {
-            IsExistsCartDialogFragment.newInstance {
-                navigateToCart()
-            }.show(parentFragmentManager, tag)
-        } else {
-            CartBottomSheet.newInstance(food) {
-                showCartDialog()
-            }.show(parentFragmentManager, tag)
-        }
-    }
-
-    private fun showCartDialog() {
-        CartDialogFragment.newInstance {
-            navigateToCart()
-        }.show(parentFragmentManager, tag)
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
     }
 
     companion object {
-        private lateinit var navigateToCart: () -> Unit
+        private lateinit var openBottomSheet: (Food) -> Unit
 
-        fun newInstance(navigateToCart: () -> Unit): MainDishFragment {
-            this.navigateToCart = navigateToCart
+        fun newInstance(openBottomSheet: (Food) -> Unit): MainDishFragment {
+            this.openBottomSheet = openBottomSheet
             return MainDishFragment()
         }
     }

@@ -95,8 +95,9 @@ class CartBottomSheet : BottomSheetDialogFragment() {
     }
 
     companion object {
-        lateinit var food: Food
-        lateinit var onAddAction: () -> Unit
+        const val TAG = "CartBottomSheet"
+        private lateinit var food: Food
+        private lateinit var onAddAction: () -> Unit
 
         fun newInstance(food: Food, onAddAction: () -> Unit): CartBottomSheet {
             this.food = food
