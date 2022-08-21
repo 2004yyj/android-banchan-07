@@ -52,4 +52,6 @@
     <string name="main_header_main_dish">모두가 좋아하는\n든든한 메인 요리</string>
     <string name="main_header_soup">정성이 담긴\n뜨끈뜨끈 국물 요리</string>
     <string name="main_header_side">식탁을 풍성하게 하는\n정갈한 밑반찬</string>
+    <string name="no_internet_message">네트워크가 연결되지 않았습니다.\nWi-Fi 또는 데이터를 활성화 해주세요.</string>
+    <string name="no_internet_retry">다시 시도</string>
 </resources>
