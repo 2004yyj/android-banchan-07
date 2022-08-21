@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -23,12 +24,15 @@ import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader.Compani
 import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader.Companion.VERTICAL
 import com.woowahan.ordering.ui.viewmodel.MainDishViewModel
 import com.woowahan.ordering.util.dp
+import com.woowahan.ordering.util.hasNetwork
+import com.woowahan.ordering.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainDishFragment : Fragment() {
 
-    private var binding: FragmentMainDishBinding? = null
+    private var _binding: FragmentMainDishBinding? = null
+    private val binding get() = requireNotNull(_binding)
     private val viewModel by viewModels<MainDishViewModel>()
 
     private val typeAndFilterAdapter by lazy { TypeAndFilterAdapter() }
@@ -42,19 +46,30 @@ class MainDishFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentMainDishBinding.inflate(inflater)
-        return binding?.root
+    ): View {
+        _binding = FragmentMainDishBinding.inflate(inflater)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.getMenuList(Menu.Main)
-
+        initData()
         initRecyclerView()
         initFlow()
         initListener()
+    }
+
+    private fun initData() = with(binding) {
+        if (requireContext().hasNetwork()) {
+            viewModel.getMenuList(Menu.Main)
+            layoutNoInternet.root.isVisible = false
+            rvMainDish.isVisible = true
+        } else {
+            requireContext().showToast(getString(R.string.no_internet_message))
+            layoutNoInternet.root.isVisible = true
+            rvMainDish.isVisible = false
+        }
     }
 
     private fun initFlow() {
@@ -70,9 +85,12 @@ class MainDishFragment : Fragment() {
             onDetailClick = onDetailClick,
             onCartClick = openBottomSheet
         )
+        binding.layoutNoInternet.btnRetry.setOnClickListener {
+            initData()
+        }
     }
 
-    private fun initRecyclerView() = with(binding!!) {
+    private fun initRecyclerView() = with(binding) {
         foodAdapter = FoodAdapter()
         val headerAdapter = HeaderAdapter(getString(R.string.main_header_main_dish))
         val concatAdapter = ConcatAdapter(headerAdapter, typeAndFilterAdapter, foodAdapter)
@@ -110,7 +128,7 @@ class MainDishFragment : Fragment() {
         setGridLayoutManager(concatAdapter)
     }
 
-    private fun setGridLayoutManager(concatAdapter: ConcatAdapter) = with(binding!!) {
+    private fun setGridLayoutManager(concatAdapter: ConcatAdapter) = with(binding) {
         val layoutManager = GridLayoutManager(context, 2)
         layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
@@ -121,13 +139,13 @@ class MainDishFragment : Fragment() {
         rvMainDish.layoutManager = layoutManager
     }
 
-    private fun setLinearLayoutManager() = with(binding!!) {
+    private fun setLinearLayoutManager() = with(binding) {
         rvMainDish.layoutManager = LinearLayoutManager(context)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        binding = null
+        _binding = null
     }
 
     companion object {

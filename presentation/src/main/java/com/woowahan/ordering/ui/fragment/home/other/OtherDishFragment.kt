@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -21,18 +22,20 @@ import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader.Compani
 import com.woowahan.ordering.ui.fragment.home.other.kind.OtherKind
 import com.woowahan.ordering.ui.viewmodel.OtherDishViewModel
 import com.woowahan.ordering.util.dp
+import com.woowahan.ordering.util.hasNetwork
+import com.woowahan.ordering.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class OtherDishFragment : Fragment() {
 
-    private var binding: FragmentOtherDishBinding? = null
+    private var _binding: FragmentOtherDishBinding? = null
+    private val binding get() = requireNotNull(_binding)
     private val viewModel by viewModels<OtherDishViewModel>()
 
     private val countAndFilterAdapter by lazy { CountAndFilterAdapter() }
     private val foodAdapter by lazy { FoodAdapter() }
-
-    private lateinit var kind: OtherKind
+    private val kind by lazy { requireArguments().get(OTHER_KIND) as OtherKind }
 
     private var onDetailClick: (title: String, hash: String) -> Unit = { _, _ -> }
     fun setOnDetailClick(onDetailClick: (title: String, hash: String) -> Unit) {
@@ -42,21 +45,30 @@ class OtherDishFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentOtherDishBinding.inflate(inflater)
-        return binding?.root
+    ): View {
+        _binding = FragmentOtherDishBinding.inflate(inflater)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        kind = arguments?.get(OTHER_KIND) as OtherKind
-
-        viewModel.getMenuList(kind)
-
+        initData()
         initFlow()
         initListener()
         initRecyclerView()
+    }
+
+    private fun initData() = with(binding) {
+        if (requireContext().hasNetwork()) {
+            viewModel.getMenuList(kind)
+            layoutNoInternet.root.isVisible = false
+            rvOtherDish.isVisible = true
+        } else {
+            requireContext().showToast(getString(R.string.no_internet_message))
+            layoutNoInternet.root.isVisible = true
+            rvOtherDish.isVisible = false
+        }
     }
 
     private fun initFlow() {
@@ -76,39 +88,43 @@ class OtherDishFragment : Fragment() {
         countAndFilterAdapter.setOnItemSelectedListener {
             viewModel.getMenuList(kind, it)
         }
+        binding.layoutNoInternet.btnRetry.setOnClickListener {
+            initData()
+        }
     }
 
-    private fun initRecyclerView() = with(binding!!) {
+    private fun initRecyclerView() = with(binding) {
         val title = when (kind) {
             OtherKind.Soup -> getString(R.string.main_header_soup)
             OtherKind.Side -> getString(R.string.main_header_side)
         }
         val headerAdapter = HeaderAdapter(title)
         val concatAdapter = ConcatAdapter(headerAdapter, countAndFilterAdapter, foodAdapter)
-        val layoutManager = GridLayoutManager(context, 2)
-
-        layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-            override fun getSpanSize(position: Int): Int {
-                val adapter = concatAdapter.getWrappedAdapterAndPosition(position).first
-                return if (adapter is FoodAdapter) 1 else 2
-            }
-        }
         val decoration = ItemSpacingDecoratorWithHeader(
             spacing = 18.dp,
             spaceAdapters = listOf(foodAdapter),
             layoutDirection = GRID
         )
 
-        rvOtherDish.apply {
-            this.layoutManager = layoutManager
-            this.adapter = concatAdapter
-            addItemDecoration(decoration)
+        rvOtherDish.adapter = concatAdapter
+        rvOtherDish.addItemDecoration(decoration)
+        setGridLayoutManager(concatAdapter)
+    }
+
+    private fun setGridLayoutManager(concatAdapter: ConcatAdapter) = with(binding) {
+        val layoutManager = GridLayoutManager(context, 2)
+        layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                val adapter = concatAdapter.getWrappedAdapterAndPosition(position).first
+                return if (adapter is FoodAdapter) 1 else 2
+            }
         }
+        rvOtherDish.layoutManager = layoutManager
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        binding = null
+        _binding = null
     }
 
     companion object {
