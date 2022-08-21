@@ -60,16 +60,24 @@ class MainDishFragment : Fragment() {
         initListener()
     }
 
-    private fun initData() = with(binding) {
+    private fun initData() {
         if (requireContext().hasNetwork()) {
             viewModel.getMenuList(Menu.Main)
-            layoutNoInternet.root.isVisible = false
-            rvMainDish.isVisible = true
+            showRecyclerView()
         } else {
             requireContext().showToast(getString(R.string.no_internet_message))
-            layoutNoInternet.root.isVisible = true
-            rvMainDish.isVisible = false
+            hideRecyclerView()
         }
+    }
+
+    private fun showRecyclerView() = with(binding) {
+        layoutNoInternet.root.isVisible = false
+        rvMainDish.isVisible = true
+    }
+
+    private fun hideRecyclerView() = with(binding) {
+        layoutNoInternet.root.isVisible = true
+        rvMainDish.isVisible = false
     }
 
     private fun initFlow() {

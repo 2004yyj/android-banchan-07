@@ -58,16 +58,24 @@ class DetailFragment : Fragment() {
         initFlow()
     }
 
-    private fun initData() = with(binding) {
+    private fun initData() {
         if (requireContext().hasNetwork()) {
             viewModel.getFoodDetail(hash)
-            layoutNoInternet.root.isVisible = false
-            rvDetail.isVisible = true
+            showRecyclerView()
         } else {
             requireContext().showToast(getString(R.string.no_internet_message))
-            layoutNoInternet.root.isVisible = true
-            rvDetail.isVisible = false
+            hideRecyclerView()
         }
+    }
+
+    private fun showRecyclerView() = with(binding) {
+        layoutNoInternet.root.isVisible = false
+        rvDetail.isVisible = true
+    }
+
+    private fun hideRecyclerView() = with(binding) {
+        layoutNoInternet.root.isVisible = true
+        rvDetail.isVisible = false
     }
 
     private fun initViews() {

@@ -51,16 +51,24 @@ class BestFragment : Fragment() {
         initRecyclerView()
     }
 
-    private fun initData() = with(binding) {
+    private fun initData() {
         if (requireContext().hasNetwork()) {
             viewModel.getBestList()
-            layoutNoInternet.root.isVisible = false
-            rvBest.isVisible = true
+            showRecyclerView()
         } else {
             requireContext().showToast(getString(R.string.no_internet_message))
-            layoutNoInternet.root.isVisible = true
-            rvBest.isVisible = false
+            hideRecyclerView()
         }
+    }
+
+    private fun showRecyclerView() = with(binding) {
+        layoutNoInternet.root.isVisible = false
+        rvBest.isVisible = true
+    }
+
+    private fun hideRecyclerView() = with(binding) {
+        layoutNoInternet.root.isVisible = true
+        rvBest.isVisible = false
     }
 
     private fun initFlow() {
