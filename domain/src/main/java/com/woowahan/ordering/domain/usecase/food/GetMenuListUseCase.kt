@@ -14,13 +14,14 @@ class GetMenuListUseCase(
     operator fun invoke(menu: Menu, sortType: SortType) = flow {
         emit(Result.Loading)
         try {
+            val result = when (menu) {
+                is Menu.Main -> foodRepository.getMainList()
+                is Menu.Soup -> foodRepository.getSoupList()
+                is Menu.Side -> foodRepository.getSideList()
+            }
+
             cartRepository.getCart().collect {
                 val hashList = it.map { it.detailHash }
-                val result = when (menu) {
-                    is Menu.Main -> foodRepository.getMainList()
-                    is Menu.Soup -> foodRepository.getSoupList()
-                    is Menu.Side -> foodRepository.getSideList()
-                }
 
                 result.forEach { food ->
                     food.isAdded = hashList.contains(food.detailHash)

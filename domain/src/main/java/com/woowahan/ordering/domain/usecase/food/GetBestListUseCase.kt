@@ -12,9 +12,9 @@ class GetBestListUseCase(
     operator fun invoke() = flow {
         emit(Result.Loading)
         try {
+            val bestList = foodRepository.getBestList()
             cartRepository.getCart().collect {
                 val hashList = it.map { cart -> cart.detailHash }
-                val bestList = foodRepository.getBestList()
 
                 bestList.forEach {
                     it.items.forEach { food ->
