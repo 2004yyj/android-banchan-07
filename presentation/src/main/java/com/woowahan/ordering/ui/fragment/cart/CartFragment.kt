@@ -80,7 +80,6 @@ class CartFragment : Fragment() {
         with(binding!!) {
             rvCart.adapter = ConcatAdapter(cartAdapter, cartRecentlyAdapter)
             rvCart.layoutManager = LinearLayoutManager(context)
-            rvCart.itemAnimator = null
         }
     }
 

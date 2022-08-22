@@ -5,12 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.ConcatAdapter
+import com.woowahan.ordering.R
 import com.woowahan.ordering.databinding.FragmentDetailBinding
 import com.woowahan.ordering.ui.adapter.detail.DetailImagesFooterAdapter
 import com.woowahan.ordering.ui.adapter.detail.DetailInfoAdapter
@@ -19,8 +21,10 @@ import com.woowahan.ordering.ui.dialog.CartDialogFragment
 import com.woowahan.ordering.ui.dialog.IsExistsCartDialogFragment
 import com.woowahan.ordering.ui.fragment.cart.CartFragment
 import com.woowahan.ordering.ui.uistate.DetailUiState
-import com.woowahan.ordering.util.replace
 import com.woowahan.ordering.ui.viewmodel.DetailViewModel
+import com.woowahan.ordering.util.hasNetwork
+import com.woowahan.ordering.util.replace
+import com.woowahan.ordering.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -28,10 +32,11 @@ import kotlinx.coroutines.launch
 class DetailFragment : Fragment() {
 
     private val viewModel: DetailViewModel by viewModels()
-    private var binding: FragmentDetailBinding? = null
+    private var _binding: FragmentDetailBinding? = null
+    private val binding get() = requireNotNull(_binding)
 
-    private lateinit var hash: String
-    private lateinit var title: String
+    private val hash by lazy { requireArguments().getString(HASH, "") }
+    private val title by lazy { requireArguments().getString(TITLE, "") }
 
     private lateinit var detailThumbImagesAdapter: DetailThumbImagesAdapter
     private lateinit var detailInfoAdapter: DetailInfoAdapter
@@ -40,19 +45,56 @@ class DetailFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentDetailBinding.inflate(inflater)
-        return binding?.root
+    ): View {
+        _binding = FragmentDetailBinding.inflate(inflater)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initData()
+        initViews()
         initFlow()
-        initArguments()
-        initRecyclerView()
+    }
 
-        viewModel.getFoodDetail(hash)
+    private fun initData() {
+        if (requireContext().hasNetwork()) {
+            viewModel.getFoodDetail(hash)
+            showRecyclerView()
+        } else {
+            requireContext().showToast(getString(R.string.no_internet_message))
+            hideRecyclerView()
+        }
+    }
+
+    private fun showRecyclerView() = with(binding) {
+        layoutNoInternet.root.isVisible = false
+        rvDetail.isVisible = true
+    }
+
+    private fun hideRecyclerView() = with(binding) {
+        layoutNoInternet.root.isVisible = true
+        rvDetail.isVisible = false
+    }
+
+    private fun initViews() {
+        binding.layoutNoInternet.btnRetry.setOnClickListener {
+            initData()
+        }
+        initRecyclerView()
+    }
+
+    private fun initRecyclerView() = with(binding) {
+        detailThumbImagesAdapter = DetailThumbImagesAdapter()
+        detailInfoAdapter = DetailInfoAdapter(viewModel, title)
+        detailImagesFooterAdapter = DetailImagesFooterAdapter()
+
+        rvDetail.adapter = ConcatAdapter(
+            detailThumbImagesAdapter,
+            detailInfoAdapter,
+            detailImagesFooterAdapter
+        )
     }
 
     private fun initFlow() {
@@ -100,19 +142,6 @@ class DetailFragment : Fragment() {
         }.show(parentFragmentManager, tag)
     }
 
-    private fun initArguments() = with(requireArguments()) {
-        hash = getString(HASH, "")
-        title = getString(TITLE, "")
-    }
-
-    private fun initRecyclerView() = with(binding!!) {
-        detailThumbImagesAdapter = DetailThumbImagesAdapter()
-        detailInfoAdapter = DetailInfoAdapter(viewModel, title)
-        detailImagesFooterAdapter = DetailImagesFooterAdapter()
-        val adapter = ConcatAdapter(detailThumbImagesAdapter, detailInfoAdapter, detailImagesFooterAdapter)
-        rvDetail.adapter = adapter
-    }
-
     private fun replaceToCart() {
         parentFragmentManager.replace(
             CartFragment::class.java,
@@ -123,7 +152,7 @@ class DetailFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        binding = null
+        _binding = null
     }
 
     companion object {

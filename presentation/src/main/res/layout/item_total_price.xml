@@ -8,10 +8,6 @@
         <import type="android.view.View" />
 
         <variable
-            name="isCart"
-            type="Boolean" />
-
-        <variable
             name="sumOfPrice"
             type="Long" />
 
@@ -141,9 +137,8 @@
             android:enabled="@{enableToOrder, default = false}"
             android:paddingHorizontal="@dimen/space_horizontal"
             android:paddingVertical="@dimen/space_vertical"
-            android:text="@{@string/cart_order_button(sumOfPrice + deliveryFee)}"
+            android:text="@{enableToOrder ? @string/cart_order_button(sumOfPrice + deliveryFee) : @string/cart_check_minimum}"
             android:textSize="18sp"
-            android:visibility="@{isCart ? View.VISIBLE : View.GONE}"
             app:layout_constraintEnd_toEndOf="@id/gl_end"
             app:layout_constraintStart_toStartOf="@id/gl_start"
             app:layout_constraintTop_toBottomOf="@id/tv_total_price_label"
@@ -157,7 +152,7 @@
             android:layout_marginTop="@dimen/space_vertical"
             android:text="@{@string/cart_delivery_free_info(insufficientAmount)}"
             android:textAlignment="center"
-            android:visibility="@{isCart &amp;&amp; deliveryFee > 0 ? View.VISIBLE : View.INVISIBLE}"
+            android:visibility="@{deliveryFee > 0 ? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintBottom_toBottomOf="@id/gl_bottom"
             app:layout_constraintEnd_toEndOf="@id/gl_end"
             app:layout_constraintStart_toStartOf="@id/gl_start"
