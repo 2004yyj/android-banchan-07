@@ -1,5 +1,6 @@
 package com.woowahan.ordering.domain.usecase.food
 
+import com.woowahan.ordering.domain.model.Best
 import com.woowahan.ordering.domain.model.Result
 import com.woowahan.ordering.domain.repository.CartRepository
 import com.woowahan.ordering.domain.repository.FoodRepository
@@ -12,8 +13,8 @@ class GetBestListUseCase(
     operator fun invoke() = flow {
         emit(Result.Loading)
         try {
-            val bestList = foodRepository.getBestList()
             cartRepository.getCart().collect {
+                val bestList = foodRepository.getBestList()
                 val hashList = it.map { cart -> cart.detailHash }
 
                 bestList.forEach {
