@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -14,13 +15,16 @@ import com.woowahan.ordering.domain.model.Food
 import com.woowahan.ordering.ui.adapter.home.BestFoodAdapter
 import com.woowahan.ordering.ui.adapter.home.HeaderAdapter
 import com.woowahan.ordering.ui.viewmodel.BestViewModel
+import com.woowahan.ordering.util.hasNetwork
+import com.woowahan.ordering.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class BestFragment : Fragment() {
 
     private val viewModel: BestViewModel by viewModels()
-    private var binding: FragmentBestBinding? = null
+    private var _binding: FragmentBestBinding? = null
+    private val binding get() = requireNotNull(_binding)
     private val adapter: BestFoodAdapter by lazy {
         BestFoodAdapter()
     }
@@ -33,19 +37,38 @@ class BestFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentBestBinding.inflate(inflater)
-        return binding?.root
+    ): View {
+        _binding = FragmentBestBinding.inflate(inflater)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.getBestList()
-
+        initData()
         initFlow()
         initListener()
         initRecyclerView()
+    }
+
+    private fun initData() {
+        if (requireContext().hasNetwork()) {
+            viewModel.getBestList()
+            showRecyclerView()
+        } else {
+            requireContext().showToast(getString(R.string.no_internet_message))
+            hideRecyclerView()
+        }
+    }
+
+    private fun showRecyclerView() = with(binding) {
+        layoutNoInternet.root.isVisible = false
+        rvBest.isVisible = true
+    }
+
+    private fun hideRecyclerView() = with(binding) {
+        layoutNoInternet.root.isVisible = true
+        rvBest.isVisible = false
     }
 
     private fun initFlow() {
@@ -61,9 +84,12 @@ class BestFragment : Fragment() {
             onDetailClick = onDetailClick,
             onCartClick = openBottomSheet
         )
+        binding.layoutNoInternet.btnRetry.setOnClickListener {
+            initData()
+        }
     }
 
-    private fun initRecyclerView() = with(binding!!) {
+    private fun initRecyclerView() = with(binding) {
         val headerAdapter = HeaderAdapter(
             getString(R.string.main_header_best),
             getString(R.string.main_header_best_chip)
@@ -73,7 +99,7 @@ class BestFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        binding = null
+        _binding = null
     }
 
     companion object {

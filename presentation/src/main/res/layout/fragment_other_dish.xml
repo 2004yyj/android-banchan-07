@@ -5,6 +5,13 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragment.home.other.OtherDishFragment">
 
+    <include
+        android:id="@+id/layout_no_internet"
+        layout="@layout/layout_no_internet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_other_dish"
         android:layout_width="match_parent"
