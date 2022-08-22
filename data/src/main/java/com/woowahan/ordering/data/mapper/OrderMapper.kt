@@ -6,13 +6,15 @@ import com.woowahan.ordering.domain.model.Order
 fun Order.toEntity(): OrderEntity {
     return OrderEntity(
         id,
-        deliveryTime
+        deliveryTime,
+        isDelivered
     )
 }
 
 fun OrderEntity.toModel(): Order {
     return Order(
         id,
-        deliveryTime
+        deliveryTime,
+        isDelivered
     )
 }

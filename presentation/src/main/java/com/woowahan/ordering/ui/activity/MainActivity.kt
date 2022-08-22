@@ -51,6 +51,7 @@ class MainActivity : AppCompatActivity() {
         initListener()
 
         viewModel.getCartSize()
+        viewModel.isExistsNotDeliveredOrder()
 
         onNewIntent(intent)
     }
@@ -98,6 +99,12 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launchWhenStarted {
             viewModel.cartSize.collect {
                 cartBinding.count = it
+            }
+        }
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.isExistsNotDelivered.collect {
+                orderBinding.isExistsNotDelivered = it
             }
         }
     }

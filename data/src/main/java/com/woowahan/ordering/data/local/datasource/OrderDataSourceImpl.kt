@@ -19,6 +19,10 @@ class OrderDataSourceImpl @Inject constructor(
         return orderDao.insertOrder(order.toEntity())
     }
 
+    override fun updateOrder(deliveryTime: Long, isDelivered: Boolean) {
+        return orderDao.updateOrder(deliveryTime, isDelivered)
+    }
+
     override fun getSimpleOrder(): Flow<List<SimpleOrder>> {
         return orderDao.getSimpleOrder().map {
             it.map { simpleOrder -> simpleOrder.toModel() }
@@ -27,5 +31,9 @@ class OrderDataSourceImpl @Inject constructor(
 
     override fun getOrderedCartByDeliveryTime(deliveryTime: Long): OrderedCartList {
         return orderDao.getOrderedCartByDeliveryTime(deliveryTime).toOrderList()
+    }
+
+    override fun isExistNotDeliveredOrder(): Flow<Boolean> {
+        return orderDao.isExistNotDeliveredOrder()
     }
 }

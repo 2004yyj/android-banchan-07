@@ -15,11 +15,19 @@ class OrderRepositoryImpl @Inject constructor(
         return dataSource.insertOrder(order)
     }
 
+    override fun updateOrder(deliveryTime: Long, isDelivered: Boolean) {
+        return dataSource.updateOrder(deliveryTime, isDelivered)
+    }
+
     override fun getSimpleOrder(): Flow<List<SimpleOrder>> {
         return dataSource.getSimpleOrder()
     }
 
     override fun getOrderedCartByDeliveryTime(deliveryTime: Long): OrderedCartList {
         return dataSource.getOrderedCartByDeliveryTime(deliveryTime)
+    }
+
+    override fun isExistNotDeliveredOrder(): Flow<Boolean> {
+        return dataSource.isExistNotDeliveredOrder()
     }
 }
