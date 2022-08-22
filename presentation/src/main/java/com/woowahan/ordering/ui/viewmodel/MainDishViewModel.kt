@@ -7,7 +7,7 @@ import com.woowahan.ordering.domain.model.Menu
 import com.woowahan.ordering.domain.model.Result
 import com.woowahan.ordering.domain.model.SortType
 import com.woowahan.ordering.domain.usecase.food.GetMenuListUseCase
-import com.woowahan.ordering.ui.fragment.home.other.kind.OtherKind
+import com.woowahan.ordering.ui.uistate.ListUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -23,7 +23,7 @@ class MainDishViewModel @Inject constructor(
 
     private lateinit var mainListJob: Job
 
-    private val _menu = MutableStateFlow<List<Food>>(emptyList())
+    private val _menu = MutableStateFlow<ListUiState<Food>>(ListUiState.List())
     val menu = _menu.asStateFlow()
 
     fun getMenuList(menu: Menu, sortType: SortType = SortType.Default) {
@@ -32,8 +32,12 @@ class MainDishViewModel @Inject constructor(
 
         mainListJob = viewModelScope.launch(Dispatchers.IO) {
             getMenuListUseCase(menu, sortType).collect {
-                if (it is Result.Success) {
-                    _menu.emit(it.value)
+                when (it) {
+                    is Result.Loading -> {
+                        if (this@MainDishViewModel::mainListJob.isInitialized)
+                            _menu.emit(ListUiState.Refreshing)
+                    }
+                    is Result.Success -> _menu.emit(ListUiState.List(it.value))
                 }
             }
         }

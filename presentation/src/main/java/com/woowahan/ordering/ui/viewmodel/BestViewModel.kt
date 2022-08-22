@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.woowahan.ordering.domain.model.Best
 import com.woowahan.ordering.domain.model.Result
 import com.woowahan.ordering.domain.usecase.food.GetBestListUseCase
+import com.woowahan.ordering.ui.uistate.ListUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -20,7 +21,7 @@ class BestViewModel @Inject constructor(
 
     private lateinit var bestListJob: Job
 
-    private val _best = MutableStateFlow<List<Best>>(emptyList())
+    private val _best = MutableStateFlow<ListUiState<Best>>(ListUiState.List())
     val best = _best.asStateFlow()
 
     fun getBestList() {
@@ -29,8 +30,12 @@ class BestViewModel @Inject constructor(
 
         bestListJob = viewModelScope.launch(Dispatchers.IO) {
             getBestListUseCase().collect {
-                if (it is Result.Success) {
-                    _best.emit(it.value)
+                when (it) {
+                    is Result.Loading -> {
+                        if (this@BestViewModel::bestListJob.isInitialized)
+                            _best.emit(ListUiState.Refreshing)
+                    }
+                    is Result.Success -> _best.emit(ListUiState.List(it.value))
                 }
             }
         }
