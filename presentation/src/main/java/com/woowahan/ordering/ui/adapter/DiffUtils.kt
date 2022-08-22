@@ -10,7 +10,11 @@ val foodDiffUtil = object : DiffUtil.ItemCallback<Food>() {
     }
 
     override fun areContentsTheSame(oldItem: Food, newItem: Food): Boolean {
-        return oldItem == newItem
+        return oldItem.isAdded == newItem.isAdded
+    }
+
+    override fun getChangePayload(oldItem: Food, newItem: Food): Any? {
+        return oldItem.isAdded != newItem.isAdded
     }
 }
 
