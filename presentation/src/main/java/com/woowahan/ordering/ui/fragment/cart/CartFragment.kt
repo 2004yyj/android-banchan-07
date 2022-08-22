@@ -28,8 +28,8 @@ import com.woowahan.ordering.ui.receiver.CartReceiver.Companion.DELIVERY_FINISHE
 import com.woowahan.ordering.ui.receiver.CartReceiver.Companion.FOOD_COUNT
 import com.woowahan.ordering.ui.receiver.CartReceiver.Companion.FOOD_TITLE
 import com.woowahan.ordering.ui.uistate.CartUiState
-import com.woowahan.ordering.util.replace
 import com.woowahan.ordering.ui.viewmodel.CartViewModel
+import com.woowahan.ordering.util.replace
 import com.woowahan.ordering.util.replaceWithPopBackstack
 import com.woowahan.ordering.util.startAlarmReceiver
 import dagger.hilt.android.AndroidEntryPoint
@@ -97,34 +97,31 @@ class CartFragment : Fragment() {
     private fun initFlow() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.cartList.collect {
-                    cartAdapter.submitList(it)
+                launch {
+                    viewModel.cartList.collect {
+                        cartAdapter.submitList(it)
+                    }
                 }
-            }
-        }
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.recentlyList.collect {
-                    cartRecentlyAdapter.submitList(it)
+                launch {
+                    viewModel.recentlyList.collect {
+                        cartRecentlyAdapter.submitList(it)
+                    }
                 }
-            }
-        }
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiState.collect {
-                    when (it) {
-                        is CartUiState.Loading -> {}
-                        is CartUiState.SuccessOrder -> {
-                            replaceToOrderDetail(it.deliveryTime)
-                            createNotificationTray(it.title, it.count, it.deliveryTime)
-                        }
-                        is CartUiState.Error -> {
-                            Toast.makeText(requireContext(), "오류가 발생했습니다.", Toast.LENGTH_SHORT)
-                                .show()
+                launch {
+                    viewModel.uiState.collect {
+                        when (it) {
+                            is CartUiState.Loading -> {}
+                            is CartUiState.SuccessOrder -> {
+                                replaceToOrderDetail(it.deliveryTime)
+                                createNotificationTray(it.title, it.count, it.deliveryTime)
+                            }
+                            is CartUiState.Error -> {
+                                Toast.makeText(requireContext(), "오류가 발생했습니다.", Toast.LENGTH_SHORT)
+                                    .show()
+                            }
                         }
                     }
                 }
-
             }
         }
     }
