@@ -14,11 +14,18 @@
         android:layout_height="match_parent"
         android:visibility="gone" />
 
-    <com.woowahan.ordering.ui.widget.OrientationAwareRecyclerView
-        android:id="@+id/rv_best"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/srl_best"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/item_food_best" />
+        android:layout_height="match_parent">
+
+        <com.woowahan.ordering.ui.widget.OrientationAwareRecyclerView
+            android:id="@+id/rv_best"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_food_best" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
