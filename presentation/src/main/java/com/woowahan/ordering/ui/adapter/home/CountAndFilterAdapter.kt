@@ -9,14 +9,15 @@ import com.woowahan.ordering.R
 import com.woowahan.ordering.databinding.ItemCountAndFilterBinding
 import com.woowahan.ordering.domain.model.SortType
 
-class CountAndFilterAdapter :
-    RecyclerView.Adapter<CountAndFilterAdapter.CountAndFilterViewHolder>() {
+class CountAndFilterAdapter(
+    private val onItemSelected: (SortType) -> Unit
+) : RecyclerView.Adapter<CountAndFilterAdapter.CountAndFilterViewHolder>() {
 
     private var count = 0
-    private var onItemSelected: (SortType) -> Unit = {}
 
-    fun setOnItemSelectedListener(onItemSelected: (SortType) -> Unit) {
-        this.onItemSelected = onItemSelected
+    fun setCount(count: Int) {
+        this.count = count
+        notifyDataSetChanged()
     }
 
     inner class CountAndFilterViewHolder(
@@ -66,8 +67,4 @@ class CountAndFilterAdapter :
 
     override fun getItemCount(): Int = 1
 
-    fun setCount(count: Int) {
-        this.count = count
-        notifyDataSetChanged()
-    }
 }
