@@ -108,7 +108,8 @@ class OtherDishFragment : Fragment() {
             onCartClick = openBottomSheet
         )
         countAndFilterAdapter.setOnItemSelectedListener {
-            viewModel.getMenuList(kind, it)
+            viewModel.sortType = it
+            initData()
         }
         binding.layoutNoInternet.btnRetry.setOnClickListener {
             initData()

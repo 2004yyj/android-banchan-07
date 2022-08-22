@@ -22,12 +22,14 @@ class OtherDishViewModel @Inject constructor(
     private val getMenuListUseCase: GetMenuListUseCase
 ) : ViewModel() {
 
+    var sortType: SortType = SortType.Default
+
     private lateinit var otherListJob: Job
 
     private val _menu = MutableStateFlow<ListUiState<Food>>(ListUiState.List())
     val menu = _menu.asStateFlow()
 
-    fun getMenuList(kind: OtherKind, sortType: SortType = SortType.Default) {
+    fun getMenuList(kind: OtherKind) {
         val menu = when (kind) {
             OtherKind.Soup -> Menu.Soup
             OtherKind.Side -> Menu.Side

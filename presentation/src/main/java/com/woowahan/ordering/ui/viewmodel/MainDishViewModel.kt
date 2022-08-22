@@ -21,12 +21,14 @@ class MainDishViewModel @Inject constructor(
     private val getMenuListUseCase: GetMenuListUseCase
 ) : ViewModel() {
 
+    var sortType: SortType = SortType.Default
+
     private lateinit var mainListJob: Job
 
     private val _menu = MutableStateFlow<ListUiState<Food>>(ListUiState.List())
     val menu = _menu.asStateFlow()
 
-    fun getMenuList(menu: Menu, sortType: SortType = SortType.Default) {
+    fun getMenuList(menu: Menu) {
         if (this::mainListJob.isInitialized)
             mainListJob.cancel()
 

@@ -110,6 +110,10 @@ class MainDishFragment : Fragment() {
             onDetailClick = onDetailClick,
             onCartClick = openBottomSheet
         )
+        typeAndFilterAdapter.setOnItemSelected {
+            viewModel.sortType = it
+            initData()
+        }
         binding.layoutNoInternet.btnRetry.setOnClickListener {
             initData()
         }
@@ -133,10 +137,6 @@ class MainDishFragment : Fragment() {
             spaceAdapters = listOf(foodAdapter),
             VERTICAL
         )
-
-        typeAndFilterAdapter.setOnItemSelected {
-            viewModel.getMenuList(Menu.Main, it)
-        }
 
         typeAndFilterAdapter.setOnListTypeChangeClicked {
             if (!it) {
