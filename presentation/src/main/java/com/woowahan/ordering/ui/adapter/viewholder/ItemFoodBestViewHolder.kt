@@ -10,22 +10,19 @@ import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader
 import com.woowahan.ordering.util.dp
 
 class ItemFoodBestViewHolder(
-    private val binding: ItemFoodBestBinding
+    private val binding: ItemFoodBestBinding,
+    onDetailClick: (String, String) -> Unit,
+    onCartClick: (Food) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    private val adapter = FoodAdapter(FoodItemViewType.HorizontalItem)
+    private val adapter = FoodAdapter(FoodItemViewType.HorizontalItem, onDetailClick, onCartClick)
     private val decoration = ItemSpacingDecoratorWithHeader(
         spacing = 8.dp,
         spaceAdapters = listOf(adapter)
     )
 
-    fun bind(
-        best: Best,
-        onDetailClick: (String, String) -> Unit,
-        onCartClick: (Food) -> Unit
-    ) {
+    fun bind(best: Best) {
         adapter.submitList(best.items)
-        adapter.setOnClick(onDetailClick, onCartClick)
 
         with(binding) {
             title = best.name
