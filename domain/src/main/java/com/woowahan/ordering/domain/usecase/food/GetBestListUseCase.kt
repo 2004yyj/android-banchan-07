@@ -1,5 +1,6 @@
 package com.woowahan.ordering.domain.usecase.food
 
+import com.woowahan.ordering.domain.model.Best
 import com.woowahan.ordering.domain.model.Result
 import com.woowahan.ordering.domain.repository.CartRepository
 import com.woowahan.ordering.domain.repository.FoodRepository
@@ -13,8 +14,8 @@ class GetBestListUseCase(
         emit(Result.Loading)
         try {
             cartRepository.getCart().collect {
-                val hashList = it.map { cart -> cart.detailHash }
                 val bestList = foodRepository.getBestList()
+                val hashList = it.map { cart -> cart.detailHash }
 
                 bestList.forEach {
                     it.items.forEach { food ->
