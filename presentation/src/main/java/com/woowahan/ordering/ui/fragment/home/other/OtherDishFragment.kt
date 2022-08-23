@@ -39,7 +39,8 @@ class OtherDishFragment : Fragment() {
     private val countAndFilterAdapter by lazy {
         CountAndFilterAdapter(
             onItemSelected = {
-                viewModel.getMenuList(kind, it)
+                viewModel.sortType = it
+                initData()
             }
         )
     }
