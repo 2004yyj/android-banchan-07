@@ -5,6 +5,8 @@ import com.woowahan.ordering.data.local.dao.RecentlyDao
 import com.woowahan.ordering.data.mapper.toEntity
 import com.woowahan.ordering.data.mapper.toModel
 import com.woowahan.ordering.domain.model.Recently
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class RecentlyDataSourceImpl @Inject constructor(
@@ -24,10 +26,9 @@ class RecentlyDataSourceImpl @Inject constructor(
         }
     }
 
-    override fun getSimpleRecently(size: Int): List<Recently> {
+    override fun getSimpleRecently(size: Int): Flow<List<Recently>> {
         return recentlyDao.getSimpleRecently(size).map {
-            it.toModel()
+            it.map { recently -> recently.toModel() }
         }
     }
-
 }

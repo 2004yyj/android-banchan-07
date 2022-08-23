@@ -8,5 +8,6 @@ data class CartResult(
     val sum: Long,
     val deliveryFee: Int,
     val insufficientAmount: Int,
-    val enableToOrder: Boolean
+    val enableToOrder: Boolean,
+    val historyList : List<Recently> = listOf()
 )

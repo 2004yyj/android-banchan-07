@@ -2,6 +2,7 @@ package com.woowahan.ordering.data.local.dao
 
 import androidx.room.*
 import com.woowahan.ordering.data.entity.RecentlyEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface RecentlyDao {
@@ -15,5 +16,5 @@ interface RecentlyDao {
     fun getRecently(): List<RecentlyEntity>
 
     @Query("SELECT * FROM Recently ORDER BY latestViewedTime DESC LIMIT :size")
-    fun getSimpleRecently(size: Int): List<RecentlyEntity>
+    fun getSimpleRecently(size: Int): Flow<List<RecentlyEntity>>
 }

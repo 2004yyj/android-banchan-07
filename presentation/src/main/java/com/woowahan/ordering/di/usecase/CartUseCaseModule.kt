@@ -1,6 +1,7 @@
 package com.woowahan.ordering.di.usecase
 
 import com.woowahan.ordering.domain.repository.CartRepository
+import com.woowahan.ordering.domain.repository.RecentlyRepository
 import com.woowahan.ordering.domain.usecase.cart.*
 import dagger.Module
 import dagger.Provides
@@ -25,8 +26,11 @@ object CartUseCaseModule {
 
     @Provides
     @Singleton
-    fun providesGetCartResultUseCase(repository: CartRepository): GetCartResultUseCase {
-        return GetCartResultUseCase(repository)
+    fun providesGetCartResultUseCase(
+        cartRepository: CartRepository,
+        recentlyRepository: RecentlyRepository
+    ): GetCartResultUseCase {
+        return GetCartResultUseCase(cartRepository, recentlyRepository)
     }
 
     @Provides
@@ -43,13 +47,13 @@ object CartUseCaseModule {
 
     @Provides
     @Singleton
-    fun providesSelectAllCartUseCase(repository: CartRepository) : SelectAllCartUseCase {
+    fun providesSelectAllCartUseCase(repository: CartRepository): SelectAllCartUseCase {
         return SelectAllCartUseCase(repository)
     }
 
     @Provides
     @Singleton
-    fun providesDeleteAllSelectedCartUseCase(repository: CartRepository) : DeleteAllSelectedCartUseCase {
+    fun providesDeleteAllSelectedCartUseCase(repository: CartRepository): DeleteAllSelectedCartUseCase {
         return DeleteAllSelectedCartUseCase(repository)
     }
 }

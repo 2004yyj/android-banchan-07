@@ -12,7 +12,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.woowahan.ordering.constants.DELIVERY_TIME
 import com.woowahan.ordering.databinding.FragmentCartBinding
@@ -69,7 +68,9 @@ class CartFragment : Fragment() {
             orderClick = { title, count ->
                 val deliveryTime = System.currentTimeMillis() + DELIVERY_TIME
                 viewModel.orderClick(deliveryTime, title, count)
-            }
+            },
+            onDetailClick = this::replaceToDetail,
+            seeAllClick = this::replaceToRecentlyViewed
         )
 
         cartRecentlyAdapter = CartRecentlyAdapter(
@@ -78,7 +79,7 @@ class CartFragment : Fragment() {
         )
 
         with(binding!!) {
-            rvCart.adapter = ConcatAdapter(cartAdapter, cartRecentlyAdapter)
+            rvCart.adapter = cartAdapter
             rvCart.layoutManager = LinearLayoutManager(context)
         }
     }
@@ -100,11 +101,6 @@ class CartFragment : Fragment() {
                 launch {
                     viewModel.cartList.collect {
                         cartAdapter.submitList(it)
-                    }
-                }
-                launch {
-                    viewModel.recentlyList.collect {
-                        cartRecentlyAdapter.submitList(it)
                     }
                 }
                 launch {
