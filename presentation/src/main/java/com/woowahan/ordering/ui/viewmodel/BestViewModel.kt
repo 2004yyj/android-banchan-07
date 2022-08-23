@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.woowahan.ordering.domain.model.Best
 import com.woowahan.ordering.domain.model.Result
 import com.woowahan.ordering.domain.usecase.food.GetBestListUseCase
+import com.woowahan.ordering.network.ConnectionInterceptor
 import com.woowahan.ordering.ui.uistate.ListUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -21,8 +22,8 @@ class BestViewModel @Inject constructor(
 
     private lateinit var bestListJob: Job
 
-    private val _best = MutableStateFlow<ListUiState<Best>>(ListUiState.List())
-    val best = _best.asStateFlow()
+    private val _uiState = MutableStateFlow<ListUiState<Best>>(ListUiState.List())
+    val uiState = _uiState.asStateFlow()
 
     fun getBestList() {
         if (this::bestListJob.isInitialized)
@@ -31,11 +32,15 @@ class BestViewModel @Inject constructor(
         bestListJob = viewModelScope.launch(Dispatchers.IO) {
             getBestListUseCase().collect {
                 when (it) {
-                    is Result.Loading -> {
-                        if (this@BestViewModel::bestListJob.isInitialized)
-                            _best.emit(ListUiState.Refreshing)
+                    is Result.Loading -> _uiState.emit(ListUiState.Refreshing)
+                    is Result.Success -> _uiState.emit(ListUiState.List(it.value))
+                    is Result.Failure -> {
+                        when (it.cause) {
+                            is ConnectionInterceptor.NoInternetConnectionException -> {
+                                _uiState.emit(ListUiState.NoInternet)
+                            }
+                        }
                     }
-                    is Result.Success -> _best.emit(ListUiState.List(it.value))
                 }
             }
         }
