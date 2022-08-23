@@ -47,7 +47,7 @@
     <string name="cart_channel_name">장바구니</string>
     <string name="cart_notification_content">고객님께서 주문하신 %s이(가) 배달되었어요.</string>
     <string name="cart_notification_content_with_count">고객님께서 주문하신 %s 외 %d이(가) 배달되었어요.</string>
-    <string name="main_header_best">모두가 좋아하는\n든든한 메인 요리</string>
+    <string name="main_header_best">한 번 주문하면\n두 번 반하는 반찬들</string>
     <string name="main_header_best_chip">기획전</string>
     <string name="main_header_main_dish">모두가 좋아하는\n든든한 메인 요리</string>
     <string name="main_header_soup">정성이 담긴\n뜨끈뜨끈 국물 요리</string>
