@@ -9,15 +9,11 @@ import com.woowahan.ordering.R
 import com.woowahan.ordering.databinding.ItemTypeAndFilterBinding
 import com.woowahan.ordering.domain.model.SortType
 
-class TypeAndFilterAdapter :
+class TypeAndFilterAdapter(
+    private val onItemSelected: (SortType) -> Unit
+) :
     RecyclerView.Adapter<TypeAndFilterAdapter.TypeAndFilterViewHolder>() {
-
-    private var onItemSelected: (SortType) -> Unit = {}
     private var onListTypeChangeClicked: (Boolean) -> Unit = {}
-
-    fun setOnItemSelected(onItemSelected: (SortType) -> Unit) {
-        this.onItemSelected = onItemSelected
-    }
 
     fun setOnListTypeChangeClicked(onListTypeChangeClicked: (Boolean) -> Unit) {
         this.onListTypeChangeClicked = onListTypeChangeClicked
