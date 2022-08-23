@@ -1,7 +1,6 @@
 package com.woowahan.ordering.ui.fragment.home.main
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +15,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.woowahan.ordering.R
 import com.woowahan.ordering.databinding.FragmentMainDishBinding
-import com.woowahan.ordering.domain.model.Best
 import com.woowahan.ordering.domain.model.Food
 import com.woowahan.ordering.domain.model.Menu
 import com.woowahan.ordering.ui.adapter.home.FoodAdapter
@@ -26,15 +24,12 @@ import com.woowahan.ordering.ui.adapter.home.TypeAndFilterAdapter
 import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader
 import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader.Companion.GRID
 import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader.Companion.VERTICAL
-import com.woowahan.ordering.ui.fragment.home.HomeFragment.Companion.TAG
 import com.woowahan.ordering.ui.uistate.ListUiState
 import com.woowahan.ordering.ui.viewmodel.MainDishViewModel
 import com.woowahan.ordering.util.dp
-import com.woowahan.ordering.util.hasNetwork
 import com.woowahan.ordering.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import kotlin.math.log
 
 @AndroidEntryPoint
 class MainDishFragment : Fragment() {
@@ -69,36 +64,36 @@ class MainDishFragment : Fragment() {
     }
 
     private fun initData() {
-        if (requireContext().hasNetwork()) {
-            viewModel.getMenuList(Menu.Main)
-            showRecyclerView()
-        } else {
-            requireContext().showToast(getString(R.string.no_internet_message))
-            hideRecyclerView()
-        }
+        viewModel.getMenuList(Menu.Main)
     }
 
     private fun showRecyclerView() = with(binding) {
         layoutNoInternet.root.isVisible = false
+        binding.srlMainDish.isRefreshing = false
         srlMainDish.isVisible = true
     }
 
-    private fun hideRecyclerView() = with(binding) {
+    private fun showNoInternetConnection() = with(binding) {
+        requireContext().showToast(getString(R.string.no_internet_message))
         layoutNoInternet.root.isVisible = true
+        binding.srlMainDish.isRefreshing = false
         srlMainDish.isVisible = false
     }
 
     private fun initFlow() {
         lifecycleScope.launch {
-            viewModel.menu.flowWithLifecycle(
+            viewModel.uiState.flowWithLifecycle(
                 lifecycle = lifecycle,
                 minActiveState = Lifecycle.State.STARTED
             ).collect {
                 when (it) {
                     is ListUiState.Refreshing -> {}
                     is ListUiState.List<Food> -> {
-                        binding.srlMainDish.isRefreshing = false
+                        showRecyclerView()
                         foodAdapter.submitList(it.list)
+                    }
+                    is ListUiState.NoInternet -> {
+                        showNoInternetConnection()
                     }
                 }
             }

@@ -7,6 +7,7 @@ import com.woowahan.ordering.domain.model.Menu
 import com.woowahan.ordering.domain.model.Result
 import com.woowahan.ordering.domain.model.SortType
 import com.woowahan.ordering.domain.usecase.food.GetMenuListUseCase
+import com.woowahan.ordering.network.ConnectionInterceptor
 import com.woowahan.ordering.ui.fragment.home.other.kind.OtherKind
 import com.woowahan.ordering.ui.uistate.ListUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,8 +27,8 @@ class OtherDishViewModel @Inject constructor(
 
     private lateinit var otherListJob: Job
 
-    private val _menu = MutableStateFlow<ListUiState<Food>>(ListUiState.List())
-    val menu = _menu.asStateFlow()
+    private val _uiState = MutableStateFlow<ListUiState<Food>>(ListUiState.List())
+    val uiState = _uiState.asStateFlow()
 
     fun getMenuList(kind: OtherKind) {
         val menu = when (kind) {
@@ -41,11 +42,15 @@ class OtherDishViewModel @Inject constructor(
         otherListJob = viewModelScope.launch(Dispatchers.IO) {
             getMenuListUseCase(menu, sortType).collect {
                 when (it) {
-                    is Result.Loading -> {
-                        if (this@OtherDishViewModel::otherListJob.isInitialized)
-                            _menu.emit(ListUiState.Refreshing)
+                    is Result.Loading -> _uiState.emit(ListUiState.Refreshing)
+                    is Result.Success -> _uiState.emit(ListUiState.List(it.value))
+                    is Result.Failure -> {
+                        when (it.cause) {
+                            is ConnectionInterceptor.NoInternetConnectionException -> {
+                                _uiState.emit(ListUiState.NoInternet)
+                            }
+                        }
                     }
-                    is Result.Success -> _menu.emit(ListUiState.List(it.value))
                 }
             }
         }

@@ -1,7 +1,6 @@
 package com.woowahan.ordering.ui.fragment.home.other
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +11,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import com.woowahan.ordering.R
@@ -27,7 +25,6 @@ import com.woowahan.ordering.ui.fragment.home.other.kind.OtherKind
 import com.woowahan.ordering.ui.uistate.ListUiState
 import com.woowahan.ordering.ui.viewmodel.OtherDishViewModel
 import com.woowahan.ordering.util.dp
-import com.woowahan.ordering.util.hasNetwork
 import com.woowahan.ordering.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -66,36 +63,36 @@ class OtherDishFragment : Fragment() {
     }
 
     private fun initData() {
-        if (requireContext().hasNetwork()) {
-            viewModel.getMenuList(kind)
-            showRecyclerView()
-        } else {
-            requireContext().showToast(getString(R.string.no_internet_message))
-            hideRecyclerView()
-        }
+        viewModel.getMenuList(kind)
     }
 
     private fun showRecyclerView() = with(binding) {
         layoutNoInternet.root.isVisible = false
-        rvOtherDish.isVisible = true
+        binding.srlOtherDish.isRefreshing = false
+        srlOtherDish.isVisible = true
     }
 
-    private fun hideRecyclerView() = with(binding) {
+    private fun showNoInternetConnection() = with(binding) {
+        requireContext().showToast(getString(R.string.no_internet_message))
         layoutNoInternet.root.isVisible = true
-        rvOtherDish.isVisible = false
+        binding.srlOtherDish.isRefreshing = false
+        srlOtherDish.isVisible = false
     }
 
     private fun initFlow() {
         lifecycleScope.launch {
-            viewModel.menu.flowWithLifecycle(
+            viewModel.uiState.flowWithLifecycle(
                 lifecycle = lifecycle,
                 minActiveState = Lifecycle.State.STARTED
             ).collect {
                 when (it) {
                     is ListUiState.Refreshing -> {}
                     is ListUiState.List<Food> -> {
-                        binding.srlOtherDish.isRefreshing = false
+                        showRecyclerView()
                         foodAdapter.submitList(it.list)
+                    }
+                    is ListUiState.NoInternet -> {
+                        showNoInternetConnection()
                     }
                 }
             }
