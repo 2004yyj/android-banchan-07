@@ -38,7 +38,12 @@ class MainDishFragment : Fragment() {
     private val binding get() = requireNotNull(_binding)
     private val viewModel by viewModels<MainDishViewModel>()
 
-    private val typeAndFilterAdapter by lazy { TypeAndFilterAdapter() }
+    private val typeAndFilterAdapter by lazy {
+        TypeAndFilterAdapter {
+            viewModel.sortType = it
+            initData()
+        }
+    }
     private lateinit var foodAdapter: FoodAdapter
 
     private var onDetailClick: (title: String, hash: String) -> Unit = { _, _ -> }

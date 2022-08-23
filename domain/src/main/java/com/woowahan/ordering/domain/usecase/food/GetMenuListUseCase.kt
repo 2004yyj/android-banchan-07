@@ -38,7 +38,7 @@ class GetMenuListUseCase(
                         result.sortedBy { it.discountedPrice }
                     }
                     is SortType.RateDesc -> {
-                        result.sortedBy { it.discountRate }
+                        result.sortedByDescending { it.discountRate }
                     }
                 }
                 emit(Result.Success(sortedList))
