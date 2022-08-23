@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.woowahan.ordering.databinding.ItemRecentlyGridBinding
 import com.woowahan.ordering.databinding.ItemRecentlyHorizontalBinding
 import com.woowahan.ordering.domain.model.History
+import com.woowahan.ordering.ui.listener.setOnThrottleClickListener
 
 sealed class ItemHistoryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
@@ -19,7 +20,7 @@ sealed class ItemHistoryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             binding.root.setOnClickListener {
                 onDetailClick(history.title, history.detailHash)
             }
-            binding.btnAddCart.setOnClickListener {
+            binding.btnAddCart.setOnThrottleClickListener {
                 onCartClick(history)
             }
         }

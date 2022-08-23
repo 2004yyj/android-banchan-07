@@ -261,7 +261,7 @@
             android:layout_marginTop="@dimen/space_divide_vertical"
             android:backgroundTint="@color/primary_main"
             android:letterSpacing="0"
-            android:onClick="@{() -> vm.addToCart(title, vm.foodDetail)}"
+            android:onThrottleClick="@{() -> vm.addToCart(title, vm.foodDetail)}"
             android:paddingHorizontal="@dimen/space_horizontal"
             android:paddingVertical="@dimen/space_vertical"
             android:text="@string/add_to_cart"
