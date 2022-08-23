@@ -90,6 +90,7 @@ class OtherDishFragment : Fragment() {
                     is ListUiState.List<Food> -> {
                         showRecyclerView()
                         foodAdapter.submitList(it.list)
+                        countAndFilterAdapter.setCount(it.list.size)
                     }
                     is ListUiState.NoInternet -> {
                         showNoInternetConnection()
