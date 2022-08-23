@@ -5,13 +5,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.woowahan.ordering.R
-import com.woowahan.ordering.databinding.ItemCartBinding
-import com.woowahan.ordering.databinding.ItemCartHeaderBinding
-import com.woowahan.ordering.databinding.ItemEmptyBinding
-import com.woowahan.ordering.databinding.ItemTotalPriceBinding
+import com.woowahan.ordering.databinding.*
 import com.woowahan.ordering.domain.model.Cart
 import com.woowahan.ordering.ui.adapter.cartListDiffUtil
+import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader
 import com.woowahan.ordering.ui.fragment.cart.CartListItem
+import com.woowahan.ordering.util.dp
 
 class CartAdapter(
     private val selectAllClick: () -> Unit,
@@ -20,7 +19,9 @@ class CartAdapter(
     private val plusItemClick: (Cart) -> Unit,
     private val deleteItemClick: (Cart) -> Unit,
     private val deleteAllClick: () -> Unit,
-    private val orderClick: (String, Int) -> Unit
+    private val orderClick: (String, Int) -> Unit,
+    private val onDetailClick: (String, String) -> Unit,
+    private val seeAllClick: () -> Unit
 ) : ListAdapter<CartListItem, RecyclerView.ViewHolder>(cartListDiffUtil) {
 
     class CartHeaderViewHolder(
@@ -77,6 +78,31 @@ class CartAdapter(
 
     class EmptyViewHolder(binding: ItemEmptyBinding) : RecyclerView.ViewHolder(binding.root)
 
+    class CartRecentlyItemViewHolder(
+        private val binding: ItemCartRecentlyBinding,
+        private val onDetailClick: (String, String) -> Unit,
+        private val seeAllClick: () -> Unit
+    ) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        private val adapter = RecentlyAdapter(RecentlyAdapter.RecentlyItemViewType.HorizontalItem)
+        private val decoration = ItemSpacingDecoratorWithHeader(
+            spacing = 8.dp,
+            spaceAdapters = listOf(adapter)
+        )
+
+        fun bind(data: CartListItem.CartHistory) = with(binding) {
+            adapter.submitList(data.historyList)
+            adapter.setOnClick(onDetailClick)
+
+            tvSeeAll.setOnClickListener { seeAllClick() }
+            rvRecently.adapter = adapter
+            if (rvRecently.itemDecorationCount == 0) {
+                rvRecently.addItemDecoration(decoration)
+            }
+        }
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
         when (viewType) {
             R.layout.item_cart -> CartContentViewHolder(
@@ -110,6 +136,14 @@ class CartAdapter(
                     false
                 )
             )
+            R.layout.item_recently_horizontal -> CartRecentlyItemViewHolder(
+                ItemCartRecentlyBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                ),
+                onDetailClick, seeAllClick
+            )
             else -> throw IllegalArgumentException()
         }
 
@@ -118,6 +152,7 @@ class CartAdapter(
             is CartHeaderViewHolder -> holder.bind(getItem(position) as CartListItem.Header)
             is CartContentViewHolder -> holder.bind(getItem(position) as CartListItem.Content)
             is CartTotalViewHolder -> holder.bind(getItem(position) as CartListItem.Footer)
+            is CartRecentlyItemViewHolder -> holder.bind(getItem(position) as CartListItem.CartHistory)
         }
     }
 
@@ -146,6 +181,7 @@ class CartAdapter(
             is CartListItem.Content -> R.layout.item_cart
             is CartListItem.Footer -> R.layout.item_total_price
             is CartListItem.Empty -> R.layout.item_empty
+            is CartListItem.CartHistory -> R.layout.item_recently_horizontal
         }
     }
 }
