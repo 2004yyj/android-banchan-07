@@ -1,12 +1,12 @@
 package com.woowahan.ordering.data.mapper
 
-import com.woowahan.ordering.data.entity.RecentlyEntity
+import com.woowahan.ordering.data.entity.HistoryEntity
 import com.woowahan.ordering.data.util.getDiscountRate
 import com.woowahan.ordering.domain.model.Cart
-import com.woowahan.ordering.domain.model.Recently
+import com.woowahan.ordering.domain.model.History
 
-fun Recently.toEntity(): RecentlyEntity {
-    return RecentlyEntity(
+fun History.toEntity(): HistoryEntity {
+    return HistoryEntity(
         detailHash,
         title,
         thumbnail,
@@ -16,8 +16,8 @@ fun Recently.toEntity(): RecentlyEntity {
     )
 }
 
-fun RecentlyEntity.toModel(): Recently {
-    return Recently(
+fun HistoryEntity.toModel(): History {
+    return History(
         detailHash,
         title,
         thumbnail,
@@ -27,7 +27,7 @@ fun RecentlyEntity.toModel(): Recently {
     )
 }
 
-fun Recently.toCartModel(): Cart {
+fun History.toCartModel(): Cart {
     return Cart(
         title = title,
         thumbnail = thumbnail,

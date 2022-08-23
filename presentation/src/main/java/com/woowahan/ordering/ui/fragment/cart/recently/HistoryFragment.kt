@@ -10,8 +10,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.woowahan.ordering.data.mapper.toCartModel
 import com.woowahan.ordering.databinding.FragmentRecentlyViewedBinding
-import com.woowahan.ordering.domain.model.Recently
-import com.woowahan.ordering.ui.adapter.cart.RecentlyAdapter
+import com.woowahan.ordering.domain.model.History
+import com.woowahan.ordering.ui.adapter.cart.HistoryAdapter
 import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader
 import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader.Companion.GRID
 import com.woowahan.ordering.ui.dialog.CartBottomSheet
@@ -20,17 +20,17 @@ import com.woowahan.ordering.ui.dialog.IsExistsCartDialogFragment
 import com.woowahan.ordering.ui.fragment.detail.DetailFragment
 import com.woowahan.ordering.ui.fragment.detail.DetailFragment.Companion.HASH
 import com.woowahan.ordering.ui.fragment.detail.DetailFragment.Companion.TITLE
-import com.woowahan.ordering.ui.viewmodel.RecentlyViewedViewModel
+import com.woowahan.ordering.ui.viewmodel.HistoryViewModel
 import com.woowahan.ordering.util.dp
 import com.woowahan.ordering.util.replaceWithPopBackstack
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class RecentlyViewedFragment : Fragment() {
+class HistoryFragment : Fragment() {
 
     private var binding: FragmentRecentlyViewedBinding? = null
-    private val viewModel by viewModels<RecentlyViewedViewModel>()
-    private lateinit var adapter: RecentlyAdapter
+    private val viewModel by viewModels<HistoryViewModel>()
+    private lateinit var adapter: HistoryAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,7 +49,7 @@ class RecentlyViewedFragment : Fragment() {
     }
 
     private fun initRecyclerView() {
-        adapter = RecentlyAdapter()
+        adapter = HistoryAdapter()
         adapter.setOnClick(
             onDetailClick = this::replaceToDetail,
             onCartClick = this::showCartBottomSheet
@@ -74,13 +74,13 @@ class RecentlyViewedFragment : Fragment() {
         }
     }
 
-    private fun showCartBottomSheet(recently: Recently) {
-        if (recently.isAdded) {
+    private fun showCartBottomSheet(history: History) {
+        if (history.isAdded) {
             IsExistsCartDialogFragment.newInstance {
                 replaceToCart()
             }.show(parentFragmentManager, tag)
         } else {
-            CartBottomSheet.newInstance(recently.toCartModel()) {
+            CartBottomSheet.newInstance(history.toCartModel()) {
                 showCartDialog()
             }.show(parentFragmentManager, tag)
         }
@@ -111,6 +111,6 @@ class RecentlyViewedFragment : Fragment() {
     }
 
     companion object {
-        const val TAG = "RecentlyViewed"
+        const val TAG = "History"
     }
 }

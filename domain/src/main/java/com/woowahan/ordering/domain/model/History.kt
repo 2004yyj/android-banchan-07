@@ -1,6 +1,6 @@
 package com.woowahan.ordering.domain.model
 
-data class Recently(
+data class History(
     val detailHash: String,
     val title: String,
     val thumbnail: String,

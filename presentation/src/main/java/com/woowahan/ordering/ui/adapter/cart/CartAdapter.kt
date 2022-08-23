@@ -85,7 +85,7 @@ class CartAdapter(
     ) :
         RecyclerView.ViewHolder(binding.root) {
 
-        private val adapter = RecentlyAdapter(RecentlyAdapter.RecentlyItemViewType.HorizontalItem)
+        private val adapter = HistoryAdapter(HistoryAdapter.HistoryItemViewType.HorizontalItem)
         private val decoration = ItemSpacingDecoratorWithHeader(
             spacing = 8.dp,
             spaceAdapters = listOf(adapter)

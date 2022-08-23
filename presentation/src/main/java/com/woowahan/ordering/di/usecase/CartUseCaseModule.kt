@@ -1,7 +1,7 @@
 package com.woowahan.ordering.di.usecase
 
 import com.woowahan.ordering.domain.repository.CartRepository
-import com.woowahan.ordering.domain.repository.RecentlyRepository
+import com.woowahan.ordering.domain.repository.HistoryRepository
 import com.woowahan.ordering.domain.usecase.cart.*
 import dagger.Module
 import dagger.Provides
@@ -28,9 +28,9 @@ object CartUseCaseModule {
     @Singleton
     fun providesGetCartResultUseCase(
         cartRepository: CartRepository,
-        recentlyRepository: RecentlyRepository
+        historyRepository: HistoryRepository
     ): GetCartResultUseCase {
-        return GetCartResultUseCase(cartRepository, recentlyRepository)
+        return GetCartResultUseCase(cartRepository, historyRepository)
     }
 
     @Provides

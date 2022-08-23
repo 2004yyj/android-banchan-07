@@ -4,7 +4,6 @@ import android.content.Intent
 import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.core.os.bundleOf
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -17,17 +16,15 @@ import com.woowahan.ordering.databinding.ActionCartBinding
 import com.woowahan.ordering.databinding.ActionOrderBinding
 import com.woowahan.ordering.databinding.ActivityMainBinding
 import com.woowahan.ordering.ui.fragment.cart.CartFragment
-import com.woowahan.ordering.ui.fragment.cart.recently.RecentlyViewedFragment
+import com.woowahan.ordering.ui.fragment.cart.recently.HistoryFragment
 import com.woowahan.ordering.ui.fragment.detail.DetailFragment
 import com.woowahan.ordering.ui.fragment.home.HomeFragment
-import com.woowahan.ordering.ui.fragment.home.HomeFragment.Companion.TAG
 import com.woowahan.ordering.ui.fragment.order.OrderListFragment
 import com.woowahan.ordering.ui.fragment.order.detail.OrderDetailFragment
 import com.woowahan.ordering.ui.receiver.CartReceiver
 import com.woowahan.ordering.util.add
 import com.woowahan.ordering.util.replace
 import com.woowahan.ordering.ui.viewmodel.MainViewModel
-import com.woowahan.ordering.util.clearAllBackStack
 import com.woowahan.ordering.util.replaceWithPopBackstack
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -129,7 +126,7 @@ class MainActivity : AppCompatActivity() {
                 toolbarCart.isVisible = true
                 toolbarCart.title = "Order List"
             }
-            is RecentlyViewedFragment -> {
+            is HistoryFragment -> {
                 toolbarHome.isVisible = false
                 toolbarCart.isVisible = true
                 toolbarCart.title = "Recently viewed products"
