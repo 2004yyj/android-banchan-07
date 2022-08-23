@@ -2,15 +2,14 @@ package com.woowahan.ordering.di
 
 import android.content.Context
 import com.woowahan.ordering.data.remote.service.FoodService
+import com.woowahan.ordering.network.ConnectionInterceptor
 import com.woowahan.ordering.util.hasNetwork
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import okhttp3.Cache
-import okhttp3.Interceptor
-import okhttp3.OkHttpClient
+import okhttp3.*
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
@@ -28,20 +27,11 @@ object RemoteModule {
 
     @Provides
     @Singleton
-    fun providesInterceptor(@ApplicationContext context: Context) = Interceptor { chain ->
-        var request = chain.request()
-        request = if (context.hasNetwork())
-            request.newBuilder().header("Cache-Control", "public, max-age=" + 5).build()
-        else
-            request.newBuilder()
-                .header("Cache-Control", "public, only-if-cached, max-stale=" + 60 * 60 * 24 * 7)
-                .build()
-        chain.proceed(request)
-    }
+    fun providesInterceptor(@ApplicationContext context: Context) = ConnectionInterceptor(context)
 
     @Provides
     @Singleton
-    fun providesOkHttpClient(cache: Cache, interceptor: Interceptor) = OkHttpClient.Builder()
+    fun providesOkHttpClient(cache: Cache, interceptor: ConnectionInterceptor) = OkHttpClient.Builder()
         .cache(cache)
         .addInterceptor(interceptor)
         .build()
