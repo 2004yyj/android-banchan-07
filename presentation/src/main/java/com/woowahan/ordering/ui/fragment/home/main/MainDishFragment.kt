@@ -64,7 +64,7 @@ class MainDishFragment : Fragment() {
     }
 
     private fun initData() {
-        viewModel.getMenuList(Menu.Main)
+        viewModel.getMenuList()
     }
 
     private fun showRecyclerView() = with(binding) {

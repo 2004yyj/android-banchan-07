@@ -29,12 +29,12 @@ class MainDishViewModel @Inject constructor(
     private val _uiState = MutableStateFlow<ListUiState<Food>>(ListUiState.List())
     val uiState = _uiState.asStateFlow()
 
-    fun getMenuList(menu: Menu) {
+    fun getMenuList() {
         if (this::mainListJob.isInitialized)
             mainListJob.cancel()
 
         mainListJob = viewModelScope.launch(Dispatchers.IO) {
-            getMenuListUseCase(menu, sortType).collect {
+            getMenuListUseCase(Menu.Main, sortType).collect {
                 when (it) {
                     is Result.Loading -> _uiState.emit(ListUiState.Refreshing)
                     is Result.Success -> _uiState.emit(ListUiState.List(it.value))
