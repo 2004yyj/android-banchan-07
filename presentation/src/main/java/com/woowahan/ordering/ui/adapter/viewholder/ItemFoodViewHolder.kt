@@ -6,6 +6,7 @@ import com.woowahan.ordering.databinding.ItemFoodGridBinding
 import com.woowahan.ordering.databinding.ItemFoodHorizontalBinding
 import com.woowahan.ordering.databinding.ItemFoodVerticalBinding
 import com.woowahan.ordering.domain.model.Food
+import com.woowahan.ordering.ui.listener.setOnThrottleClickListener
 
 sealed class ItemFoodViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     abstract fun bind(food: Food)
@@ -20,7 +21,7 @@ sealed class ItemFoodViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             root.setOnClickListener {
                 onDetailClick(food.title, food.detailHash)
             }
-            btnAddCart.setOnClickListener {
+            btnAddCart.setOnThrottleClickListener {
                 onCartClick(food)
             }
         }
@@ -36,7 +37,7 @@ sealed class ItemFoodViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             root.setOnClickListener {
                 onDetailClick(food.title, food.detailHash)
             }
-            btnAddCart.setOnClickListener {
+            btnAddCart.setOnThrottleClickListener {
                 onCartClick(food)
             }
         }
@@ -52,7 +53,7 @@ sealed class ItemFoodViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             root.setOnClickListener {
                 onDetailClick(food.title, food.detailHash)
             }
-            btnAddCart.setOnClickListener {
+            btnAddCart.setOnThrottleClickListener {
                 onCartClick(food)
             }
         }
