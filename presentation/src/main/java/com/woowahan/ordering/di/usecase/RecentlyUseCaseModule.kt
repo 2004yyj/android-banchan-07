@@ -3,7 +3,6 @@ package com.woowahan.ordering.di.usecase
 import com.woowahan.ordering.domain.repository.CartRepository
 import com.woowahan.ordering.domain.repository.RecentlyRepository
 import com.woowahan.ordering.domain.usecase.recently.GetRecentlyUseCase
-import com.woowahan.ordering.domain.usecase.recently.GetSimpleRecentlyUseCase
 import com.woowahan.ordering.domain.usecase.recently.InsertRecentlyUseCase
 import com.woowahan.ordering.domain.usecase.recently.UpdateRecentlyUseCase
 import dagger.Module
@@ -23,13 +22,10 @@ object RecentlyUseCaseModule {
 
     @Provides
     @Singleton
-    fun providesGetSimpleRecentlyUseCase(repository: RecentlyRepository): GetSimpleRecentlyUseCase {
-        return GetSimpleRecentlyUseCase(repository)
-    }
-
-    @Provides
-    @Singleton
-    fun providesGetRecentlyUseCase(repository: RecentlyRepository, cartRepository: CartRepository): GetRecentlyUseCase {
+    fun providesGetRecentlyUseCase(
+        repository: RecentlyRepository,
+        cartRepository: CartRepository
+    ): GetRecentlyUseCase {
         return GetRecentlyUseCase(repository, cartRepository)
     }
 
