@@ -9,29 +9,18 @@ import com.woowahan.ordering.domain.model.Food
 import com.woowahan.ordering.ui.adapter.bestDiffUtil
 import com.woowahan.ordering.ui.adapter.viewholder.ItemFoodBestViewHolder
 
-class BestFoodAdapter : ListAdapter<Best, ItemFoodBestViewHolder>(bestDiffUtil) {
-    private var onDetailClick: (String, String) -> Unit = { _, _ -> }
-    private var onCartClick: (Food) -> Unit = {}
-
-    fun setOnClick(
-        onDetailClick: (String, String) -> Unit,
-        onCartClick: (Food) -> Unit
-    ) {
-        this.onDetailClick = onDetailClick
-        this.onCartClick = onCartClick
-    }
+class BestFoodAdapter(
+    private val onDetailClick: (String, String) -> Unit,
+    private val onCartClick: (Food) -> Unit
+) : ListAdapter<Best, ItemFoodBestViewHolder>(bestDiffUtil) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemFoodBestViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = ItemFoodBestBinding.inflate(inflater, parent, false)
-        return ItemFoodBestViewHolder(binding)
+        return ItemFoodBestViewHolder(binding, onDetailClick, onCartClick)
     }
 
     override fun onBindViewHolder(holder: ItemFoodBestViewHolder, position: Int) {
-        holder.bind(
-            getItem(position),
-            onDetailClick = onDetailClick,
-            onCartClick = onCartClick
-        )
+        holder.bind(getItem(position))
     }
 }

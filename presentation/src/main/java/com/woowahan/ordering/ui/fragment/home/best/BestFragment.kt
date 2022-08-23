@@ -30,7 +30,7 @@ class BestFragment : Fragment() {
     private var _binding: FragmentBestBinding? = null
     private val binding get() = requireNotNull(_binding)
     private val adapter: BestFoodAdapter by lazy {
-        BestFoodAdapter()
+        BestFoodAdapter(onDetailClick, openBottomSheet)
     }
 
     private var onDetailClick: (title: String, hash: String) -> Unit = { _, _ -> }
@@ -93,10 +93,6 @@ class BestFragment : Fragment() {
     }
 
     private fun initListener() {
-        adapter.setOnClick(
-            onDetailClick = onDetailClick,
-            onCartClick = openBottomSheet
-        )
         binding.layoutNoInternet.btnRetry.setOnClickListener {
             initData()
         }
