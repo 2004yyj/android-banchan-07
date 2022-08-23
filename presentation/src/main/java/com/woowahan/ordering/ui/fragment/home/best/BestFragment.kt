@@ -21,6 +21,7 @@ import com.woowahan.ordering.ui.uistate.ListUiState
 import com.woowahan.ordering.ui.viewmodel.BestViewModel
 import com.woowahan.ordering.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -77,7 +78,7 @@ class BestFragment : Fragment() {
             viewModel.uiState.flowWithLifecycle(
                 lifecycle = lifecycle,
                 minActiveState = Lifecycle.State.STARTED
-            ).collect {
+            ).collectLatest {
                 when (it) {
                     is ListUiState.Refreshing -> {}
                     is ListUiState.List<Best> -> {
