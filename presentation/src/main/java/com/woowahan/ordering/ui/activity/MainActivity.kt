@@ -1,6 +1,7 @@
 package com.woowahan.ordering.ui.activity
 
 import android.content.Intent
+import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -19,6 +20,7 @@ import com.woowahan.ordering.ui.fragment.cart.CartFragment
 import com.woowahan.ordering.ui.fragment.cart.recently.RecentlyViewedFragment
 import com.woowahan.ordering.ui.fragment.detail.DetailFragment
 import com.woowahan.ordering.ui.fragment.home.HomeFragment
+import com.woowahan.ordering.ui.fragment.home.HomeFragment.Companion.TAG
 import com.woowahan.ordering.ui.fragment.order.OrderListFragment
 import com.woowahan.ordering.ui.fragment.order.detail.OrderDetailFragment
 import com.woowahan.ordering.ui.receiver.CartReceiver
@@ -56,6 +58,11 @@ class MainActivity : AppCompatActivity() {
         onNewIntent(intent)
     }
 
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        changeToolbar(binding.fcvMain.getFragment())
+    }
+
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         this.intent = intent
@@ -63,7 +70,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initFragment() = with(binding) {
-        supportFragmentManager.clearAllBackStack()
         supportFragmentManager.add(
             HomeFragment::class.java,
             binding.fcvMain.id,
@@ -89,9 +95,7 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.popBackStack()
         }
         supportFragmentManager.addOnBackStackChangedListener {
-            supportFragmentManager.fragments.forEach {
-                if (it.isVisible) changeToolbar(it)
-            }
+            changeToolbar(binding.fcvMain.getFragment())
         }
     }
 
