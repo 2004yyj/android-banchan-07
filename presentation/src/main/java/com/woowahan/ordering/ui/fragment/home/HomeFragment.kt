@@ -117,11 +117,6 @@ class HomeFragment : Fragment() {
         binding = null
     }
 
-    override fun onDestroy() {
-        tabLayoutMediator.detach()
-        super.onDestroy()
-    }
-
     companion object {
         const val TAG = "Home"
     }
