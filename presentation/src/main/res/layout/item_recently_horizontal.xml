@@ -9,7 +9,7 @@
 
         <variable
             name="recently"
-            type="com.woowahan.ordering.domain.model.Recently" />
+            type="com.woowahan.ordering.domain.model.History" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

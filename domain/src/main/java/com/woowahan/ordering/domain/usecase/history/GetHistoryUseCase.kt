@@ -1,12 +1,12 @@
-package com.woowahan.ordering.domain.usecase.recently
+package com.woowahan.ordering.domain.usecase.history
 
 import com.woowahan.ordering.domain.model.Result
 import com.woowahan.ordering.domain.repository.CartRepository
-import com.woowahan.ordering.domain.repository.RecentlyRepository
+import com.woowahan.ordering.domain.repository.HistoryRepository
 import kotlinx.coroutines.flow.flow
 
-class GetRecentlyUseCase(
-    private val recentlyRepository: RecentlyRepository,
+class GetHistoryUseCase(
+    private val historyRepository: HistoryRepository,
     private val cartRepository: CartRepository
 ) {
     operator fun invoke() = flow {
@@ -14,12 +14,12 @@ class GetRecentlyUseCase(
         try {
             cartRepository.getCart().collect {
                 val hashList = it.map { cart -> cart.detailHash }
-                val recentlyList = recentlyRepository.getRecently()
+                val historyList = historyRepository.getAllHistories()
 
-                recentlyList.forEach { recently ->
-                    recently.isAdded = hashList.contains(recently.detailHash)
+                historyList.forEach { history ->
+                    history.isAdded = hashList.contains(history.detailHash)
                 }
-                emit(Result.Success(recentlyList))
+                emit(Result.Success(historyList))
             }
         } catch (e: Exception) {
             emit(Result.Failure(e))

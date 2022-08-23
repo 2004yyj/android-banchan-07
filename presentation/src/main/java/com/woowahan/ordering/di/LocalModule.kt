@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.woowahan.ordering.data.local.dao.CartDao
 import com.woowahan.ordering.data.local.dao.OrderDao
-import com.woowahan.ordering.data.local.dao.RecentlyDao
+import com.woowahan.ordering.data.local.dao.HistoryDao
 import com.woowahan.ordering.data.local.db.AppDatabase
 import dagger.Module
 import dagger.Provides
@@ -40,7 +40,7 @@ object LocalModule {
 
     @Provides
     @Singleton
-    fun providesRecentlyDao(appDatabase: AppDatabase): RecentlyDao {
-        return appDatabase.recentlyDao()
+    fun providesHistoryDao(appDatabase: AppDatabase): HistoryDao {
+        return appDatabase.historyDao()
     }
 }

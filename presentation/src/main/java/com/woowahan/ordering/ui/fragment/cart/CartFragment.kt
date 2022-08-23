@@ -16,8 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.woowahan.ordering.constants.DELIVERY_TIME
 import com.woowahan.ordering.databinding.FragmentCartBinding
 import com.woowahan.ordering.ui.adapter.cart.CartAdapter
-import com.woowahan.ordering.ui.adapter.cart.CartRecentlyAdapter
-import com.woowahan.ordering.ui.fragment.cart.recently.RecentlyViewedFragment
+import com.woowahan.ordering.ui.adapter.cart.CartHistoryAdapter
+import com.woowahan.ordering.ui.fragment.cart.recently.HistoryFragment
 import com.woowahan.ordering.ui.fragment.detail.DetailFragment
 import com.woowahan.ordering.ui.fragment.detail.DetailFragment.Companion.HASH
 import com.woowahan.ordering.ui.fragment.detail.DetailFragment.Companion.TITLE
@@ -39,7 +39,7 @@ class CartFragment : Fragment() {
     private var binding: FragmentCartBinding? = null
     private val viewModel by viewModels<CartViewModel>()
     private lateinit var cartAdapter: CartAdapter
-    private lateinit var cartRecentlyAdapter: CartRecentlyAdapter
+    private lateinit var cartHistoryAdapter: CartHistoryAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -73,7 +73,7 @@ class CartFragment : Fragment() {
             seeAllClick = this::replaceToRecentlyViewed
         )
 
-        cartRecentlyAdapter = CartRecentlyAdapter(
+        cartHistoryAdapter = CartHistoryAdapter(
             onDetailClick = this::replaceToDetail,
             seeAllClick = this::replaceToRecentlyViewed
         )
@@ -133,9 +133,9 @@ class CartFragment : Fragment() {
 
     private fun replaceToRecentlyViewed() {
         parentFragmentManager.replace(
-            RecentlyViewedFragment::class.java,
+            HistoryFragment::class.java,
             (requireView().parent as View).id,
-            RecentlyViewedFragment.TAG
+            HistoryFragment.TAG
         )
     }
 

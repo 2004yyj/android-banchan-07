@@ -2,9 +2,9 @@ package com.woowahan.ordering.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.woowahan.ordering.domain.model.Recently
+import com.woowahan.ordering.domain.model.History
 import com.woowahan.ordering.domain.model.Result
-import com.woowahan.ordering.domain.usecase.recently.GetRecentlyUseCase
+import com.woowahan.ordering.domain.usecase.history.GetHistoryUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,12 +13,12 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class RecentlyViewedViewModel @Inject constructor(
-    private val getRecentlyUseCase: GetRecentlyUseCase
+class HistoryViewModel @Inject constructor(
+    private val getHistoryUseCase: GetHistoryUseCase
 ) : ViewModel() {
 
-    private val _recentlyViewedList = MutableStateFlow<List<Recently>>(listOf())
-    val recentlyViewedList = _recentlyViewedList.asStateFlow()
+    private val _historyViewedList = MutableStateFlow<List<History>>(listOf())
+    val recentlyViewedList = _historyViewedList.asStateFlow()
 
     init {
         fetchData()
@@ -26,10 +26,10 @@ class RecentlyViewedViewModel @Inject constructor(
 
     fun fetchData() {
         viewModelScope.launch(Dispatchers.IO) {
-            getRecentlyUseCase().collect {
+            getHistoryUseCase().collect {
                 when (it) {
                     is Result.Success -> {
-                        _recentlyViewedList.emit(it.value)
+                        _historyViewedList.emit(it.value)
                     }
                 }
             }

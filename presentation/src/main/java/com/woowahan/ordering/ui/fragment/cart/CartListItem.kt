@@ -1,7 +1,7 @@
 package com.woowahan.ordering.ui.fragment.cart
 
 import com.woowahan.ordering.domain.model.Cart
-import com.woowahan.ordering.domain.model.Recently
+import com.woowahan.ordering.domain.model.History
 
 sealed class CartListItem {
     data class Header(
@@ -24,6 +24,6 @@ sealed class CartListItem {
     object Empty : CartListItem()
 
     data class CartHistory(
-        val historyList: List<Recently> = listOf()
+        val historyList: List<History> = listOf()
     ) : CartListItem()
 }
