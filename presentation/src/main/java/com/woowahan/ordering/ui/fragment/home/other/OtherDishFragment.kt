@@ -36,8 +36,14 @@ class OtherDishFragment : Fragment() {
     private val binding get() = requireNotNull(_binding)
     private val viewModel by viewModels<OtherDishViewModel>()
 
-    private val countAndFilterAdapter by lazy { CountAndFilterAdapter() }
-    private val foodAdapter by lazy { FoodAdapter() }
+    private val countAndFilterAdapter by lazy {
+        CountAndFilterAdapter(
+            onItemSelected = {
+                viewModel.getMenuList(kind, it)
+            }
+        )
+    }
+    private lateinit var foodAdapter: FoodAdapter
     private val kind by lazy { requireArguments().get(OTHER_KIND) as OtherKind }
 
     private var onDetailClick: (title: String, hash: String) -> Unit = { _, _ -> }
@@ -101,14 +107,6 @@ class OtherDishFragment : Fragment() {
     }
 
     private fun initListener() {
-        foodAdapter.setOnClick(
-            onDetailClick = onDetailClick,
-            onCartClick = openBottomSheet
-        )
-        countAndFilterAdapter.setOnItemSelectedListener {
-            viewModel.sortType = it
-            initData()
-        }
         binding.layoutNoInternet.btnRetry.setOnClickListener {
             initData()
         }
@@ -123,6 +121,10 @@ class OtherDishFragment : Fragment() {
             OtherKind.Side -> getString(R.string.main_header_side)
         }
         val headerAdapter = HeaderAdapter(title)
+        foodAdapter = FoodAdapter(
+            onDetailClick = onDetailClick,
+            onCartClick = openBottomSheet
+        )
         val concatAdapter = ConcatAdapter(headerAdapter, countAndFilterAdapter, foodAdapter)
         val decoration = ItemSpacingDecoratorWithHeader(
             spacing = 18.dp,

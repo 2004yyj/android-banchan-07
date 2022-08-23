@@ -8,59 +8,53 @@ import com.woowahan.ordering.databinding.ItemFoodVerticalBinding
 import com.woowahan.ordering.domain.model.Food
 
 sealed class ItemFoodViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    abstract fun bind(
-        food: Food,
-        onDetailClick: (String, String) -> Unit,
-        onCartClick: (Food) -> Unit
-    )
+    abstract fun bind(food: Food)
 
-    class Grid(private val binding: ItemFoodGridBinding) : ItemFoodViewHolder(binding.root) {
-        override fun bind(
-            food: Food,
-            onDetailClick: (String, String) -> Unit,
-            onCartClick: (Food) -> Unit
-        ) {
-            binding.food = food
-            binding.root.setOnClickListener {
+    class Grid(
+        private val binding: ItemFoodGridBinding,
+        private val onDetailClick: (String, String) -> Unit,
+        private val onCartClick: (Food) -> Unit
+    ) : ItemFoodViewHolder(binding.root) {
+        override fun bind(food: Food) = with(binding) {
+            this.food = food
+            root.setOnClickListener {
                 onDetailClick(food.title, food.detailHash)
             }
-            binding.btnAddCart.setOnClickListener {
-                onCartClick(food)
-            }
-        }
-
-    }
-
-    class Vertical(private val binding: ItemFoodVerticalBinding) : ItemFoodViewHolder(binding.root) {
-        override fun bind(
-            food: Food,
-            onDetailClick: (String, String) -> Unit,
-            onCartClick: (Food) -> Unit
-        ) {
-            binding.food = food
-            binding.root.setOnClickListener {
-                onDetailClick(food.title, food.detailHash)
-            }
-            binding.btnAddCart.setOnClickListener {
+            btnAddCart.setOnClickListener {
                 onCartClick(food)
             }
         }
     }
 
-    class Horizontal(private val binding: ItemFoodHorizontalBinding) : ItemFoodViewHolder(binding.root) {
-        override fun bind(
-            food: Food,
-            onDetailClick: (String, String) -> Unit,
-            onCartClick: (Food) -> Unit
-        ) {
-            binding.food = food
-            binding.root.setOnClickListener {
+    class Vertical(
+        private val binding: ItemFoodVerticalBinding,
+        private val onDetailClick: (String, String) -> Unit,
+        private val onCartClick: (Food) -> Unit
+    ) : ItemFoodViewHolder(binding.root) {
+        override fun bind(food: Food) = with(binding) {
+            this.food = food
+            root.setOnClickListener {
                 onDetailClick(food.title, food.detailHash)
             }
-            binding.btnAddCart.setOnClickListener {
+            btnAddCart.setOnClickListener {
                 onCartClick(food)
             }
         }
+    }
 
+    class Horizontal(
+        private val binding: ItemFoodHorizontalBinding,
+        private val onDetailClick: (String, String) -> Unit,
+        private val onCartClick: (Food) -> Unit
+    ) : ItemFoodViewHolder(binding.root) {
+        override fun bind(food: Food) = with(binding) {
+            this.food = food
+            root.setOnClickListener {
+                onDetailClick(food.title, food.detailHash)
+            }
+            btnAddCart.setOnClickListener {
+                onCartClick(food)
+            }
+        }
     }
 }

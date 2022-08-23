@@ -101,14 +101,6 @@ class MainDishFragment : Fragment() {
     }
 
     private fun initListener() {
-        foodAdapter.setOnClick(
-            onDetailClick = onDetailClick,
-            onCartClick = openBottomSheet
-        )
-        typeAndFilterAdapter.setOnItemSelected {
-            viewModel.sortType = it
-            initData()
-        }
         binding.layoutNoInternet.btnRetry.setOnClickListener {
             initData()
         }
@@ -118,7 +110,7 @@ class MainDishFragment : Fragment() {
     }
 
     private fun initRecyclerView() = with(binding) {
-        foodAdapter = FoodAdapter()
+        foodAdapter = FoodAdapter(onDetailClick = onDetailClick, onCartClick = openBottomSheet)
         val headerAdapter = HeaderAdapter(getString(R.string.main_header_main_dish))
         val concatAdapter = ConcatAdapter(headerAdapter, typeAndFilterAdapter, foodAdapter)
         val gridDecoration = ItemSpacingDecoratorWithHeader(
