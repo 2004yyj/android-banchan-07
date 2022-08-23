@@ -3,6 +3,7 @@ package com.woowahan.ordering.data.repository
 import com.woowahan.ordering.data.datasource.RecentlyDataSource
 import com.woowahan.ordering.domain.model.Recently
 import com.woowahan.ordering.domain.repository.RecentlyRepository
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class RecentlyRepositoryImpl @Inject constructor(
@@ -20,7 +21,7 @@ class RecentlyRepositoryImpl @Inject constructor(
         return dataSource.getRecently()
     }
 
-    override fun getSimpleRecently(size: Int): List<Recently> {
+    override fun getSimpleRecently(size: Int): Flow<List<Recently>> {
         return dataSource.getSimpleRecently(size)
     }
 }
