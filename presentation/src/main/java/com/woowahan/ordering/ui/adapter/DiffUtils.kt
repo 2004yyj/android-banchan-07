@@ -26,6 +26,10 @@ val bestDiffUtil = object : DiffUtil.ItemCallback<Best>() {
     override fun areContentsTheSame(oldItem: Best, newItem: Best): Boolean {
         return oldItem == newItem
     }
+
+    override fun getChangePayload(oldItem: Best, newItem: Best): Any? {
+        return oldItem != newItem
+    }
 }
 
 val stringDiffUtil = object : DiffUtil.ItemCallback<String>() {

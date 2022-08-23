@@ -32,4 +32,8 @@ class ItemFoodBestViewHolder(
             }
         }
     }
+
+    fun submitList(best: Best) {
+        adapter.submitList(best.items)
+    }
 }

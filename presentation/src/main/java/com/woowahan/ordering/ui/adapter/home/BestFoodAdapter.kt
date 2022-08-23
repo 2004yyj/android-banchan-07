@@ -23,4 +23,21 @@ class BestFoodAdapter(
     override fun onBindViewHolder(holder: ItemFoodBestViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
+
+    override fun onBindViewHolder(
+        holder: ItemFoodBestViewHolder,
+        position: Int,
+        payloads: MutableList<Any>
+    ) {
+        if (payloads.isEmpty()) {
+            super.onBindViewHolder(holder, position, payloads)
+            return
+        }
+
+        payloads.forEach {
+            if (it is Boolean) {
+                holder.submitList(getItem(position))
+            }
+        }
+    }
 }
