@@ -8,7 +8,11 @@ abstract class BaseRemote {
     }
 
     private fun <T> getError(call: Call<T>): T {
-        val response = call.execute()
+        val response =
+            if (!call.isExecuted)
+                call.execute()
+            else
+                call.clone().execute()
         return if (response.isSuccessful) {
             response.body()!!
         } else {
