@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.woowahan.ordering.R
 import com.woowahan.ordering.databinding.BottomSheetCartBinding
@@ -24,6 +25,14 @@ class CartBottomSheet : BottomSheetDialogFragment() {
 
     private var binding: BottomSheetCartBinding? = null
     private val viewModel by viewModels<CartBottomSheetViewModel>()
+
+    override fun onStart() {
+        super.onStart()
+
+        BottomSheetBehavior.from(requireView().parent as View).apply {
+            state = BottomSheetBehavior.STATE_EXPANDED
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

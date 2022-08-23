@@ -3,9 +3,11 @@
 
     <style name="CartBottomSheetDialog" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/CartBottomSheet</item>
+        <item name="android:colorBackground">@color/white</item>
     </style>
 
     <style name="CartBottomSheet" parent="Widget.MaterialComponents.BottomSheet">
+        <item name="backgroundTint">@android:color/transparent</item>
         <item name="shapeAppearanceOverlay">@style/CartBottomSheetShape</item>
     </style>
 
