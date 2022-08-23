@@ -29,6 +29,7 @@ import com.woowahan.ordering.ui.viewmodel.MainDishViewModel
 import com.woowahan.ordering.util.dp
 import com.woowahan.ordering.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -90,7 +91,7 @@ class MainDishFragment : Fragment() {
             viewModel.uiState.flowWithLifecycle(
                 lifecycle = lifecycle,
                 minActiveState = Lifecycle.State.STARTED
-            ).collect {
+            ).collectLatest {
                 when (it) {
                     is ListUiState.Refreshing -> {}
                     is ListUiState.List<Food> -> {

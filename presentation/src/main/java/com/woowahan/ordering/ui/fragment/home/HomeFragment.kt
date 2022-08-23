@@ -29,10 +29,10 @@ class HomeFragment : Fragment() {
 
     private var binding: FragmentHomeBinding? = null
 
-    private val bestFragment = BestFragment.newInstance { showCartBottomSheet(it) }
-    private val mainDishFragment = MainDishFragment.newInstance { showCartBottomSheet(it) }
-    private val soupDishFragment = OtherDishFragment.newInstance(OtherKind.Soup) { showCartBottomSheet(it) }
-    private val sideDishFragment = OtherDishFragment.newInstance(OtherKind.Side) { showCartBottomSheet(it) }
+    private lateinit var bestFragment: BestFragment
+    private lateinit var mainDishFragment: MainDishFragment
+    private lateinit var soupDishFragment: OtherDishFragment
+    private lateinit var sideDishFragment: OtherDishFragment
 
     private lateinit var tabLayoutMediator: TabLayoutMediator
 
@@ -47,8 +47,16 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initFragment()
         initListener()
         initViewPager()
+    }
+
+    private fun initFragment() {
+        bestFragment = BestFragment.newInstance { showCartBottomSheet(it) }
+        mainDishFragment = MainDishFragment.newInstance { showCartBottomSheet(it) }
+        soupDishFragment = OtherDishFragment.newInstance(OtherKind.Soup) { showCartBottomSheet(it) }
+        sideDishFragment = OtherDishFragment.newInstance(OtherKind.Side) { showCartBottomSheet(it) }
     }
 
     private fun initListener() {
@@ -110,6 +118,13 @@ class HomeFragment : Fragment() {
         CartDialogFragment.newInstance {
             replaceToCart()
         }.show(parentFragmentManager, CartDialogFragment.TAG)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        binding?.vpHome?.let {
+            it.adapter = null
+        }
     }
 
     override fun onDestroyView() {
