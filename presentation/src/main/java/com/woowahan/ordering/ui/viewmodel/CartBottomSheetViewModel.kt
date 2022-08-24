@@ -33,17 +33,16 @@ class CartBottomSheetViewModel @Inject constructor(
         }
     }
 
-    fun cancel() = viewModelScope.launch {
-        _uiState.emit(CartBottomSheetUiState.Finished)
+    fun cancel() {
+        viewModelScope.launch {
+            _uiState.emit(CartBottomSheetUiState.Finished)
+        }
     }
 
     fun addToCart(cart: Cart) {
         viewModelScope.launch(Dispatchers.IO) {
             insertCartUseCase(cart.copy(count = _count.value)).collect {
                 when (it) {
-                    is Result.Loading -> {
-                        _uiState.emit(CartBottomSheetUiState.Loading)
-                    }
                     is Result.Success -> {
                         _uiState.emit(CartBottomSheetUiState.Success)
                     }

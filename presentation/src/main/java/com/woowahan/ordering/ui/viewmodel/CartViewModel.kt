@@ -2,14 +2,20 @@ package com.woowahan.ordering.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.woowahan.ordering.domain.model.*
+import com.woowahan.ordering.domain.model.Cart
+import com.woowahan.ordering.domain.model.CartResult
+import com.woowahan.ordering.domain.model.Order
+import com.woowahan.ordering.domain.model.Result
 import com.woowahan.ordering.domain.usecase.cart.*
 import com.woowahan.ordering.domain.usecase.order.InsertOrderUseCase
 import com.woowahan.ordering.ui.fragment.cart.CartListItem
 import com.woowahan.ordering.ui.uistate.CartUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -86,7 +92,7 @@ class CartViewModel @Inject constructor(
     fun selectAll() {
         viewModelScope.launch(Dispatchers.IO) {
             selectAllCartUseCase(_isSelectedAll.value.not()).collect {
-
+                handleUpdateEvent(it)
             }
         }
     }
@@ -94,7 +100,7 @@ class CartViewModel @Inject constructor(
     fun checkItemClick(cart: Cart) {
         viewModelScope.launch(Dispatchers.IO) {
             updateCartUseCase(cart.copy(isChecked = !cart.isChecked)).collect {
-
+                handleUpdateEvent(it)
             }
         }
     }
@@ -103,6 +109,7 @@ class CartViewModel @Inject constructor(
         if (cart.count > 1) {
             viewModelScope.launch(Dispatchers.IO) {
                 updateCartUseCase(cart.copy(count = cart.count - 1)).collect {
+                    handleUpdateEvent(it)
                 }
             }
         }
@@ -111,20 +118,24 @@ class CartViewModel @Inject constructor(
     fun plusItemClick(cart: Cart) {
         viewModelScope.launch(Dispatchers.IO) {
             updateCartUseCase(cart.copy(count = cart.count + 1)).collect {
+                handleUpdateEvent(it)
             }
-
         }
     }
 
     fun deleteItemClick(cart: Cart) {
         viewModelScope.launch(Dispatchers.IO) {
-            deleteCartUseCase(cart).collect()
+            deleteCartUseCase(cart).collect {
+                handleUpdateEvent(it)
+            }
         }
     }
 
     fun deleteAll() {
         viewModelScope.launch(Dispatchers.IO) {
-            deleteAllSelectedCartUseCase().collect()
+            deleteAllSelectedCartUseCase().collect {
+                handleUpdateEvent(it)
+            }
         }
     }
 
@@ -133,9 +144,6 @@ class CartViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             insertOrderUseCase(order).collect {
                 when (it) {
-                    is Result.Loading -> {
-                        _uiState.emit(CartUiState.Loading)
-                    }
                     is Result.Success -> {
                         _uiState.emit(
                             CartUiState.SuccessOrder(
@@ -146,9 +154,20 @@ class CartViewModel @Inject constructor(
                         )
                     }
                     is Result.Failure -> {
-                        _uiState.emit(CartUiState.Error(it.cause.message ?: "error"))
+                        _uiState.emit(CartUiState.Error(it.cause.toString()))
                     }
                 }
+            }
+        }
+    }
+
+    private suspend fun handleUpdateEvent(result: Result<*>) {
+        when (result) {
+            is Result.Success -> {
+                _uiState.emit(CartUiState.Success)
+            }
+            is Result.Failure -> {
+                _uiState.emit(CartUiState.Error(result.cause.toString()))
             }
         }
     }

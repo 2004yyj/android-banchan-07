@@ -13,6 +13,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.woowahan.ordering.R
 import com.woowahan.ordering.constants.DELIVERY_TIME
 import com.woowahan.ordering.databinding.FragmentCartBinding
 import com.woowahan.ordering.ui.adapter.cart.CartAdapter
@@ -30,6 +31,7 @@ import com.woowahan.ordering.ui.uistate.CartUiState
 import com.woowahan.ordering.ui.viewmodel.CartViewModel
 import com.woowahan.ordering.util.replace
 import com.woowahan.ordering.util.replaceWithPopBackstack
+import com.woowahan.ordering.util.showToast
 import com.woowahan.ordering.util.startAlarmReceiver
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -112,8 +114,7 @@ class CartFragment : Fragment() {
                                 createNotificationTray(it.title, it.count, it.deliveryTime)
                             }
                             is CartUiState.Error -> {
-                                Toast.makeText(requireContext(), "오류가 발생했습니다.", Toast.LENGTH_SHORT)
-                                    .show()
+                                requireContext().showToast(getString(R.string.error_message))
                             }
                         }
                     }
