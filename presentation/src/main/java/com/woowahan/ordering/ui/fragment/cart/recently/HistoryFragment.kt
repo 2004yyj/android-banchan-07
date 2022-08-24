@@ -11,7 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import com.woowahan.ordering.data.mapper.toCartModel
 import com.woowahan.ordering.databinding.FragmentRecentlyViewedBinding
 import com.woowahan.ordering.domain.model.History
-import com.woowahan.ordering.ui.adapter.cart.HistoryAdapter
+import com.woowahan.ordering.ui.adapter.cart.HistoryPagingAdapter
 import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader
 import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader.Companion.GRID
 import com.woowahan.ordering.ui.dialog.CartBottomSheet
@@ -24,13 +24,14 @@ import com.woowahan.ordering.ui.viewmodel.HistoryViewModel
 import com.woowahan.ordering.util.dp
 import com.woowahan.ordering.util.replaceWithPopBackstack
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
 class HistoryFragment : Fragment() {
 
     private var binding: FragmentRecentlyViewedBinding? = null
     private val viewModel by viewModels<HistoryViewModel>()
-    private lateinit var adapter: HistoryAdapter
+    private lateinit var adapter: HistoryPagingAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,8 +50,7 @@ class HistoryFragment : Fragment() {
     }
 
     private fun initRecyclerView() {
-        adapter = HistoryAdapter()
-        adapter.setOnClick(
+        adapter = HistoryPagingAdapter(
             onDetailClick = this::replaceToDetail,
             onCartClick = this::showCartBottomSheet
         )
@@ -68,8 +68,8 @@ class HistoryFragment : Fragment() {
 
     private fun initFlow() {
         lifecycleScope.launchWhenStarted {
-            viewModel.recentlyViewedList.collect {
-                adapter.submitList(it)
+            viewModel.historyList.collectLatest {
+                adapter.submitData(it)
             }
         }
     }

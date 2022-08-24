@@ -98,9 +98,12 @@ val historyDiffUtil = object : DiffUtil.ItemCallback<History>() {
     }
 
     override fun areContentsTheSame(oldItem: History, newItem: History): Boolean {
-        return oldItem == newItem
+        return oldItem.isAdded == newItem.isAdded
     }
 
+    override fun getChangePayload(oldItem: History, newItem: History): Any {
+        return oldItem.isAdded != newItem.isAdded
+    }
 }
 
 val simpleOrderDiffUtil = object : DiffUtil.ItemCallback<SimpleOrder>() {

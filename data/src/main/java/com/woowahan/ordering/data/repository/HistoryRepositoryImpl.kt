@@ -1,5 +1,6 @@
 package com.woowahan.ordering.data.repository
 
+import androidx.paging.PagingData
 import com.woowahan.ordering.data.datasource.HistoryDataSource
 import com.woowahan.ordering.domain.model.History
 import com.woowahan.ordering.domain.repository.HistoryRepository
@@ -8,7 +9,7 @@ import javax.inject.Inject
 
 class HistoryRepositoryImpl @Inject constructor(
     private val dataSource: HistoryDataSource
-): HistoryRepository {
+) : HistoryRepository {
     override fun insertHistory(history: History) {
         return dataSource.insertHistory(history)
     }
@@ -17,7 +18,7 @@ class HistoryRepositoryImpl @Inject constructor(
         return dataSource.updateHistory(history)
     }
 
-    override fun getAllHistories(): List<History> {
+    override fun getAllHistories(): Flow<PagingData<History>> {
         return dataSource.getAllHistories()
     }
 

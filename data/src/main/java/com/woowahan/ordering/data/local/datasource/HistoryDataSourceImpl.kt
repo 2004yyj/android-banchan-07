@@ -1,5 +1,10 @@
 package com.woowahan.ordering.data.local.datasource
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.map
+import com.woowahan.ordering.constants.PAGING_DEFAULT_SIZE
 import com.woowahan.ordering.data.datasource.HistoryDataSource
 import com.woowahan.ordering.data.local.dao.HistoryDao
 import com.woowahan.ordering.data.mapper.toEntity
@@ -11,7 +16,7 @@ import javax.inject.Inject
 
 class HistoryDataSourceImpl @Inject constructor(
     private val historyDao: HistoryDao
-): HistoryDataSource {
+) : HistoryDataSource {
     override fun insertHistory(history: History) {
         historyDao.insertHistory(history.toEntity())
     }
@@ -20,9 +25,9 @@ class HistoryDataSourceImpl @Inject constructor(
         historyDao.updateHistory(history.toEntity())
     }
 
-    override fun getAllHistories(): List<History> {
-        return historyDao.getAllHistories().map {
-            it.toModel()
+    override fun getAllHistories(): Flow<PagingData<History>> {
+        return Pager(PagingConfig(PAGING_DEFAULT_SIZE)) { historyDao.getAllHistories() }.flow.map {
+            it.map { historyEntity -> historyEntity.toModel() }
         }
     }
 
