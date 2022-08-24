@@ -40,7 +40,7 @@ class CartBottomSheetViewModel @Inject constructor(
     }
 
     fun addToCart(cart: Cart) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             insertCartUseCase(cart.copy(count = _count.value)).collect {
                 when (it) {
                     is Result.Success -> {
