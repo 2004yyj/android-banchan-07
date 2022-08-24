@@ -1,5 +1,6 @@
 package com.woowahan.ordering.data.local.dao
 
+import androidx.paging.PagingSource
 import androidx.room.*
 import com.woowahan.ordering.data.entity.CartEntity
 import com.woowahan.ordering.data.entity.OrderEntity
@@ -19,7 +20,7 @@ interface OrderDao {
                 "FROM Orders as o LEFT JOIN Cart as c ON o.id = c.orderId " +
                 "GROUP BY o.deliveryTime ORDER BY o.deliveryTime DESC"
     )
-    fun getSimpleOrder(): Flow<List<SimpleOrderEntity>>
+    fun getSimpleOrder(): PagingSource<Int, SimpleOrderEntity>
 
     @Query(
         "SELECT c.* FROM Orders as o LEFT JOIN Cart as c ON o.id = c.orderId " +

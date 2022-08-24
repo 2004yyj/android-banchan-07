@@ -2,7 +2,7 @@ package com.woowahan.ordering.ui.adapter.order
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.ListAdapter
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.woowahan.ordering.databinding.ItemOrderSimpleBinding
 import com.woowahan.ordering.domain.model.SimpleOrder
@@ -10,7 +10,7 @@ import com.woowahan.ordering.ui.adapter.simpleOrderDiffUtil
 
 class SimpleOrderListAdapter(
     private val onClickOrderItem: (deliveryTime: Long) -> Unit
-) : ListAdapter<SimpleOrder, SimpleOrderListAdapter.ViewHolder>(
+) : PagingDataAdapter<SimpleOrder, SimpleOrderListAdapter.ViewHolder>(
     simpleOrderDiffUtil
 ) {
     inner class ViewHolder(private val binding: ItemOrderSimpleBinding) :
@@ -30,6 +30,6 @@ class SimpleOrderListAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position), onClickOrderItem)
+        getItem(position)?.let { holder.bind(it, onClickOrderItem) }
     }
 }

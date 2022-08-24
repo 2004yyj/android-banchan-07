@@ -1,5 +1,6 @@
 package com.woowahan.ordering.data.repository
 
+import androidx.paging.PagingData
 import com.woowahan.ordering.data.datasource.OrderDataSource
 import com.woowahan.ordering.domain.model.Order
 import com.woowahan.ordering.domain.model.OrderedCartList
@@ -19,7 +20,7 @@ class OrderRepositoryImpl @Inject constructor(
         return dataSource.updateOrder(deliveryTime, isDelivered)
     }
 
-    override fun getSimpleOrder(): Flow<List<SimpleOrder>> {
+    override fun getSimpleOrder(): Flow<PagingData<SimpleOrder>> {
         return dataSource.getSimpleOrder()
     }
 
