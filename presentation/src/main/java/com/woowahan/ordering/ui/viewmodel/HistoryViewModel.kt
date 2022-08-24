@@ -3,6 +3,7 @@ package com.woowahan.ordering.ui.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.woowahan.ordering.domain.model.History
 import com.woowahan.ordering.domain.usecase.history.GetHistoryUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,7 +26,7 @@ class HistoryViewModel @Inject constructor(
 
     fun fetchData() {
         viewModelScope.launch {
-            getHistoryUseCase().collect {
+            getHistoryUseCase(viewModelScope).collect {
                 _historyList.emit(it)
             }
         }
