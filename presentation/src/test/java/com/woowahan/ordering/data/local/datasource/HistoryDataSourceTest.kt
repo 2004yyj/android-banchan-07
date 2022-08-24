@@ -2,12 +2,12 @@ package com.woowahan.ordering.data.local.datasource
 
 import androidx.paging.AsyncPagingDataDiffer
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListUpdateCallback
 import com.woowahan.ordering.data.datasource.HistoryDataSource
 import com.woowahan.ordering.data.entity.HistoryEntity
 import com.woowahan.ordering.data.mapper.toModel
 import com.woowahan.ordering.domain.model.History
 import com.woowahan.ordering.impl.dao.FakeHistoryDao
+import com.woowahan.ordering.paging.PagingCallback
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertTrue
 import kotlinx.coroutines.Dispatchers
@@ -68,7 +68,7 @@ class HistoryDataSourceTest {
         val expected = testList.map { it.toModel() }
         val differ = AsyncPagingDataDiffer(
             diffCallback = MyDiffCallback(),
-            updateCallback = NoopListCallback(),
+            updateCallback = PagingCallback(),
             workerDispatcher = UnconfinedTestDispatcher()
         )
         val testJob = launch(UnconfinedTestDispatcher()) {
@@ -79,13 +79,6 @@ class HistoryDataSourceTest {
         val actual = differ.snapshot().items
         assertTrue(actual.containsAll(expected))
         testJob.cancel()
-    }
-
-    class NoopListCallback : ListUpdateCallback {
-        override fun onChanged(position: Int, count: Int, payload: Any?) {}
-        override fun onMoved(fromPosition: Int, toPosition: Int) {}
-        override fun onInserted(position: Int, count: Int) {}
-        override fun onRemoved(position: Int, count: Int) {}
     }
 
     class MyDiffCallback : DiffUtil.ItemCallback<History>() {
