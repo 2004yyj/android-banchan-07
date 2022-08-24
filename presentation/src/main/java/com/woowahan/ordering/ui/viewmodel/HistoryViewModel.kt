@@ -2,6 +2,7 @@ package com.woowahan.ordering.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
 import com.woowahan.ordering.domain.model.History
 import com.woowahan.ordering.domain.usecase.history.GetHistoryUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,8 +16,8 @@ class HistoryViewModel @Inject constructor(
     private val getHistoryUseCase: GetHistoryUseCase
 ) : ViewModel() {
 
-    private val _historyViewedList = MutableStateFlow<List<History>>(listOf())
-    val recentlyViewedList = _historyViewedList.asStateFlow()
+    private val _historyList = MutableStateFlow<PagingData<History>>(PagingData.empty())
+    val historyList = _historyList.asStateFlow()
 
     init {
         fetchData()
@@ -25,7 +26,7 @@ class HistoryViewModel @Inject constructor(
     fun fetchData() {
         viewModelScope.launch {
             getHistoryUseCase().collect {
-                _historyViewedList.emit(it)
+                _historyList.emit(it)
             }
         }
     }
