@@ -1,9 +1,10 @@
-package com.woowahan.ordering.data.local.datasource
+package com.woowahan.ordering.data.local
 
 import androidx.paging.AsyncPagingDataDiffer
 import androidx.recyclerview.widget.DiffUtil
 import com.woowahan.ordering.data.datasource.HistoryDataSource
 import com.woowahan.ordering.data.entity.HistoryEntity
+import com.woowahan.ordering.data.local.datasource.HistoryDataSourceImpl
 import com.woowahan.ordering.domain.model.History
 import com.woowahan.ordering.impl.dao.FakeHistoryDao
 import com.woowahan.ordering.paging.PagingCallback
