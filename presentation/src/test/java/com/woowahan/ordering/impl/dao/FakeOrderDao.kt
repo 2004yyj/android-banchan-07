@@ -3,6 +3,7 @@ package com.woowahan.ordering.impl.dao
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.woowahan.ordering.data.entity.CartEntity
+import com.woowahan.ordering.data.entity.HistoryEntity
 import com.woowahan.ordering.data.entity.OrderEntity
 import com.woowahan.ordering.data.entity.SimpleOrderEntity
 import com.woowahan.ordering.data.local.dao.OrderDao
@@ -24,10 +25,18 @@ class FakeOrderDao(
     override fun getSimpleOrder(): PagingSource<Int, SimpleOrderEntity> {
         return object : PagingSource<Int, SimpleOrderEntity>() {
             override fun getRefreshKey(state: PagingState<Int, SimpleOrderEntity>): Int? {
-                return state.anchorPosition
+                return state.anchorPosition?.let { anchorPosition ->
+                    val anchorPage = state.closestPageToPosition(anchorPosition)
+                    anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
+                }
             }
             override suspend fun load(params: LoadParams<Int>): LoadResult<Int, SimpleOrderEntity> {
-                return LoadResult.Page(simpleOrderList, null, 2)
+                val page = params.key ?: 0
+                return LoadResult.Page(
+                    simpleOrderList,
+                    prevKey = if (page == 0) null else page - 1,
+                    nextKey = if (simpleOrderList.isEmpty()) null else page + 1
+                )
             }
         }
     }
@@ -38,7 +47,7 @@ class FakeOrderDao(
     }
 
     override fun isExistNotDeliveredOrder(): Flow<Boolean> {
-        return flow { !orderList.none { it.isDelivered } }
+        return flow { emit(!orderList.none { it.isDelivered }) }
     }
 
 }
