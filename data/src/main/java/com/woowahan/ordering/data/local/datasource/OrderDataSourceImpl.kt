@@ -1,5 +1,7 @@
 package com.woowahan.ordering.data.local.datasource
 
+import androidx.paging.*
+import com.woowahan.ordering.constants.PAGING_DEFAULT_SIZE
 import com.woowahan.ordering.data.datasource.OrderDataSource
 import com.woowahan.ordering.data.local.dao.OrderDao
 import com.woowahan.ordering.data.mapper.toEntity
@@ -23,9 +25,9 @@ class OrderDataSourceImpl @Inject constructor(
         return orderDao.updateOrder(deliveryTime, isDelivered)
     }
 
-    override fun getSimpleOrder(): Flow<List<SimpleOrder>> {
-        return orderDao.getSimpleOrder().map {
-            it.map { simpleOrder -> simpleOrder.toModel() }
+    override fun getSimpleOrder(): Flow<PagingData<SimpleOrder>> {
+        return Pager(PagingConfig(PAGING_DEFAULT_SIZE)) { orderDao.getSimpleOrder() }.flow.map {
+            it.map { simpleOrderEntity -> simpleOrderEntity.toModel() }
         }
     }
 
