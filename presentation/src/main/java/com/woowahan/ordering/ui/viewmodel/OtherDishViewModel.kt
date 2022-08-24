@@ -11,7 +11,6 @@ import com.woowahan.ordering.network.ConnectionInterceptor
 import com.woowahan.ordering.ui.fragment.home.other.kind.OtherKind
 import com.woowahan.ordering.ui.uistate.ListUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -39,7 +38,7 @@ class OtherDishViewModel @Inject constructor(
         if (this::otherListJob.isInitialized)
             otherListJob.cancel()
 
-        otherListJob = viewModelScope.launch(Dispatchers.IO) {
+        otherListJob = viewModelScope.launch {
             getMenuListUseCase(menu, sortType).collect {
                 when (it) {
                     is Result.Loading -> _uiState.emit(ListUiState.Refreshing)
