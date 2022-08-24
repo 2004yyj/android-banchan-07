@@ -13,11 +13,10 @@ import kotlinx.coroutines.flow.flow
 class FakeOrderDao(
     private val orderedCartList: List<CartEntity>,
     private val simpleOrderList: List<SimpleOrderEntity>,
-    private val orderList: ArrayList<OrderEntity>
+    private val orderList: List<OrderEntity>
 ) : OrderDao {
     override fun insertOrder(order: OrderEntity): Long {
-        orderList.add(order)
-        return orderList.size.toLong()
+        return 0
     }
 
     override fun updateOrder(deliveryTime: Long, isDelivered: Boolean) {}
