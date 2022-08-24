@@ -20,6 +20,7 @@
 * [Coroutines](https://kotlinlang.org/docs/coroutines-overview.html)
 * [Android Jetpack](https://developer.android.com/jetpack/getting-started)
   * [Room](https://developer.android.com/topic/libraries/architecture/room)
+  * [Paging3](https://developer.android.com/topic/libraries/architecture/paging/v3-overview)
   * [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel)
   * [ViewBinding](https://developer.android.com/topic/libraries/view-binding)
   * [WorkManager](https://developer.android.com/topic/libraries/architecture/workmanager)
