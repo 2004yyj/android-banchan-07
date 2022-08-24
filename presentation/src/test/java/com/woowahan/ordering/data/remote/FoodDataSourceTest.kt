@@ -26,7 +26,6 @@ class FoodDataSourceTest {
 
     @Test
     fun getBestList() = runTest {
-        UnconfinedTestDispatcher()
         val expected = ListResponse(
             statusCode = 200,
             body = listOf(
