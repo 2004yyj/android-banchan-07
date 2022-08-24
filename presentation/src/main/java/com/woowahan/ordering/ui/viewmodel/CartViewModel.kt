@@ -51,16 +51,11 @@ class CartViewModel @Inject constructor(
 
     private suspend fun makeMergedList(result: CartResult) {
         _isSelectedAll.emit(result.isSelectedAll)
-
+        val mergedList = mutableListOf<CartListItem>()
         if (result.list.isEmpty()) {
-            _cartList.emit(
-                listOf(
-                    CartListItem.Empty,
-                    CartListItem.CartHistory(result.historyList)
-                )
-            )
+            mergedList.add(CartListItem.Empty)
         } else {
-            val mergedList = mutableListOf<CartListItem>().apply {
+            mergedList.apply {
                 addAll(result.list.map { CartListItem.Content(it) })
                 add(0, CartListItem.Header(result.isSelectedAll))
                 add(
@@ -73,10 +68,12 @@ class CartViewModel @Inject constructor(
                         enableToOrder = result.enableToOrder
                     )
                 )
-                add(CartListItem.CartHistory(result.historyList))
             }
-            _cartList.emit(mergedList)
         }
+        if (result.historyList.isNotEmpty()) {
+            mergedList.add(CartListItem.CartHistory(result.historyList))
+        }
+        _cartList.emit(mergedList)
     }
 
     fun selectAll() {
