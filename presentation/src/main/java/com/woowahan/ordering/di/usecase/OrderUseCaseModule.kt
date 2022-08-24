@@ -44,8 +44,11 @@ object OrderUseCaseModule {
 
     @Provides
     @Singleton
-    fun providesUpdateOrderUseCase(repository: OrderRepository): UpdateOrderUseCase {
-        return UpdateOrderUseCase(repository)
+    fun providesUpdateOrderUseCase(
+        repository: OrderRepository,
+        @IODispatcher ioDispatcher: CoroutineDispatcher
+    ): UpdateOrderUseCase {
+        return UpdateOrderUseCase(repository, ioDispatcher)
     }
 
     @Provides
