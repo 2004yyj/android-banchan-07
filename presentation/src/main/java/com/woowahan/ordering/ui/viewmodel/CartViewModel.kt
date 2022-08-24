@@ -42,7 +42,7 @@ class CartViewModel @Inject constructor(
     }
 
     private fun getAllCart() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             getCartResultUseCase().collect {
                 makeMergedList(it)
             }
@@ -80,7 +80,7 @@ class CartViewModel @Inject constructor(
     }
 
     fun selectAll() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             selectAllCartUseCase(_isSelectedAll.value.not()).collect {
                 handleUpdateEvent(it)
             }
@@ -88,7 +88,7 @@ class CartViewModel @Inject constructor(
     }
 
     fun checkItemClick(cart: Cart) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             updateCartUseCase(cart.copy(isChecked = !cart.isChecked)).collect {
                 handleUpdateEvent(it)
             }
@@ -106,7 +106,7 @@ class CartViewModel @Inject constructor(
     }
 
     fun plusItemClick(cart: Cart) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             updateCartUseCase(cart.copy(count = cart.count + 1)).collect {
                 handleUpdateEvent(it)
             }
@@ -114,7 +114,7 @@ class CartViewModel @Inject constructor(
     }
 
     fun deleteItemClick(cart: Cart) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             deleteCartUseCase(cart).collect {
                 handleUpdateEvent(it)
             }
@@ -122,7 +122,7 @@ class CartViewModel @Inject constructor(
     }
 
     fun deleteAll() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             deleteAllSelectedCartUseCase().collect {
                 handleUpdateEvent(it)
             }

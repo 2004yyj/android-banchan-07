@@ -25,7 +25,7 @@ class MainViewModel @Inject constructor(
     val isExistsNotDelivered = _isExistsNotDelivered.asStateFlow()
 
     fun getCartSize() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             getCartCountUseCase().collect {
                 _cartSize.emit(it)
             }
