@@ -1,10 +1,10 @@
 package com.woowahan.ordering.domain.usecase.history
 
+import androidx.paging.map
 import com.woowahan.ordering.domain.repository.CartRepository
 import com.woowahan.ordering.domain.repository.HistoryRepository
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.*
 
 class GetHistoryUseCase(
     private val historyRepository: HistoryRepository,
@@ -12,14 +12,14 @@ class GetHistoryUseCase(
     private val ioDispatcher: CoroutineDispatcher
 ) {
     operator fun invoke() = flow {
-        cartRepository.getCart().collect {
-            val hashList = it.map { cart -> cart.detailHash }
-            val historyList = historyRepository.getAllHistories()
-
-            historyList.forEach { history ->
-                history.isAdded = hashList.contains(history.detailHash)
+        historyRepository.getAllHistories()
+            .combine(cartRepository.getCart()) { history, cart ->
+                val hashList = cart.map { it.detailHash }
+                history.map {
+                    it.copy(isAdded = hashList.contains(it.detailHash))
+                }
+            }.collect {
+                emit(it)
             }
-            emit(historyList)
-        }
     }.flowOn(ioDispatcher)
 }
