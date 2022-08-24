@@ -49,7 +49,7 @@ class OrderListFragment : Fragment() {
     private fun initFlow() {
         lifecycleScope.launchWhenStarted {
             viewModel.simpleOrder.collect {
-
+                adapter.submitData(it)
             }
         }
     }
