@@ -1,5 +1,6 @@
 package com.woowahan.ordering.di.usecase
 
+import com.woowahan.ordering.di.scope.IODispatcher
 import com.woowahan.ordering.domain.repository.CartRepository
 import com.woowahan.ordering.domain.repository.HistoryRepository
 import com.woowahan.ordering.domain.usecase.cart.*
@@ -7,6 +8,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Singleton
 
 @Module
@@ -53,7 +55,10 @@ object CartUseCaseModule {
 
     @Provides
     @Singleton
-    fun providesDeleteAllSelectedCartUseCase(repository: CartRepository): DeleteAllSelectedCartUseCase {
-        return DeleteAllSelectedCartUseCase(repository)
+    fun providesDeleteAllSelectedCartUseCase(
+        repository: CartRepository,
+        @IODispatcher ioDispatcher: CoroutineDispatcher,
+    ): DeleteAllSelectedCartUseCase {
+        return DeleteAllSelectedCartUseCase(repository, ioDispatcher)
     }
 }
