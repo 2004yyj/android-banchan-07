@@ -3,6 +3,7 @@ package com.woowahan.ordering.ui.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.woowahan.ordering.domain.model.SimpleOrder
 import com.woowahan.ordering.domain.usecase.order.GetSimpleOrderUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,9 +22,11 @@ class OrderListViewModel @Inject constructor(
 
     fun getSimpleOrder() {
         viewModelScope.launch {
-            simpleOrderUseCase().collect {
-                _simpleOrder.emit(it)
-            }
+            simpleOrderUseCase()
+                .cachedIn(viewModelScope)
+                .collect {
+                    _simpleOrder.emit(it)
+                }
         }
     }
 }

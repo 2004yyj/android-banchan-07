@@ -1,26 +1,26 @@
 package com.woowahan.ordering.ui.fragment.order
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.woowahan.ordering.R
+import androidx.paging.LoadState
 import com.woowahan.ordering.databinding.FragmentOrderListBinding
 import com.woowahan.ordering.ui.adapter.order.SimpleOrderListAdapter
 import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader
 import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader.Companion.VERTICAL
-import com.woowahan.ordering.ui.fragment.detail.DetailFragment
-import com.woowahan.ordering.ui.fragment.home.HomeFragment
 import com.woowahan.ordering.ui.fragment.order.detail.OrderDetailFragment
 import com.woowahan.ordering.ui.fragment.order.detail.OrderDetailFragment.Companion.DETAIL_TIME
 import com.woowahan.ordering.ui.viewmodel.OrderListViewModel
 import com.woowahan.ordering.util.dp
 import com.woowahan.ordering.util.replace
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
 class OrderListFragment : Fragment() {
@@ -52,6 +52,18 @@ class OrderListFragment : Fragment() {
                 adapter.submitData(it)
             }
         }
+
+        lifecycleScope.launchWhenStarted {
+            adapter.loadStateFlow.collectLatest {
+                showRecyclerView(
+                    !(
+                        it.source.refresh is LoadState.NotLoading &&
+                        it.append.endOfPaginationReached &&
+                        adapter.itemCount < 1
+                    )
+                )
+            }
+        }
     }
 
     private fun initRecyclerView() = with(binding!!) {
@@ -64,6 +76,11 @@ class OrderListFragment : Fragment() {
             spaceAdapters = listOf(adapter),
             layoutDirection = VERTICAL
         ))
+    }
+
+    private fun showRecyclerView(recyclerViewVisible: Boolean) = with(binding!!) {
+        layoutNoItem.root.isVisible = !recyclerViewVisible
+        rvOrderList.isVisible = recyclerViewVisible
     }
 
     private fun replaceToOrderDetail(deliveryTime: Long) {
