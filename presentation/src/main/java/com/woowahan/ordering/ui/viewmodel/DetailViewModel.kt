@@ -81,7 +81,7 @@ class DetailViewModel @Inject constructor(
             detailHash = food.hash
         )
 
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             insertCartUseCase(cart).collect {
                 when (it) {
                     is Result.Success -> {
