@@ -5,11 +5,14 @@ import com.woowahan.ordering.domain.model.Result
 import com.woowahan.ordering.domain.model.SortType
 import com.woowahan.ordering.domain.repository.CartRepository
 import com.woowahan.ordering.domain.repository.FoodRepository
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 
 class GetMenuListUseCase(
     private val cartRepository: CartRepository,
-    private val foodRepository: FoodRepository
+    private val foodRepository: FoodRepository,
+    private val ioDispatcher: CoroutineDispatcher
 ) {
     operator fun invoke(menu: Menu, sortType: SortType) = flow {
         emit(Result.Loading)
@@ -46,5 +49,5 @@ class GetMenuListUseCase(
         } catch (e: Exception) {
             emit(Result.Failure(e))
         }
-    }
+    }.flowOn(ioDispatcher)
 }

@@ -10,7 +10,6 @@ import com.woowahan.ordering.domain.usecase.food.GetMenuListUseCase
 import com.woowahan.ordering.network.ConnectionInterceptor
 import com.woowahan.ordering.ui.uistate.ListUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -33,7 +32,7 @@ class MainDishViewModel @Inject constructor(
         if (this::mainListJob.isInitialized)
             mainListJob.cancel()
 
-        mainListJob = viewModelScope.launch(Dispatchers.IO) {
+        mainListJob = viewModelScope.launch {
             getMenuListUseCase(Menu.Main, sortType).collect {
                 when (it) {
                     is Result.Loading -> _uiState.emit(ListUiState.Refreshing)

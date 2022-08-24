@@ -1,14 +1,16 @@
 package com.woowahan.ordering.domain.usecase.food
 
-import com.woowahan.ordering.domain.model.Best
 import com.woowahan.ordering.domain.model.Result
 import com.woowahan.ordering.domain.repository.CartRepository
 import com.woowahan.ordering.domain.repository.FoodRepository
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 
 class GetBestListUseCase(
     private val cartRepository: CartRepository,
-    private val foodRepository: FoodRepository
+    private val foodRepository: FoodRepository,
+    private val ioDispatcher: CoroutineDispatcher
 ) {
     operator fun invoke() = flow {
         emit(Result.Loading)
@@ -27,5 +29,5 @@ class GetBestListUseCase(
         } catch (e: Exception) {
             emit(Result.Failure(e))
         }
-    }
+    }.flowOn(ioDispatcher)
 }

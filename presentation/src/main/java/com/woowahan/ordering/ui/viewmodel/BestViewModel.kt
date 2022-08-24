@@ -8,7 +8,6 @@ import com.woowahan.ordering.domain.usecase.food.GetBestListUseCase
 import com.woowahan.ordering.network.ConnectionInterceptor
 import com.woowahan.ordering.ui.uistate.ListUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class BestViewModel @Inject constructor(
     private val getBestListUseCase: GetBestListUseCase
-): ViewModel() {
+) : ViewModel() {
 
     private lateinit var bestListJob: Job
 
@@ -29,7 +28,7 @@ class BestViewModel @Inject constructor(
         if (this::bestListJob.isInitialized)
             bestListJob.cancel()
 
-        bestListJob = viewModelScope.launch(Dispatchers.IO) {
+        bestListJob = viewModelScope.launch {
             getBestListUseCase().collect {
                 when (it) {
                     is Result.Loading -> _uiState.emit(ListUiState.Refreshing)
