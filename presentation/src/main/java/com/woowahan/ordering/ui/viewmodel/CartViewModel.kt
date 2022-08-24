@@ -44,17 +44,7 @@ class CartViewModel @Inject constructor(
     private fun getAllCart() {
         viewModelScope.launch(Dispatchers.IO) {
             getCartResultUseCase().collect {
-                when (it) {
-                    is Result.Loading -> {
-                        _uiState.emit(CartUiState.Loading)
-                    }
-                    is Result.Failure -> {
-                        _uiState.emit(CartUiState.Error(it.cause.message.toString()))
-                    }
-                    is Result.Success -> {
-                        makeMergedList(it.value)
-                    }
-                }
+                makeMergedList(it)
             }
         }
     }
