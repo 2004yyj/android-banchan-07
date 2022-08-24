@@ -20,8 +20,8 @@ object CartUseCaseModule {
 
     @Provides
     @Singleton
-    fun providesGetCartUseCase(repository: CartRepository): GetCartUseCase {
-        return GetCartUseCase(repository)
+    fun providesGetCartCountUseCase(repository: CartRepository): GetCartCountUseCase {
+        return GetCartCountUseCase(repository)
     }
 
     @Provides

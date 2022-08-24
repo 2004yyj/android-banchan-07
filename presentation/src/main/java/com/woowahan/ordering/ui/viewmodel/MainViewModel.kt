@@ -3,7 +3,7 @@ package com.woowahan.ordering.ui.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.woowahan.ordering.domain.model.Result
-import com.woowahan.ordering.domain.usecase.cart.GetCartUseCase
+import com.woowahan.ordering.domain.usecase.cart.GetCartCountUseCase
 import com.woowahan.ordering.domain.usecase.order.IsExistNotDeliveredOrderUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val getCartUseCase: GetCartUseCase,
+    private val getCartCountUseCase: GetCartCountUseCase,
     private val isExistsNotDeliveredOrderUseCase: IsExistNotDeliveredOrderUseCase
 ): ViewModel() {
 
@@ -27,10 +27,10 @@ class MainViewModel @Inject constructor(
 
     fun getCartSize() {
         viewModelScope.launch(Dispatchers.IO) {
-            getCartUseCase().collect {
                 if (it is Result.Success) {
                     _cartSize.emit(it.value.size)
                 }
+            getCartCountUseCase().collect {
             }
         }
     }
