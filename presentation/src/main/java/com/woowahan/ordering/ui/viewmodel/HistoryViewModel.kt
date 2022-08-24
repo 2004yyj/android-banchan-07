@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.woowahan.ordering.domain.model.History
 import com.woowahan.ordering.domain.usecase.history.GetHistoryUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -24,7 +23,7 @@ class HistoryViewModel @Inject constructor(
     }
 
     fun fetchData() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             getHistoryUseCase().collect {
                 _historyViewedList.emit(it)
             }

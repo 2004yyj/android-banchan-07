@@ -25,7 +25,7 @@ class DetailViewModel @Inject constructor(
     private val insertHistoryUseCase: InsertHistoryUseCase,
     private val getFoodDetailUseCase: GetFoodDetailUseCase,
     private val insertCartUseCase: InsertCartUseCase
-): ViewModel() {
+) : ViewModel() {
 
     private val _uiState = MutableSharedFlow<DetailUiState>()
     val uiState = _uiState.asSharedFlow()
@@ -56,13 +56,13 @@ class DetailViewModel @Inject constructor(
             System.currentTimeMillis()
         )
 
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             insertHistoryUseCase(history).collect {}
         }
     }
 
     fun getFoodDetail(hash: String) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             getFoodDetailUseCase(hash).collect {
                 if (it is Result.Success) {
                     _foodDetail.emit(it.value)
@@ -88,7 +88,7 @@ class DetailViewModel @Inject constructor(
                         _uiState.emit(DetailUiState.Success)
                     }
                     is Result.Failure -> {
-                        when(it.cause) {
+                        when (it.cause) {
                             is ExistOrderedCartException -> {
                                 _uiState.emit(DetailUiState.CartExist)
                             }
