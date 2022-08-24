@@ -41,7 +41,6 @@ class CartFragment : Fragment() {
     private var binding: FragmentCartBinding? = null
     private val viewModel by viewModels<CartViewModel>()
     private lateinit var cartAdapter: CartAdapter
-    private lateinit var cartHistoryAdapter: CartHistoryAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -71,11 +70,6 @@ class CartFragment : Fragment() {
                 val deliveryTime = System.currentTimeMillis() + DELIVERY_TIME
                 viewModel.orderClick(deliveryTime, title, count)
             },
-            onDetailClick = this::replaceToDetail,
-            seeAllClick = this::replaceToRecentlyViewed
-        )
-
-        cartHistoryAdapter = CartHistoryAdapter(
             onDetailClick = this::replaceToDetail,
             seeAllClick = this::replaceToRecentlyViewed
         )
