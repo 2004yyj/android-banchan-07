@@ -3,7 +3,6 @@ package com.woowahan.ordering.ui.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.woowahan.ordering.domain.model.History
-import com.woowahan.ordering.domain.model.Result
 import com.woowahan.ordering.domain.usecase.history.GetHistoryUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -27,11 +26,7 @@ class HistoryViewModel @Inject constructor(
     fun fetchData() {
         viewModelScope.launch(Dispatchers.IO) {
             getHistoryUseCase().collect {
-                when (it) {
-                    is Result.Success -> {
-                        _historyViewedList.emit(it.value)
-                    }
-                }
+                _historyViewedList.emit(it)
             }
         }
     }
