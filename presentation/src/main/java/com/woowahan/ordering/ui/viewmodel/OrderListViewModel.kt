@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.woowahan.ordering.domain.model.SimpleOrder
 import com.woowahan.ordering.domain.usecase.order.GetSimpleOrderUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -20,7 +19,7 @@ class OrderListViewModel @Inject constructor(
     val simpleOrder = _simpleOrder.asStateFlow()
 
     fun getSimpleOrder() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             simpleOrderUseCase().collect {
                 _simpleOrder.emit(it)
             }

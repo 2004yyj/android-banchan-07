@@ -9,6 +9,7 @@ import com.woowahan.ordering.ui.receiver.CartReceiver.Companion.DELIVERY_FINISHE
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.collect
 
 @HiltWorker
 class DeliveryTimeWorker @AssistedInject constructor(
@@ -19,7 +20,7 @@ class DeliveryTimeWorker @AssistedInject constructor(
     override suspend fun doWork(): Result {
         coroutineScope {
             val deliveryTime = inputData.getLong(DELIVERY_FINISHED_TIME, 0)
-            updateOrderUseCase(deliveryTime, true)
+            updateOrderUseCase(deliveryTime, true).collect()
         }
 
         return Result.success()

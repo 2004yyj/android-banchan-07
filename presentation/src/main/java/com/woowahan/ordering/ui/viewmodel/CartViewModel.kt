@@ -131,7 +131,7 @@ class CartViewModel @Inject constructor(
 
     fun orderClick(deliveryTime: Long, title: String, count: Int) {
         val order = Order(id = 0, deliveryTime = deliveryTime, isDelivered = false)
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             insertOrderUseCase(order).collect {
                 when (it) {
                     is Result.Success -> {
