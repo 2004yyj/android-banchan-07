@@ -6,7 +6,6 @@ import com.woowahan.ordering.data.datasource.OrderDataSource
 import com.woowahan.ordering.data.entity.CartEntity
 import com.woowahan.ordering.data.entity.OrderEntity
 import com.woowahan.ordering.data.entity.SimpleOrderEntity
-import com.woowahan.ordering.data.mapper.toModel
 import com.woowahan.ordering.data.mapper.toOrderList
 import com.woowahan.ordering.domain.model.OrderedCartList
 import com.woowahan.ordering.domain.model.SimpleOrder
@@ -94,7 +93,22 @@ class OrderDataSourceTest {
     @Test
     fun `주문 상품 간략 리스트 가져오기`() = runTest {
         Dispatchers.setMain(UnconfinedTestDispatcher())
-        val expected = testSimpleOrderList.map { it.toModel() }
+        val expected = arrayListOf(
+            SimpleOrder(
+                title = "잡채",
+                deliveryTime = deliveryTime1,
+                thumbnail = "http://public.codesquad.kr/jk/storeapp/data/main/1155_ZIP_P_0081_T.jpg",
+                totalPrice = 11610,
+                productCount = 1
+            ),
+            SimpleOrder(
+                title = "소갈비찜",
+                deliveryTime = deliveryTime2,
+                thumbnail = "http://public.codesquad.kr/jk/storeapp/data/main/1155_ZIP_P_0081_T.jpg",
+                totalPrice = 26010 + 11610,
+                productCount = 2
+            ),
+        )
         val differ = AsyncPagingDataDiffer(
             diffCallback = MyDiffCallback(),
             updateCallback = PagingCallback(),
@@ -113,9 +127,18 @@ class OrderDataSourceTest {
     @Test
     fun `주문 상품 가져오기`() = runTest {
         Dispatchers.resetMain()
-        val expected = testCartList.filter {
-            it.orderId == testOrderList.find { it.deliveryTime == deliveryTime1 }?.id
-        }.toOrderList()
+        val expected = arrayListOf(
+            CartEntity(
+                id = 2,
+                title = "소갈비찜",
+                thumbnail = "http://public.codesquad.kr/jk/storeapp/data/main/1155_ZIP_P_0081_T.jpg",
+                price = 26010,
+                count = 1,
+                detailHash = "HF778",
+                isChecked = true,
+                orderId = 1
+            )
+        ).toOrderList()
         val actual: OrderedCartList = orderDataSource.getOrderedCartByDeliveryTime(deliveryTime1)
         assertEquals(expected, actual)
     }

@@ -3,7 +3,6 @@ package com.woowahan.ordering.data.local.datasource
 import com.woowahan.ordering.data.datasource.CartDataSource
 import com.woowahan.ordering.data.entity.CartEntity
 import com.woowahan.ordering.data.mapper.toCartResult
-import com.woowahan.ordering.data.mapper.toModel
 import com.woowahan.ordering.domain.model.Cart
 import com.woowahan.ordering.domain.model.CartResult
 import com.woowahan.ordering.impl.dao.FakeCartDao
@@ -51,7 +50,26 @@ class CartDataSourceTest {
 
     @Test
     fun `장바구니 아이템 가져오기`() = runTest {
-        val expected = testList.map { it.toModel() }
+        val expected = arrayListOf(
+            Cart(
+                id = 1,
+                title = "잡채",
+                thumbnail = "http://public.codesquad.kr/jk/storeapp/data/main/1155_ZIP_P_0081_T.jpg",
+                discountedPrice = 11610,
+                count = 2,
+                detailHash = "HBDEF",
+                isChecked = false,
+            ),
+            Cart(
+                id = 2,
+                title = "소갈비찜",
+                thumbnail = "http://public.codesquad.kr/jk/storeapp/data/main/1155_ZIP_P_0081_T.jpg",
+                discountedPrice = 26010,
+                count = 1,
+                detailHash = "HF778",
+                isChecked = true,
+            ),
+        )
         var actual: List<Cart>? = null
         val testJob = launch(UnconfinedTestDispatcher()) {
             cartDataSource.getCart().collect { actual = it }
@@ -62,13 +80,36 @@ class CartDataSourceTest {
 
     @Test
     fun `장바구니에 아이템이 존재하는가`() = runTest {
+        val expected = true
         val actual: Boolean = cartDataSource.isExistNotOrderedCart("HBDEF")
-        assertEquals(true, actual)
+        assertEquals(expected, actual)
     }
 
     @Test
     fun `장바구니 CartResult 가져오기`() = runTest {
-        val expected = testList.toCartResult()
+        val cartEntityList = arrayListOf(
+            CartEntity(
+                id = 1,
+                title = "잡채",
+                thumbnail = "http://public.codesquad.kr/jk/storeapp/data/main/1155_ZIP_P_0081_T.jpg",
+                price = 11610,
+                count = 2,
+                detailHash = "HBDEF",
+                isChecked = false,
+                orderId = null
+            ),
+            CartEntity(
+                id = 2,
+                title = "소갈비찜",
+                thumbnail = "http://public.codesquad.kr/jk/storeapp/data/main/1155_ZIP_P_0081_T.jpg",
+                price = 26010,
+                count = 1,
+                detailHash = "HF778",
+                isChecked = true,
+                orderId = null
+            ),
+        )
+        val expected = cartEntityList.toCartResult()
         var actual: CartResult? = null
         val testJob = launch(UnconfinedTestDispatcher()) {
             cartDataSource.getCartResult().collect { actual = it }
