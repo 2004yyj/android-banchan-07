@@ -62,7 +62,7 @@ class DetailViewModel @Inject constructor(
     }
 
     fun getFoodDetail(hash: String) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             getFoodDetailUseCase(hash).collect {
                 if (it is Result.Success) {
                     _foodDetail.emit(it.value)
