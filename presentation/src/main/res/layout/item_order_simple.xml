@@ -60,9 +60,9 @@
             style="@style/Body2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:deliveryTime="@{simpleOrder.deliveryTime}"
-            app:deliveringColor="@{@color/primary_accent}"
             app:deliveredColor="@{@color/tint_opposite}"
+            app:deliveringColor="@{@color/primary_accent}"
+            app:deliveryTime="@{simpleOrder.deliveryTime}"
             app:layout_constraintStart_toStartOf="@id/tv_sum_of_price"
             app:layout_constraintTop_toBottomOf="@id/tv_sum_of_price"
             tools:text="배송 준비중" />
@@ -73,7 +73,8 @@
             android:layout_margin="@dimen/space_horizontal"
             android:src="@drawable/ic_arrow_right"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/tint_opposite" />
 
         <com.google.android.material.divider.MaterialDivider
             android:id="@+id/dv_bottom"
