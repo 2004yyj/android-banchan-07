@@ -57,6 +57,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
+
+        initListener()
         changeToolbar(binding.fcvMain.getFragment())
     }
 
