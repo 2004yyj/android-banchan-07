@@ -10,4 +10,5 @@
     <color name="gray_default">#828282</color>
     <color name="line">#DDDDDD</color>
     <color name="surface">#000000</color>
+    <color name="spinner_tint">@color/white</color>
 </resources>
