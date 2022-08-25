@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary_main">#F9BA70</color>
+    <color name="primary_accent">#F46700</color>
+    <color name="primary_disabled">#FCDCB7</color>
+    <color name="primary_surface">#FBF5E0</color>
+    <color name="black">#000000</color>
+    <color name="black_30">#4D000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="gray_default">#828282</color>
+    <color name="line">#DDDDDD</color>
+    <color name="surface">#000000</color>
+</resources>
