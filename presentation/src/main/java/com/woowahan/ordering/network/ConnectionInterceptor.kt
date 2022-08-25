@@ -32,7 +32,6 @@ class ConnectionInterceptor(private val context: Context): Interceptor {
         request = if (context.hasNetwork() && isInternetAvailable())
             request.newBuilder().header("Cache-Control", "public, max-age=" + 5).build()
         else {
-            println("intercept")
             throw NoInternetConnectionException()
         }
         return chain.proceed(request)
