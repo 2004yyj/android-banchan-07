@@ -8,7 +8,7 @@
 
     <TextView
         android:id="@+id/tv_title"
-        style="@style/Body2.Bold"
+        style="@style/Body2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -22,8 +22,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_down"
-        android:tint="@color/spinner_tint"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/spinner_tint" />
 </androidx.constraintlayout.widget.ConstraintLayout>
