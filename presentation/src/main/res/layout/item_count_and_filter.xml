@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/space_horizontal"
             android:text="@{@string/total_count_format(count)}"
-            android:textColor="@color/spinner_tint"
+            android:textColor="@color/tint_opposite"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
