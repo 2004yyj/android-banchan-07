@@ -206,7 +206,6 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/space_horizontal"
             android:text="@{Integer.toString(vm.count)}"
-            android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="@id/btn_plus"
             app:layout_constraintEnd_toStartOf="@id/btn_plus"
             app:layout_constraintTop_toTopOf="@id/btn_plus"
