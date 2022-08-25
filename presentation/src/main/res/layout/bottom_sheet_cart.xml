@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="vm"
+            type="com.woowahan.ordering.ui.viewmodel.CartBottomSheetViewModel" />
+
+        <variable
+            name="cart"
+            type="com.woowahan.ordering.domain.model.Cart" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_rounded_bottom_sheet"
+        app:layout_constraintBottom_toTopOf="@+id/tv_total_price"
+        app:layout_constraintTop_toTopOf="@+id/tv_total_price">
+
+        <ProgressBar
+            android:id="@+id/pb_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_add_cart_title"
+            style="@style/Body2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_vertical"
+            android:text="@string/cart_bottom_sheet_title"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btn_cancel"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> vm.cancel()}"
+            android:text="@string/bottom_sheet_cancel_button_text"
+            android:textColor="@color/black"
+            android:textSize="@dimen/size_body2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_food"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="@dimen/space_horizontal"
+            android:layout_marginTop="20dp"
+            android:image="@{cart.thumbnail}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_add_cart_title"
+            tools:src="@drawable/ic_launcher_background" />
+
+        <TextView
+            android:id="@+id/tv_food_title"
+            style="@style/Body2.Bold"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/space_horizontal"
+            android:text="@{cart.title}"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toTopOf="@+id/tv_discount_rate"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@id/iv_food"
+            app:layout_constraintTop_toTopOf="@id/iv_food"
+            tools:text="오리주물럭" />
+
+        <TextView
+            android:id="@+id/tv_discount_rate"
+            style="@style/Body2.Bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_horizontal"
+            android:layout_marginEnd="@dimen/space_text_horizontal"
+            android:text='@{cart.discountedRate > 0 ? @string/discount_rate_format(cart.discountedRate) : ""}'
+            android:textColor="@color/primary_accent"
+            app:layout_constraintBottom_toBottomOf="@id/iv_food"
+            app:layout_constraintStart_toEndOf="@id/iv_food"
+            app:layout_constraintTop_toBottomOf="@+id/tv_food_title"
+            tools:text="10%" />
+
+        <TextView
+            android:id="@+id/tv_discount_price"
+            style="@style/Body2.Bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@{@string/currency_format(cart.discountedPrice)}"
+            android:textColor="@color/black"
+            app:layout_constraintBaseline_toBaselineOf="@id/tv_discount_rate"
+            app:layout_constraintStart_toEndOf="@id/tv_discount_rate"
+            app:layout_constraintTop_toBottomOf="@id/tv_food_title"
+            tools:text="12,640원" />
+
+        <TextView
+            android:id="@+id/tv_original_price"
+            style="@style/Body2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:lineThrough="@{true}"
+            android:text="@{@string/currency_format(cart.originalPrice)}"
+            android:textColor="@color/gray_default"
+            android:visibility="@{cart.discountedRate > 0 ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBaseline_toBaselineOf="@id/tv_discount_rate"
+            app:layout_constraintStart_toEndOf="@id/tv_discount_price"
+            tools:text="15,800원" />
+
+        <TextView
+            android:id="@+id/tv_total_price"
+            style="@style/Body2.Bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/space_horizontal"
+            android:layout_marginVertical="@dimen/space_vertical"
+            android:text="@{@string/currency_format(cart.discountedPrice * vm.count)}"
+            android:textColor="@color/black"
+            app:layout_constraintBaseline_toBaselineOf="@id/tv_count"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="12,460원" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btn_minus"
+            style="@style/RoundedLargeButton"
+            android:layout_width="@dimen/button_size"
+            android:layout_height="@dimen/button_size"
+            android:layout_marginHorizontal="@dimen/space_horizontal"
+            android:onClick="@{() -> vm.decreaseCount()}"
+            android:src="@drawable/ic_minus"
+            app:layout_constraintBottom_toBottomOf="@id/btn_plus"
+            app:layout_constraintEnd_toStartOf="@id/tv_count"
+            app:layout_constraintTop_toTopOf="@id/btn_plus" />
+
+        <TextView
+            android:id="@+id/tv_count"
+            style="@style/Subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/space_horizontal"
+            android:layout_marginEnd="16dp"
+            android:text="@{vm.count.toString()}"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@id/btn_plus"
+            app:layout_constraintEnd_toStartOf="@id/btn_plus"
+            app:layout_constraintTop_toTopOf="@id/btn_plus"
+            app:layout_constraintVertical_bias="0.45"
+            tools:text="1" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btn_plus"
+            style="@style/RoundedLargeButton"
+            android:layout_width="@dimen/button_size"
+            android:layout_height="@dimen/button_size"
+            android:layout_marginHorizontal="@dimen/space_horizontal"
+            android:layout_marginVertical="@dimen/space_vertical"
+            android:onClick="@{() -> vm.increaseCount()}"
+            android:src="@drawable/ic_plus"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_food" />
+
+        <Button
+            android:id="@+id/btn_add_cart"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/space_horizontal"
+            android:layout_marginVertical="@dimen/space_vertical"
+            android:backgroundTint="@color/primary_main"
+            android:onClick="@{() -> vm.addToCart(cart)}"
+            android:paddingHorizontal="@dimen/space_horizontal"
+            android:paddingVertical="@dimen/space_vertical"
+            android:text="@{@string/bottom_sheet_add_button(vm.count)}"
+            android:textColor="@color/white"
+            android:textSize="@dimen/size_subtitle"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_plus" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

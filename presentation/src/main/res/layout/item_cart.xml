@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="cart"
+            type="com.woowahan.ordering.domain.model.Cart" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="@dimen/space_vertical" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_text_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="@dimen/space_horizontal" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="@dimen/space_horizontal" />
+
+        <ImageButton
+            android:id="@+id/iv_checkbox"
+            android:layout_width="@dimen/icon_default_size"
+            android:layout_height="@dimen/icon_default_size"
+            android:background="@null"
+            android:src="@{cart.checked ? @drawable/ic_checkbox_checked : @drawable/ic_checkbox_empty}"
+            app:layout_constraintStart_toStartOf="@id/gl_text_start"
+            app:layout_constraintTop_toTopOf="@id/gl_top"
+            tools:src="@drawable/ic_checkbox_checked" />
+
+        <ImageView
+            android:id="@+id/iv_food"
+            android:layout_width="@dimen/cart_list_image_size"
+            android:layout_height="@dimen/cart_list_image_size"
+            android:layout_marginStart="@dimen/space_horizontal"
+            android:image="@{cart.thumbnail}"
+            app:layout_constraintStart_toEndOf="@id/iv_checkbox"
+            app:layout_constraintTop_toTopOf="@id/gl_top"
+            tools:src="@drawable/ic_launcher_background" />
+
+        <ImageButton
+            android:id="@+id/ibt_delete"
+            android:layout_width="@dimen/icon_default_size"
+            android:layout_height="@dimen/icon_default_size"
+            android:layout_marginTop="@dimen/space_vertical"
+            android:background="@null"
+            android:src="@drawable/ic_close"
+            app:layout_constraintEnd_toEndOf="@id/gl_end"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_food_title"
+            style="@style/Body2.Bold"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_text_horizontal"
+            android:text="@{cart.title}"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@id/ibt_delete"
+            app:layout_constraintEnd_toStartOf="@id/ibt_delete"
+            app:layout_constraintStart_toEndOf="@id/iv_food"
+            app:layout_constraintTop_toTopOf="@id/gl_top"
+            tools:text="새콤달콤 오징어무침" />
+
+        <TextView
+            android:id="@+id/tv_item_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{@string/currency_format(cart.discountedPrice)}"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="@id/tv_food_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_food_title"
+            tools:text="6,000원" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btn_minus"
+            style="@style/RoundedSmallButton"
+            android:layout_width="@dimen/button_size"
+            android:layout_height="@dimen/button_size"
+            android:layout_marginHorizontal="@dimen/space_horizontal"
+            android:src="@drawable/ic_minus"
+            app:layout_constraintStart_toStartOf="@id/tv_food_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_item_price" />
+
+        <TextView
+            android:id="@+id/tv_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="24dp"
+            android:text="@{Integer.toString(cart.count)}"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@id/btn_minus"
+            app:layout_constraintStart_toEndOf="@id/btn_minus"
+            app:layout_constraintTop_toTopOf="@id/btn_minus"
+            tools:text="1" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btn_plus"
+            style="@style/RoundedSmallButton"
+            android:layout_width="@dimen/button_size"
+            android:layout_height="@dimen/button_size"
+            android:src="@drawable/ic_plus"
+            app:layout_constraintStart_toEndOf="@id/tv_count"
+            app:layout_constraintTop_toBottomOf="@id/tv_item_price" />
+
+        <TextView
+            android:id="@+id/tv_total_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{@string/currency_format(cart.discountedPrice * cart.count)}"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/dv_bottom"
+            app:layout_constraintEnd_toEndOf="@id/gl_end"
+            app:layout_constraintTop_toBottomOf="@id/iv_food"
+            tools:text="6,000원" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/dv_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/space_vertical"
+            app:dividerColor="@color/line"
+            app:layout_constraintTop_toBottomOf="@id/tv_total_price" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

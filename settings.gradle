@@ -16,3 +16,4 @@ rootProject.name = "Ordering"
 include ':presentation'
 include ':data'
 include ':domain'
+include ':constants'

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="sumOfPrice"
+            type="Long" />
+
+        <variable
+            name="deliveryFee"
+            type="Integer" />
+
+        <variable
+            name="totalPrice"
+            type="Long" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/surface">
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/dv_top"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:dividerColor="@color/line"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="@dimen/space_horizontal" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_text_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="104dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="@dimen/space_horizontal" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="@dimen/space_vertical" />
+
+        <TextView
+            android:id="@+id/tv_sum_of_price_label"
+            style="@style/Caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sum_of_price"
+            app:layout_constraintStart_toStartOf="@id/gl_text_start"
+            app:layout_constraintTop_toTopOf="@id/gl_top" />
+
+        <TextView
+            android:id="@+id/tv_sum_of_price"
+            style="@style/Caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{@string/currency_format(sumOfPrice)}"
+            app:layout_constraintBaseline_toBaselineOf="@id/tv_sum_of_price_label"
+            app:layout_constraintEnd_toEndOf="@id/gl_end"
+            tools:text="18,640원" />
+
+        <TextView
+            android:id="@+id/tv_delivery_fee_label"
+            style="@style/Caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_text_vertical"
+            android:text="@string/delivery_fee"
+            app:layout_constraintStart_toStartOf="@id/gl_text_start"
+            app:layout_constraintTop_toBottomOf="@id/tv_sum_of_price_label" />
+
+        <TextView
+            android:id="@+id/tv_delivery_fee"
+            style="@style/Caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{@string/currency_format(deliveryFee)}"
+            app:layout_constraintBaseline_toBaselineOf="@id/tv_delivery_fee_label"
+            app:layout_constraintEnd_toEndOf="@id/gl_end"
+            tools:text="2,500원" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/dv_bottom"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/space_text_vertical"
+            app:dividerColor="@color/line"
+            app:layout_constraintEnd_toEndOf="@id/gl_end"
+            app:layout_constraintStart_toStartOf="@id/gl_text_start"
+            app:layout_constraintTop_toBottomOf="@id/tv_delivery_fee_label" />
+
+        <TextView
+            android:id="@+id/tv_total_price_label"
+            style="@style/Body2.Bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_text_vertical"
+            android:layout_marginBottom="@dimen/space_vertical"
+            android:text="@string/total_price"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/gl_text_start"
+            app:layout_constraintTop_toBottomOf="@id/dv_bottom" />
+
+        <TextView
+            android:id="@+id/tv_total_price"
+            style="@style/Body2.Bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{@string/currency_format(totalPrice)}"
+            app:layout_constraintBaseline_toBaselineOf="@id/tv_total_price_label"
+            app:layout_constraintEnd_toEndOf="@id/gl_end"
+            tools:text="18,640원" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

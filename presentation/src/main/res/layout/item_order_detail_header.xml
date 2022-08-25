@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="isDelivered"
+            type="Boolean" />
+
+        <variable
+            name="deliveryTime"
+            type="Long" />
+
+        <variable
+            name="count"
+            type="Integer" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/surface">
+
+        <TextView
+            android:id="@+id/tv_header_title"
+            style="@style/Body1.Bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_horizontal"
+            android:layout_marginTop="@dimen/space_order_detail_header_footer"
+            android:text="@{isDelivered ? @string/delivery_success : @string/order_reception}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_title_delivery_time"
+            style="@style/Body2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_text_vertical"
+            android:isTimeout="@{deliveryTime}"
+            android:text="@string/delivery_time_title"
+            android:textColor="@color/gray_default"
+            app:layout_constraintStart_toStartOf="@id/tv_header_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_header_title" />
+
+        <TextView
+            android:id="@+id/tv_delivery_time"
+            style="@style/Body2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_text_vertical"
+            android:diffTimeStamp="@{deliveryTime}"
+            android:isTimeout="@{deliveryTime}"
+            app:layout_constraintStart_toEndOf="@id/tv_title_delivery_time"
+            app:layout_constraintTop_toTopOf="@id/tv_title_delivery_time"
+            tools:text="20분" />
+
+        <TextView
+            android:id="@+id/tv_title_count"
+            style="@style/Body2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_text_vertical"
+            android:layout_marginBottom="@dimen/space_order_detail_header_footer"
+            android:text="@string/product_count_title"
+            android:textColor="@color/gray_default"
+            app:layout_constraintBottom_toTopOf="@id/dv_bottom"
+            app:layout_constraintStart_toStartOf="@id/tv_title_delivery_time"
+            app:layout_constraintTop_toBottomOf="@id/tv_title_delivery_time" />
+
+        <TextView
+            android:id="@+id/tv_count"
+            style="@style/Body2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_text_vertical"
+            android:text="@{@string/product_count_format(count)}"
+            app:layout_constraintStart_toEndOf="@id/tv_title_count"
+            app:layout_constraintTop_toTopOf="@id/tv_title_count"
+            tools:text="총 2개" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/dv_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:dividerColor="@color/line"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

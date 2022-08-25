@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="cart"
+            type="com.woowahan.ordering.domain.model.Cart" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/space_horizontal">
+
+        <ImageView
+            android:id="@+id/iv_food"
+            android:layout_width="@dimen/image_small_size"
+            android:layout_height="@dimen/image_small_size"
+            android:image="@{cart.thumbnail}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:background="@color/black" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            style="@style/Body2.Bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_text_horizontal_large"
+            android:text="@{cart.title}"
+            app:layout_constraintBottom_toTopOf="@+id/tv_count"
+            app:layout_constraintStart_toEndOf="@id/iv_food"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="동태찌개" />
+
+        <TextView
+            android:id="@+id/tv_count"
+            style="@style/Body2.Bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{@string/order_detail_count_format(cart.count)}"
+            app:layout_constraintBottom_toTopOf="@+id/tv_price"
+            app:layout_constraintStart_toStartOf="@id/tv_title"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title"
+            tools:text="1개" />
+
+        <TextView
+            android:id="@+id/tv_price"
+            style="@style/Body2.Bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{@string/currency_format(cart.discountedPrice * cart.count)}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/tv_count"
+            app:layout_constraintTop_toBottomOf="@+id/tv_count"
+            tools:text="10,900원" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
