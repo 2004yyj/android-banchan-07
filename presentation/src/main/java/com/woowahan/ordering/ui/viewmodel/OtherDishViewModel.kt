@@ -1,5 +1,6 @@
 package com.woowahan.ordering.ui.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.woowahan.ordering.domain.model.Food
@@ -22,7 +23,12 @@ class OtherDishViewModel @Inject constructor(
     private val getMenuListUseCase: GetMenuListUseCase
 ) : ViewModel() {
 
-    var sortType: SortType = SortType.Default
+    private val _sortType: MutableStateFlow<SortType> = MutableStateFlow(SortType.Default)
+    val sortType = _sortType.asStateFlow()
+
+    fun setSortType(sortType: SortType) {
+        _sortType.value = sortType
+    }
 
     private lateinit var otherListJob: Job
 
@@ -39,7 +45,7 @@ class OtherDishViewModel @Inject constructor(
             otherListJob.cancel()
 
         otherListJob = viewModelScope.launch {
-            getMenuListUseCase(menu, sortType).collect {
+            getMenuListUseCase(menu, sortType.value).collect {
                 when (it) {
                     is Result.Loading -> _uiState.emit(ListUiState.Refreshing)
                     is Result.Success -> _uiState.emit(ListUiState.List(it.value))

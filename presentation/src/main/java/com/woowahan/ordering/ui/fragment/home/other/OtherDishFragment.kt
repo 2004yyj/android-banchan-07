@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import com.woowahan.ordering.R
@@ -40,7 +41,7 @@ class OtherDishFragment : Fragment() {
     private val countAndFilterAdapter by lazy {
         CountAndFilterAdapter(
             onItemSelected = {
-                viewModel.sortType = it
+                viewModel.setSortType(it)
                 initData()
             }
         )
@@ -97,6 +98,17 @@ class OtherDishFragment : Fragment() {
                     }
                     is ListUiState.NoInternet -> {
                         showNoInternetConnection()
+                    }
+                }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    viewModel.sortType.collectLatest {
+                        countAndFilterAdapter.setSortType(it)
+                        initData()
                     }
                 }
             }
