@@ -47,11 +47,6 @@ class MainDishFragment : Fragment() {
     }
     private lateinit var foodAdapter: FoodAdapter
 
-    private var onDetailClick: (title: String, hash: String) -> Unit = { _, _ -> }
-    fun setOnDetailClick(onDetailClick: (title: String, hash: String) -> Unit) {
-        this.onDetailClick = onDetailClick
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -170,9 +165,14 @@ class MainDishFragment : Fragment() {
     }
 
     companion object {
+        private lateinit var onDetailClick: (title: String, hash: String) -> Unit
         private lateinit var openBottomSheet: (Food) -> Unit
 
-        fun newInstance(openBottomSheet: (Food) -> Unit): MainDishFragment {
+        fun newInstance(
+            onDetailClick: (title: String, hash: String) -> Unit,
+            openBottomSheet: (Food) -> Unit
+        ): MainDishFragment {
+            this.onDetailClick = onDetailClick
             this.openBottomSheet = openBottomSheet
             return MainDishFragment()
         }

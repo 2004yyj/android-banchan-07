@@ -48,11 +48,6 @@ class OtherDishFragment : Fragment() {
     private lateinit var foodAdapter: FoodAdapter
     private val kind by lazy { requireArguments().get(OTHER_KIND) as OtherKind }
 
-    private var onDetailClick: (title: String, hash: String) -> Unit = { _, _ -> }
-    fun setOnDetailClick(onDetailClick: (title: String, hash: String) -> Unit) {
-        this.onDetailClick = onDetailClick
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -156,10 +151,16 @@ class OtherDishFragment : Fragment() {
     }
 
     companion object {
+        private lateinit var onDetailClick: (title: String, hash: String) -> Unit
         private lateinit var openBottomSheet: (Food) -> Unit
         private const val OTHER_KIND = "otherKind"
 
-        fun newInstance(otherKind: OtherKind, openBottomSheet: (Food) -> Unit): OtherDishFragment {
+        fun newInstance(
+            otherKind: OtherKind,
+            onDetailClick: (title: String, hash: String) -> Unit,
+            openBottomSheet: (Food) -> Unit
+        ): OtherDishFragment {
+            this.onDetailClick = onDetailClick
             this.openBottomSheet = openBottomSheet
             return OtherDishFragment().apply {
                 arguments = bundleOf(OTHER_KIND to otherKind)
