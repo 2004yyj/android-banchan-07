@@ -8,15 +8,22 @@ import androidx.recyclerview.widget.RecyclerView
 import com.woowahan.ordering.R
 import com.woowahan.ordering.databinding.ItemTypeAndFilterBinding
 import com.woowahan.ordering.domain.model.SortType
+import com.woowahan.ordering.ui.listener.setOnSpinnerSelectedListener
 
 class TypeAndFilterAdapter(
-    private val onItemSelected: (SortType) -> Unit
-) :
-    RecyclerView.Adapter<TypeAndFilterAdapter.TypeAndFilterViewHolder>() {
-    private var onListTypeChangeClicked: (Boolean) -> Unit = {}
+    private val onItemSelected: (SortType) -> Unit = {},
+    private val onListTypeChangeClicked: (Boolean) -> Unit = {}
+) : RecyclerView.Adapter<TypeAndFilterAdapter.TypeAndFilterViewHolder>() {
 
-    fun setOnListTypeChangeClicked(onListTypeChangeClicked: (Boolean) -> Unit) {
-        this.onListTypeChangeClicked = onListTypeChangeClicked
+    private var viewType: Boolean = false
+    private lateinit var sortType: SortType
+
+    fun setViewType(viewType: Boolean) {
+        this.viewType = viewType
+    }
+
+    fun setSortType(sortType: SortType) {
+        this.sortType = sortType
     }
 
     inner class TypeAndFilterViewHolder(
@@ -30,12 +37,14 @@ class TypeAndFilterAdapter(
                 SortType.RateDesc
             )
 
+            binding.cbViewType.isChecked = viewType
             binding.cbViewType.setOnCheckedChangeListener { buttonView, isChecked ->
                 onListTypeChangeClicked(isChecked)
             }
 
             val adapter = FilterAdapter(itemView.context, R.array.spinner)
             binding.spFilter.adapter = adapter
+            binding.spFilter.setSelection(spinnerList.indexOf(sortType))
             binding.spFilter.onItemSelectedListener =
                 object : AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(

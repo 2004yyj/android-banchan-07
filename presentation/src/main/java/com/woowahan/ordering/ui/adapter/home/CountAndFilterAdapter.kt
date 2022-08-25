@@ -13,6 +13,11 @@ class CountAndFilterAdapter(
     private val onItemSelected: (SortType) -> Unit
 ) : RecyclerView.Adapter<CountAndFilterAdapter.CountAndFilterViewHolder>() {
 
+    private lateinit var sortType: SortType
+    fun setSortType(sortType: SortType) {
+        this.sortType = sortType
+    }
+
     private var count = 0
 
     fun setCount(count: Int) {
@@ -23,35 +28,36 @@ class CountAndFilterAdapter(
     inner class CountAndFilterViewHolder(
         private val binding: ItemCountAndFilterBinding
     ) : RecyclerView.ViewHolder(binding.root) {
+
+        val spinnerList = listOf(
+            SortType.Default,
+            SortType.MoneyDesc,
+            SortType.MoneyAsc,
+            SortType.RateDesc
+        )
+        val adapter = FilterAdapter(itemView.context, R.array.spinner)
+        init {
+            binding.spFilter.adapter = adapter
+        }
+
         fun bind() {
-            val spinnerList = listOf(
-                SortType.Default,
-                SortType.MoneyDesc,
-                SortType.MoneyAsc,
-                SortType.RateDesc
-            )
-
             binding.count = count
-
-            val adapter = FilterAdapter(itemView.context, R.array.spinner)
-            if (binding.spFilter.adapter == null) {
-                binding.spFilter.adapter = adapter
-                binding.spFilter.onItemSelectedListener =
-                    object : AdapterView.OnItemSelectedListener {
-                        override fun onItemSelected(
-                            parent: AdapterView<*>?,
-                            view: View?,
-                            position: Int,
-                            id: Long
-                        ) {
-                            adapter.setCheckedItem(position)
-                            onItemSelected(spinnerList[position])
-                        }
-
-                        override fun onNothingSelected(parent: AdapterView<*>?) {
-                        }
+            binding.spFilter.setSelection(spinnerList.indexOf(sortType))
+            binding.spFilter.onItemSelectedListener =
+                object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(
+                        parent: AdapterView<*>?,
+                        view: View?,
+                        position: Int,
+                        id: Long
+                    ) {
+                        adapter.setCheckedItem(position)
+                        onItemSelected(spinnerList[position])
                     }
-            }
+
+                    override fun onNothingSelected(parent: AdapterView<*>?) {
+                    }
+                }
         }
     }
 
