@@ -22,19 +22,16 @@ class DetailInfoAdapter(private val viewModel: DetailViewModel, private val titl
     ) : RecyclerView.ViewHolder(binding.root) {
         private var lifecycleOwner: LifecycleOwner? = null
 
-        init {
+        fun bind() {
             itemView.doOnAttach {
                 lifecycleOwner = itemView.findViewTreeLifecycleOwner()
+                binding.lifecycleOwner = lifecycleOwner
+                binding.vm = viewModel
+                binding.title = title
             }
             itemView.doOnDetach {
                 lifecycleOwner = null
             }
-        }
-
-        fun bind() {
-            binding.vm = viewModel
-            binding.title = title
-            binding.lifecycleOwner = lifecycleOwner
         }
     }
 
