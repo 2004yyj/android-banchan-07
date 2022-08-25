@@ -11,6 +11,23 @@
         <item name="bottomSheetDialogTheme">@style/CartBottomSheetDialog</item>
     </style>
 
+    <style name="ViewTypeChangeButton" parent="Widget.AppCompat.ImageButton">
+        <item name="android:buttonTint">@color/white</item>
+        <item name="android:buttonTintMode">multiply</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:button">@drawable/bg_linear_grid_selector</item>
+    </style>
+
+    <style name="TabLayout" parent="Widget.MaterialComponents.TabLayout">
+        <item name="tabMode">scrollable</item>
+        <item name="tabTextColor">@color/black</item>
+        <item name="tabSelectedTextColor">@color/black</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:elevation">1dp</item>
+        <item name="tabIndicatorHeight">2dp</item>
+        <item name="tabIndicatorFullWidth">true</item>
+    </style>
+
     <style name="Divider">
         <item name="android:background">@color/line</item>
     </style>

@@ -10,13 +10,13 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.woowahan.ordering.R
 import com.woowahan.ordering.databinding.FragmentMainDishBinding
 import com.woowahan.ordering.domain.model.Food
-import com.woowahan.ordering.domain.model.Menu
 import com.woowahan.ordering.ui.adapter.home.FoodAdapter
 import com.woowahan.ordering.ui.adapter.home.FoodAdapter.FoodItemViewType
 import com.woowahan.ordering.ui.adapter.home.HeaderAdapter
@@ -39,17 +39,46 @@ class MainDishFragment : Fragment() {
     private val binding get() = requireNotNull(_binding)
     private val viewModel by viewModels<MainDishViewModel>()
 
-    private val typeAndFilterAdapter by lazy {
-        TypeAndFilterAdapter {
-            viewModel.sortType = it
-            initData()
-        }
+    private val headerAdapter by lazy {
+        HeaderAdapter(getString(R.string.main_header_main_dish))
     }
-    private lateinit var foodAdapter: FoodAdapter
 
-    private var onDetailClick: (title: String, hash: String) -> Unit = { _, _ -> }
-    fun setOnDetailClick(onDetailClick: (title: String, hash: String) -> Unit) {
-        this.onDetailClick = onDetailClick
+    private val typeAndFilterAdapter by lazy {
+        TypeAndFilterAdapter(
+            onItemSelected = {
+                viewModel.setSortType(it)
+            },
+            onListTypeChangeClicked = {
+                viewModel.setViewType(it)
+            }
+        )
+    }
+
+    private val foodAdapter: FoodAdapter by lazy {
+        FoodAdapter(
+            onDetailClick = onDetailClick,
+            onCartClick = openBottomSheet
+        )
+    }
+
+    private val concatAdapter by lazy {
+        ConcatAdapter(headerAdapter, typeAndFilterAdapter, foodAdapter)
+    }
+
+    private val gridDecoration by lazy {
+        ItemSpacingDecoratorWithHeader(
+            spacing = 18.dp,
+            spaceAdapters = listOf(foodAdapter),
+            GRID
+        )
+    }
+
+    private val linearDecoration by lazy {
+        ItemSpacingDecoratorWithHeader(
+            spacing = 18.dp,
+            spaceAdapters = listOf(foodAdapter),
+            VERTICAL
+        )
     }
 
     override fun onCreateView(
@@ -104,6 +133,28 @@ class MainDishFragment : Fragment() {
                 }
             }
         }
+
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    viewModel.viewType.collectLatest {
+                        typeAndFilterAdapter.setViewType(it)
+                        if (!it) {
+                            setGridLayoutManager()
+                        } else {
+                            setLinearLayoutManager()
+                        }
+                    }
+                }
+
+                launch {
+                    viewModel.sortType.collectLatest {
+                        typeAndFilterAdapter.setSortType(it)
+                        initData()
+                    }
+                }
+            }
+        }
     }
 
     private fun initListener() {
@@ -116,40 +167,13 @@ class MainDishFragment : Fragment() {
     }
 
     private fun initRecyclerView() = with(binding) {
-        foodAdapter = FoodAdapter(onDetailClick = onDetailClick, onCartClick = openBottomSheet)
-        val headerAdapter = HeaderAdapter(getString(R.string.main_header_main_dish))
-        val concatAdapter = ConcatAdapter(headerAdapter, typeAndFilterAdapter, foodAdapter)
-        val gridDecoration = ItemSpacingDecoratorWithHeader(
-            spacing = 18.dp,
-            spaceAdapters = listOf(foodAdapter),
-            GRID
-        )
-
-        val linearDecoration = ItemSpacingDecoratorWithHeader(
-            spacing = 18.dp,
-            spaceAdapters = listOf(foodAdapter),
-            VERTICAL
-        )
-
-        typeAndFilterAdapter.setOnListTypeChangeClicked {
-            if (!it) {
-                foodAdapter.viewTypeChange(FoodItemViewType.GridItem)
-                rvMainDish.removeItemDecoration(linearDecoration)
-                rvMainDish.addItemDecoration(gridDecoration)
-                setGridLayoutManager(concatAdapter)
-            } else {
-                foodAdapter.viewTypeChange(FoodItemViewType.VerticalItem)
-                rvMainDish.removeItemDecoration(gridDecoration)
-                rvMainDish.addItemDecoration(linearDecoration)
-                setLinearLayoutManager()
-            }
-        }
         rvMainDish.adapter = concatAdapter
-        rvMainDish.addItemDecoration(gridDecoration)
-        setGridLayoutManager(concatAdapter)
     }
 
-    private fun setGridLayoutManager(concatAdapter: ConcatAdapter) = with(binding) {
+    private fun setGridLayoutManager() = with(binding) {
+        foodAdapter.viewTypeChange(FoodItemViewType.GridItem)
+        binding.rvMainDish.removeItemDecoration(linearDecoration)
+        binding.rvMainDish.addItemDecoration(gridDecoration)
         val layoutManager = GridLayoutManager(context, 2)
         layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
@@ -161,6 +185,9 @@ class MainDishFragment : Fragment() {
     }
 
     private fun setLinearLayoutManager() = with(binding) {
+        foodAdapter.viewTypeChange(FoodItemViewType.VerticalItem)
+        binding.rvMainDish.removeItemDecoration(gridDecoration)
+        binding.rvMainDish.addItemDecoration(linearDecoration)
         rvMainDish.layoutManager = LinearLayoutManager(context)
     }
 
@@ -170,9 +197,14 @@ class MainDishFragment : Fragment() {
     }
 
     companion object {
+        private lateinit var onDetailClick: (title: String, hash: String) -> Unit
         private lateinit var openBottomSheet: (Food) -> Unit
 
-        fun newInstance(openBottomSheet: (Food) -> Unit): MainDishFragment {
+        fun newInstance(
+            onDetailClick: (title: String, hash: String) -> Unit,
+            openBottomSheet: (Food) -> Unit
+        ): MainDishFragment {
+            this.onDetailClick = onDetailClick
             this.openBottomSheet = openBottomSheet
             return MainDishFragment()
         }

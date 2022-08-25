@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import com.woowahan.ordering.R
@@ -40,18 +41,13 @@ class OtherDishFragment : Fragment() {
     private val countAndFilterAdapter by lazy {
         CountAndFilterAdapter(
             onItemSelected = {
-                viewModel.sortType = it
+                viewModel.setSortType(it)
                 initData()
             }
         )
     }
     private lateinit var foodAdapter: FoodAdapter
     private val kind by lazy { requireArguments().get(OTHER_KIND) as OtherKind }
-
-    private var onDetailClick: (title: String, hash: String) -> Unit = { _, _ -> }
-    fun setOnDetailClick(onDetailClick: (title: String, hash: String) -> Unit) {
-        this.onDetailClick = onDetailClick
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -106,6 +102,17 @@ class OtherDishFragment : Fragment() {
                 }
             }
         }
+
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    viewModel.sortType.collectLatest {
+                        countAndFilterAdapter.setSortType(it)
+                        initData()
+                    }
+                }
+            }
+        }
     }
 
     private fun initListener() {
@@ -156,10 +163,16 @@ class OtherDishFragment : Fragment() {
     }
 
     companion object {
+        private lateinit var onDetailClick: (title: String, hash: String) -> Unit
         private lateinit var openBottomSheet: (Food) -> Unit
         private const val OTHER_KIND = "otherKind"
 
-        fun newInstance(otherKind: OtherKind, openBottomSheet: (Food) -> Unit): OtherDishFragment {
+        fun newInstance(
+            otherKind: OtherKind,
+            onDetailClick: (title: String, hash: String) -> Unit,
+            openBottomSheet: (Food) -> Unit
+        ): OtherDishFragment {
+            this.onDetailClick = onDetailClick
             this.openBottomSheet = openBottomSheet
             return OtherDishFragment().apply {
                 arguments = bundleOf(OTHER_KIND to otherKind)

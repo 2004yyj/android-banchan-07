@@ -33,7 +33,6 @@ class HomeFragment : Fragment() {
     private lateinit var mainDishFragment: MainDishFragment
     private lateinit var soupDishFragment: OtherDishFragment
     private lateinit var sideDishFragment: OtherDishFragment
-
     private lateinit var tabLayoutMediator: TabLayoutMediator
 
     override fun onCreateView(
@@ -48,22 +47,28 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initFragment()
-        initListener()
         initViewPager()
     }
 
     private fun initFragment() {
-        bestFragment = BestFragment.newInstance { showCartBottomSheet(it) }
-        mainDishFragment = MainDishFragment.newInstance { showCartBottomSheet(it) }
-        soupDishFragment = OtherDishFragment.newInstance(OtherKind.Soup) { showCartBottomSheet(it) }
-        sideDishFragment = OtherDishFragment.newInstance(OtherKind.Side) { showCartBottomSheet(it) }
-    }
-
-    private fun initListener() {
-        bestFragment.setOnDetailClick(this::replaceToDetail)
-        mainDishFragment.setOnDetailClick(this::replaceToDetail)
-        soupDishFragment.setOnDetailClick(this::replaceToDetail)
-        sideDishFragment.setOnDetailClick(this::replaceToDetail)
+        bestFragment = BestFragment.newInstance(
+            onDetailClick = this::replaceToDetail,
+            openBottomSheet = this::showCartBottomSheet
+        )
+        mainDishFragment = MainDishFragment.newInstance(
+            onDetailClick = this::replaceToDetail,
+            openBottomSheet = this::showCartBottomSheet
+        )
+        soupDishFragment = OtherDishFragment.newInstance(
+            OtherKind.Soup,
+            onDetailClick = this::replaceToDetail,
+            openBottomSheet = this::showCartBottomSheet
+        )
+        sideDishFragment = OtherDishFragment.newInstance(
+            OtherKind.Side,
+            onDetailClick = this::replaceToDetail,
+            openBottomSheet = this::showCartBottomSheet
+        )
     }
 
     private fun replaceToDetail(title: String, hash: String) {

@@ -1,5 +1,6 @@
 package com.woowahan.ordering.ui.fragment.detail
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -98,7 +99,7 @@ class DetailFragment : Fragment() {
     }
 
     private fun initFlow() {
-        lifecycleScope.launchWhenStarted {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.foodDetail.collect {
                 it?.let {
                     detailThumbImagesAdapter.submitList(it.thumbImages)
@@ -107,7 +108,7 @@ class DetailFragment : Fragment() {
                 }
             }
         }
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { uiState ->
                     when (uiState) {

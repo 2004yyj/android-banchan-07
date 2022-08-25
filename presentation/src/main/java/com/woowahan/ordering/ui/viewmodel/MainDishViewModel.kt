@@ -21,7 +21,10 @@ class MainDishViewModel @Inject constructor(
     private val getMenuListUseCase: GetMenuListUseCase
 ) : ViewModel() {
 
-    var sortType: SortType = SortType.Default
+    private val _viewType: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val viewType = _viewType.asStateFlow()
+    private val _sortType: MutableStateFlow<SortType> = MutableStateFlow(SortType.Default)
+    val sortType = _sortType.asStateFlow()
 
     private lateinit var mainListJob: Job
 
@@ -33,7 +36,7 @@ class MainDishViewModel @Inject constructor(
             mainListJob.cancel()
 
         mainListJob = viewModelScope.launch {
-            getMenuListUseCase(Menu.Main, sortType).collect {
+            getMenuListUseCase(Menu.Main, sortType.value).collect {
                 when (it) {
                     is Result.Loading -> _uiState.emit(ListUiState.Refreshing)
                     is Result.Success -> _uiState.emit(ListUiState.List(it.value))
@@ -47,5 +50,13 @@ class MainDishViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun setViewType(viewType: Boolean) {
+        _viewType.value = viewType
+    }
+
+    fun setSortType(sortType: SortType) {
+        _sortType.value = sortType
     }
 }
