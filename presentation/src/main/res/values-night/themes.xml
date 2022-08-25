@@ -10,6 +10,16 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="TabLayout" parent="Widget.MaterialComponents.TabLayout">
+        <item name="tabMode">scrollable</item>
+        <item name="tabTextColor">@color/white</item>
+        <item name="tabSelectedTextColor">@color/white</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:elevation">1dp</item>
+        <item name="tabIndicatorHeight">2dp</item>
+        <item name="tabIndicatorFullWidth">true</item>
+    </style>
+
     <style name="Divider">
         <item name="android:background">@color/line</item>
     </style>
