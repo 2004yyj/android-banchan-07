@@ -65,7 +65,7 @@ class HomeFragment : Fragment() {
             openBottomSheet = this::showCartBottomSheet
         )
         sideDishFragment = OtherDishFragment.newInstance(
-            OtherKind.Soup,
+            OtherKind.Side,
             onDetailClick = this::replaceToDetail,
             openBottomSheet = this::showCartBottomSheet
         )
