@@ -13,7 +13,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white">
+        android:background="@color/on_surface">
 
         <com.google.android.material.divider.MaterialDivider
             android:id="@+id/dv_top"
@@ -62,7 +62,7 @@
             android:layout_height="wrap_content"
             app:deliveryTime="@{simpleOrder.deliveryTime}"
             app:deliveringColor="@{@color/primary_accent}"
-            app:deliveredColor="@{@color/black}"
+            app:deliveredColor="@{@color/tint_opposite}"
             app:layout_constraintStart_toStartOf="@id/tv_sum_of_price"
             app:layout_constraintTop_toBottomOf="@id/tv_sum_of_price"
             tools:text="배송 준비중" />
