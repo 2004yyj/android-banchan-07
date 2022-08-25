@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.woowahan.ordering.R
 import com.woowahan.ordering.databinding.ItemTypeAndFilterBinding
 import com.woowahan.ordering.domain.model.SortType
-import com.woowahan.ordering.ui.listener.setOnSpinnerSelectedListener
 
 class TypeAndFilterAdapter(
     private val onItemSelected: (SortType) -> Unit = {},
