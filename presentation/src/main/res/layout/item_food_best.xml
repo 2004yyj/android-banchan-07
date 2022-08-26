@@ -25,12 +25,12 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="풍성한 고기반찬" />
 
-        <androidx.recyclerview.widget.RecyclerView
+        <com.woowahan.ordering.ui.widget.HorizontalRecyclerView
             android:id="@+id/rv_products"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="34dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
