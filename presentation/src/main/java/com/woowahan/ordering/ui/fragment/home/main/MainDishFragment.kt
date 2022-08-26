@@ -27,6 +27,7 @@ import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader.Compani
 import com.woowahan.ordering.ui.uistate.ListUiState
 import com.woowahan.ordering.ui.viewmodel.MainDishViewModel
 import com.woowahan.ordering.util.dp
+import com.woowahan.ordering.util.removeAllItemDecorations
 import com.woowahan.ordering.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -172,6 +173,7 @@ class MainDishFragment : Fragment() {
 
     private fun setGridLayoutManager() = with(binding) {
         foodAdapter.viewTypeChange(FoodItemViewType.GridItem)
+        binding.rvMainDish.removeAllItemDecorations()
         binding.rvMainDish.removeItemDecoration(linearDecoration)
         binding.rvMainDish.addItemDecoration(gridDecoration)
         val layoutManager = GridLayoutManager(context, 2)
@@ -186,6 +188,7 @@ class MainDishFragment : Fragment() {
 
     private fun setLinearLayoutManager() = with(binding) {
         foodAdapter.viewTypeChange(FoodItemViewType.VerticalItem)
+        binding.rvMainDish.removeAllItemDecorations()
         binding.rvMainDish.removeItemDecoration(gridDecoration)
         binding.rvMainDish.addItemDecoration(linearDecoration)
         rvMainDish.layoutManager = LinearLayoutManager(context)
