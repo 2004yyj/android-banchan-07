@@ -39,9 +39,10 @@ object FoodUseCaseModule {
     @Provides
     @Singleton
     fun providesGetFoodDetailUseCase(
+        cartRepository: CartRepository,
         foodRepository: FoodRepository,
         @IODispatcher ioDispatcher: CoroutineDispatcher
     ): GetFoodDetailUseCase {
-        return GetFoodDetailUseCase(foodRepository, ioDispatcher)
+        return GetFoodDetailUseCase(cartRepository, foodRepository, ioDispatcher)
     }
 }

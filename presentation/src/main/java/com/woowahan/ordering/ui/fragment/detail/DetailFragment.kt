@@ -67,6 +67,7 @@ class DetailFragment : Fragment() {
             requireContext().showToast(getString(R.string.no_internet_message))
             hideRecyclerView()
         }
+        viewModel.init()
     }
 
     private fun showRecyclerView() = with(binding) {
@@ -91,6 +92,7 @@ class DetailFragment : Fragment() {
         detailInfoAdapter = DetailInfoAdapter(viewModel, title)
         detailImagesFooterAdapter = DetailImagesFooterAdapter()
 
+        rvDetail.scrollToPosition(0)
         rvDetail.adapter = ConcatAdapter(
             detailThumbImagesAdapter,
             detailInfoAdapter,
