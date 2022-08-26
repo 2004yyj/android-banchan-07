@@ -90,6 +90,9 @@ class DetailViewModel @Inject constructor(
                 when (it) {
                     is Result.Success -> {
                         _uiState.emit(DetailUiState.Success)
+                        _foodDetail.update { foodDetail ->
+                            foodDetail?.copy(isCarted = true)
+                        }
                     }
                     is Result.Failure -> {
                         when (it.cause) {
