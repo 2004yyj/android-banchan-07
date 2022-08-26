@@ -36,6 +36,10 @@ class DetailViewModel @Inject constructor(
     private var _count = MutableStateFlow(1)
     val count = _count.asStateFlow()
 
+    fun init() {
+        _count.value = 1
+    }
+
     fun increaseCount() {
         _count.value = _count.value + 1
     }
