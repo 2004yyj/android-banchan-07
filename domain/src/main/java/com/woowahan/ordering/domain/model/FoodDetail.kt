@@ -11,5 +11,6 @@ data class FoodDetail(
     val price: Long,
     val discountedPrice: Long,
     val discountedRate: Int,
-    val detailSection: List<String>
+    val detailSection: List<String>,
+    var isCarted: Boolean = false
 )
