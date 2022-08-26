@@ -32,9 +32,7 @@ fun <T: Fragment> FragmentManager.replace(
         val fragment: Fragment = findFragmentByTag(tag) ?: constructor.newInstance()
         fragment.arguments = arguments
         replace(containerViewId, fragment, tag)
-        if (findFragmentByTag(tag) == null) {
-            addToBackStack(tag)
-        }
+        addToBackStack(tag)
         commit()
         fragment
     }
@@ -50,11 +48,10 @@ fun <T : Fragment> FragmentManager.replaceWithPopBackstack(
         val constructor = fragmentClass.getConstructor()
         val fragment: Fragment = findFragmentByTag(tag) ?: constructor.newInstance()
         fragment.arguments = arguments
-        popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        popBackStack(tag, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        setReorderingAllowed(true)
         replace(containerViewId, fragment, tag)
-        if (findFragmentByTag(tag) == null) {
-            addToBackStack(tag)
-        }
+        addToBackStack(tag)
         commit()
         fragment
     }

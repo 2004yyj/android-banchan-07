@@ -25,6 +25,7 @@ import com.woowahan.ordering.ui.uistate.DetailUiState
 import com.woowahan.ordering.ui.viewmodel.DetailViewModel
 import com.woowahan.ordering.util.hasNetwork
 import com.woowahan.ordering.util.replace
+import com.woowahan.ordering.util.replaceWithPopBackstack
 import com.woowahan.ordering.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -146,7 +147,7 @@ class DetailFragment : Fragment() {
     }
 
     private fun replaceToCart() {
-        parentFragmentManager.replace(
+        parentFragmentManager.replaceWithPopBackstack(
             CartFragment::class.java,
             (requireView().parent as View).id,
             CartFragment.TAG
