@@ -25,7 +25,7 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="풍성한 고기반찬" />
 
-        <androidx.recyclerview.widget.RecyclerView
+        <com.woowahan.ordering.ui.widget.HorizontalRecyclerView
             android:id="@+id/rv_products"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
