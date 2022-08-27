@@ -24,6 +24,7 @@ import com.woowahan.ordering.ui.adapter.home.TypeAndFilterAdapter
 import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader
 import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader.Companion.GRID
 import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader.Companion.VERTICAL
+import com.woowahan.ordering.ui.listener.setOnThrottleClickListener
 import com.woowahan.ordering.ui.uistate.ListUiState
 import com.woowahan.ordering.ui.viewmodel.MainDishViewModel
 import com.woowahan.ordering.util.dp
@@ -159,7 +160,7 @@ class MainDishFragment : Fragment() {
     }
 
     private fun initListener() {
-        binding.layoutNoInternet.btnRetry.setOnClickListener {
+        binding.layoutNoInternet.btnRetry.setOnThrottleClickListener {
             initData()
         }
         binding.srlMainDish.setOnRefreshListener {

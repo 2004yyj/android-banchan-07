@@ -23,6 +23,7 @@ import com.woowahan.ordering.ui.adapter.home.HeaderAdapter
 import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader
 import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader.Companion.GRID
 import com.woowahan.ordering.ui.fragment.home.other.kind.OtherKind
+import com.woowahan.ordering.ui.listener.setOnThrottleClickListener
 import com.woowahan.ordering.ui.uistate.ListUiState
 import com.woowahan.ordering.ui.viewmodel.OtherDishViewModel
 import com.woowahan.ordering.util.dp
@@ -116,7 +117,7 @@ class OtherDishFragment : Fragment() {
     }
 
     private fun initListener() {
-        binding.layoutNoInternet.btnRetry.setOnClickListener {
+        binding.layoutNoInternet.btnRetry.setOnThrottleClickListener {
             initData()
         }
         binding.srlOtherDish.setOnRefreshListener {

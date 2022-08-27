@@ -17,6 +17,7 @@ import com.woowahan.ordering.domain.model.Best
 import com.woowahan.ordering.domain.model.Food
 import com.woowahan.ordering.ui.adapter.home.BestFoodAdapter
 import com.woowahan.ordering.ui.adapter.home.HeaderAdapter
+import com.woowahan.ordering.ui.listener.setOnThrottleClickListener
 import com.woowahan.ordering.ui.uistate.ListUiState
 import com.woowahan.ordering.ui.viewmodel.BestViewModel
 import com.woowahan.ordering.util.showToast
@@ -89,7 +90,7 @@ class BestFragment : Fragment() {
     }
 
     private fun initListener() {
-        binding.layoutNoInternet.btnRetry.setOnClickListener {
+        binding.layoutNoInternet.btnRetry.setOnThrottleClickListener {
             initData()
         }
         binding.srlBest.setOnRefreshListener {
