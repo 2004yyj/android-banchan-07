@@ -10,7 +10,7 @@
         android:id="@+id/toolbar_order"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/primary_main"
+        android:background="@color/toolbar_background"
         android:theme="@style/ToolbarTheme"
         app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/menu_toolbar_order"

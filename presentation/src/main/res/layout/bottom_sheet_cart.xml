@@ -40,7 +40,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_vertical"
             android:text="@string/cart_bottom_sheet_title"
-            android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -52,7 +51,7 @@
             android:layout_height="wrap_content"
             android:onClick="@{() -> vm.cancel()}"
             android:text="@string/bottom_sheet_cancel_button_text"
-            android:textColor="@color/black"
+            android:textColor="@color/tint_opposite"
             android:textSize="@dimen/size_body2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -75,7 +74,6 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/space_horizontal"
             android:text="@{cart.title}"
-            android:textColor="@color/black"
             app:layout_constraintBottom_toTopOf="@+id/tv_discount_rate"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -104,7 +102,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:text="@{@string/currency_format(cart.discountedPrice)}"
-            android:textColor="@color/black"
             app:layout_constraintBaseline_toBaselineOf="@id/tv_discount_rate"
             app:layout_constraintStart_toEndOf="@id/tv_discount_rate"
             app:layout_constraintTop_toBottomOf="@id/tv_food_title"
@@ -132,7 +129,6 @@
             android:layout_marginHorizontal="@dimen/space_horizontal"
             android:layout_marginVertical="@dimen/space_vertical"
             android:text="@{@string/currency_format(cart.discountedPrice * vm.count)}"
-            android:textColor="@color/black"
             app:layout_constraintBaseline_toBaselineOf="@id/tv_count"
             app:layout_constraintStart_toStartOf="parent"
             tools:text="12,460원" />
@@ -157,7 +153,6 @@
             android:layout_marginHorizontal="@dimen/space_horizontal"
             android:layout_marginEnd="16dp"
             android:text="@{vm.count.toString()}"
-            android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="@id/btn_plus"
             app:layout_constraintEnd_toStartOf="@id/btn_plus"
             app:layout_constraintTop_toTopOf="@id/btn_plus"
