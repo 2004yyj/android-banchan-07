@@ -9,7 +9,8 @@ fun SimpleOrder.toEntity(): SimpleOrderEntity {
         deliveryTime,
         thumbnail,
         totalPrice,
-        productCount
+        productCount,
+        isDelivered
     )
 }
 
@@ -19,6 +20,7 @@ fun SimpleOrderEntity.toModel(): SimpleOrder {
         deliveryTime,
         thumbnail,
         totalPrice,
-        productCount
+        productCount,
+        isDelivered
     )
 }
