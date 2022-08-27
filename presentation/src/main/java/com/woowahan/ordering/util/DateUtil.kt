@@ -1,4 +1,4 @@
-package com.woowahan.ordering.constants
+package com.woowahan.ordering.util
 
 fun Long.getDiffFromNow(): String {
     val now = System.currentTimeMillis()
@@ -24,5 +24,5 @@ fun Long.getDiffFromNow(): String {
 
 fun Long.isTimeout(): Boolean {
     val currentTime = System.currentTimeMillis()
-    return currentTime - this < 0
+    return currentTime - this <= 0
 }
