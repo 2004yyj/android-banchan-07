@@ -6,4 +6,5 @@ data class SimpleOrder(
     val thumbnail: String,
     val totalPrice: Long,
     val productCount: Int,
+    val isDelivered: Boolean
 )

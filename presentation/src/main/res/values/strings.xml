@@ -37,6 +37,8 @@
     <string name="already_added_to_cart">이미 주문이 되어 있어요</string>
     <string name="simple_order_title">%s 외 %d개</string>
     <string name="order_reception">주문이 접수되었습니다.</string>
+    <string name="order_delivering">배송 준비중</string>
+    <string name="order_delivered">배송완료</string>
     <string name="delivery_success">배송이 완료되었습니다.</string>
     <string name="delivery_time_title">배송까지 남은 시간</string>
     <string name="delivery_time_format">%d분</string>

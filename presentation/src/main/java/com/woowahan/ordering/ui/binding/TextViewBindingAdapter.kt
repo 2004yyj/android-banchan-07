@@ -4,8 +4,8 @@ import android.graphics.Paint
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
-import com.woowahan.ordering.constants.getDiffFromNow
-import com.woowahan.ordering.constants.isTimeout
+import com.woowahan.ordering.util.getDiffFromNow
+import com.woowahan.ordering.util.isTimeout
 
 @BindingAdapter("android:lineThrough")
 fun TextView.setTextLineThrough(boolean: Boolean) {
@@ -19,13 +19,6 @@ fun TextView.setTextLineThrough(boolean: Boolean) {
 @BindingAdapter("android:diffTimeStamp")
 fun TextView.setDiffTimeStamp(timestamp: Long) {
     text = timestamp.getDiffFromNow()
-}
-
-@BindingAdapter("app:deliveryTime", "app:deliveringColor", "app:deliveredColor")
-fun TextView.setDeliveryTime(timestamp: Long, deliveringColor: Int, deliveredColor: Int) {
-    val now = System.currentTimeMillis()
-    text = if (timestamp > now) "배송 준비중" else "배송완료"
-    setTextColor(if (timestamp > now) deliveringColor else deliveredColor)
 }
 
 @BindingAdapter("android:isTimeout")
