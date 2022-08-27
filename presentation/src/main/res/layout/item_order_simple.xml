@@ -60,9 +60,8 @@
             style="@style/Body2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:deliveredColor="@{@color/tint_opposite}"
-            app:deliveringColor="@{@color/primary_accent}"
-            app:deliveryTime="@{simpleOrder.deliveryTime}"
+            android:text="@{simpleOrder.delivered ? @string/order_delivered : @string/order_delivering}"
+            android:textColor="@{simpleOrder.delivered ? @color/tint_opposite : @color/primary_accent}"
             app:layout_constraintStart_toStartOf="@id/tv_sum_of_price"
             app:layout_constraintTop_toBottomOf="@id/tv_sum_of_price"
             tools:text="배송 준비중" />
