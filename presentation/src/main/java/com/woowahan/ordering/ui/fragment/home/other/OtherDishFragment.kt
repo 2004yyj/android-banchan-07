@@ -27,7 +27,7 @@ import com.woowahan.ordering.ui.listener.setOnThrottleClickListener
 import com.woowahan.ordering.ui.uistate.ListUiState
 import com.woowahan.ordering.ui.viewmodel.OtherDishViewModel
 import com.woowahan.ordering.util.dp
-import com.woowahan.ordering.util.showToast
+import com.woowahan.ordering.util.showSnackBar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -78,7 +78,7 @@ class OtherDishFragment : Fragment() {
     }
 
     private fun showNoInternetConnection() = with(binding) {
-        requireContext().showToast(getString(R.string.no_internet_message))
+        (requireView().parent as View).showSnackBar()
         layoutNoInternet.root.isVisible = true
         binding.srlOtherDish.isRefreshing = false
         srlOtherDish.isVisible = false

@@ -1,6 +1,5 @@
 package com.woowahan.ordering.ui.fragment.detail
 
-import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +12,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.ConcatAdapter
-import com.woowahan.ordering.R
 import com.woowahan.ordering.databinding.FragmentDetailBinding
 import com.woowahan.ordering.ui.adapter.detail.DetailImagesFooterAdapter
 import com.woowahan.ordering.ui.adapter.detail.DetailInfoAdapter
@@ -25,9 +23,8 @@ import com.woowahan.ordering.ui.listener.setOnThrottleClickListener
 import com.woowahan.ordering.ui.uistate.DetailUiState
 import com.woowahan.ordering.ui.viewmodel.DetailViewModel
 import com.woowahan.ordering.util.hasNetwork
-import com.woowahan.ordering.util.replace
 import com.woowahan.ordering.util.replaceWithPopBackstack
-import com.woowahan.ordering.util.showToast
+import com.woowahan.ordering.util.showSnackBar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -66,7 +63,7 @@ class DetailFragment : Fragment() {
             viewModel.getFoodDetail(hash)
             showRecyclerView()
         } else {
-            requireContext().showToast(getString(R.string.no_internet_message))
+            requireView().showSnackBar()
             hideRecyclerView()
         }
         viewModel.init()

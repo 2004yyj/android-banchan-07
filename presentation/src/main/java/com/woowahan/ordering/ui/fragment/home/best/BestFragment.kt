@@ -20,7 +20,7 @@ import com.woowahan.ordering.ui.adapter.home.HeaderAdapter
 import com.woowahan.ordering.ui.listener.setOnThrottleClickListener
 import com.woowahan.ordering.ui.uistate.ListUiState
 import com.woowahan.ordering.ui.viewmodel.BestViewModel
-import com.woowahan.ordering.util.showToast
+import com.woowahan.ordering.util.showSnackBar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -63,7 +63,7 @@ class BestFragment : Fragment() {
     }
 
     private fun showNoInternetConnection() = with(binding) {
-        requireContext().showToast(getString(R.string.no_internet_message))
+        (requireView().parent as View).showSnackBar()
         layoutNoInternet.root.isVisible = true
         binding.srlBest.isRefreshing = false
         srlBest.isVisible = false

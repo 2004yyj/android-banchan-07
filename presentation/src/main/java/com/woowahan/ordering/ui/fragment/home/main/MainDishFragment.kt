@@ -29,7 +29,7 @@ import com.woowahan.ordering.ui.uistate.ListUiState
 import com.woowahan.ordering.ui.viewmodel.MainDishViewModel
 import com.woowahan.ordering.util.dp
 import com.woowahan.ordering.util.removeAllItemDecorations
-import com.woowahan.ordering.util.showToast
+import com.woowahan.ordering.util.showSnackBar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -111,7 +111,7 @@ class MainDishFragment : Fragment() {
     }
 
     private fun showNoInternetConnection() = with(binding) {
-        requireContext().showToast(getString(R.string.no_internet_message))
+        (requireView().parent as View).showSnackBar()
         layoutNoInternet.root.isVisible = true
         binding.srlMainDish.isRefreshing = false
         srlMainDish.isVisible = false
