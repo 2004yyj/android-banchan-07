@@ -37,17 +37,35 @@ class OtherDishFragment : Fragment() {
     private var _binding: FragmentOtherDishBinding? = null
     private val binding get() = requireNotNull(_binding)
     private val viewModel by viewModels<OtherDishViewModel>()
+    private val kind by lazy { requireArguments().get(OTHER_KIND) as OtherKind }
+
+    private val headerAdapter by lazy {
+        HeaderAdapter(
+            title = when (kind) {
+                OtherKind.Soup -> getString(R.string.main_header_soup)
+                OtherKind.Side -> getString(R.string.main_header_side)
+            }
+        )
+    }
 
     private val countAndFilterAdapter by lazy {
         CountAndFilterAdapter(
             onItemSelected = {
                 viewModel.setSortType(it)
-                initData()
             }
         )
     }
-    private lateinit var foodAdapter: FoodAdapter
-    private val kind by lazy { requireArguments().get(OTHER_KIND) as OtherKind }
+
+    private val foodAdapter by lazy {
+        FoodAdapter(
+            onDetailClick = onDetailClick,
+            onCartClick = openBottomSheet
+        )
+    }
+
+    private val concatAdapter by lazy {
+        ConcatAdapter(headerAdapter, countAndFilterAdapter, foodAdapter)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,9 +79,9 @@ class OtherDishFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initData()
+        initRecyclerView()
         initFlow()
         initListener()
-        initRecyclerView()
     }
 
     private fun initData() {
@@ -125,16 +143,6 @@ class OtherDishFragment : Fragment() {
     }
 
     private fun initRecyclerView() = with(binding) {
-        val title = when (kind) {
-            OtherKind.Soup -> getString(R.string.main_header_soup)
-            OtherKind.Side -> getString(R.string.main_header_side)
-        }
-        val headerAdapter = HeaderAdapter(title)
-        foodAdapter = FoodAdapter(
-            onDetailClick = onDetailClick,
-            onCartClick = openBottomSheet
-        )
-        val concatAdapter = ConcatAdapter(headerAdapter, countAndFilterAdapter, foodAdapter)
         val decoration = ItemSpacingDecoratorWithHeader(
             spacing = 18.dp,
             spaceAdapters = listOf(foodAdapter),
