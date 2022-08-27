@@ -4,8 +4,8 @@ import android.graphics.Paint
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
-import com.woowahan.ordering.constants.getDiffFromNow
-import com.woowahan.ordering.constants.isTimeout
+import com.woowahan.ordering.util.getDiffFromNow
+import com.woowahan.ordering.util.isTimeout
 
 @BindingAdapter("android:lineThrough")
 fun TextView.setTextLineThrough(boolean: Boolean) {
