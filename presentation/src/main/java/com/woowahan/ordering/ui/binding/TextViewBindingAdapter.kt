@@ -21,13 +21,6 @@ fun TextView.setDiffTimeStamp(timestamp: Long) {
     text = timestamp.getDiffFromNow()
 }
 
-@BindingAdapter("app:deliveryTime", "app:deliveringColor", "app:deliveredColor")
-fun TextView.setDeliveryTime(timestamp: Long, deliveringColor: Int, deliveredColor: Int) {
-    val now = System.currentTimeMillis()
-    text = if (timestamp > now) "배송 준비중" else "배송완료"
-    setTextColor(if (timestamp > now) deliveringColor else deliveredColor)
-}
-
 @BindingAdapter("android:isTimeout")
 fun TextView.setTimestampVisibility(timestamp: Long) {
     isVisible = timestamp.isTimeout()
