@@ -3,7 +3,6 @@ package com.woowahan.ordering.util
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import com.woowahan.ordering.ui.fragment.detail.DetailFragment
 
 fun <T : Fragment> FragmentManager.add(
     fragmentClass: Class<T>,
@@ -30,9 +29,7 @@ fun <T : Fragment> FragmentManager.replace(
 ): Fragment {
     return beginTransaction().run {
         val constructor = fragmentClass.getConstructor()
-        val fragment: Fragment =
-            if (tag == DetailFragment.TAG) constructor.newInstance()
-            else findFragmentByTag(tag) ?: constructor.newInstance()
+        val fragment: Fragment = constructor.newInstance()
         fragment.arguments = arguments
         replace(containerViewId, fragment, tag)
         addToBackStack(tag)
