@@ -24,10 +24,12 @@ import com.woowahan.ordering.ui.adapter.home.TypeAndFilterAdapter
 import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader
 import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader.Companion.GRID
 import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader.Companion.VERTICAL
+import com.woowahan.ordering.ui.listener.setOnThrottleClickListener
 import com.woowahan.ordering.ui.uistate.ListUiState
 import com.woowahan.ordering.ui.viewmodel.MainDishViewModel
 import com.woowahan.ordering.util.dp
-import com.woowahan.ordering.util.showToast
+import com.woowahan.ordering.util.removeAllItemDecorations
+import com.woowahan.ordering.util.showSnackBar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -109,7 +111,7 @@ class MainDishFragment : Fragment() {
     }
 
     private fun showNoInternetConnection() = with(binding) {
-        requireContext().showToast(getString(R.string.no_internet_message))
+        (requireView().parent as View).showSnackBar()
         layoutNoInternet.root.isVisible = true
         binding.srlMainDish.isRefreshing = false
         srlMainDish.isVisible = false
@@ -158,7 +160,7 @@ class MainDishFragment : Fragment() {
     }
 
     private fun initListener() {
-        binding.layoutNoInternet.btnRetry.setOnClickListener {
+        binding.layoutNoInternet.btnRetry.setOnThrottleClickListener {
             initData()
         }
         binding.srlMainDish.setOnRefreshListener {
@@ -172,6 +174,7 @@ class MainDishFragment : Fragment() {
 
     private fun setGridLayoutManager() = with(binding) {
         foodAdapter.viewTypeChange(FoodItemViewType.GridItem)
+        binding.rvMainDish.removeAllItemDecorations()
         binding.rvMainDish.removeItemDecoration(linearDecoration)
         binding.rvMainDish.addItemDecoration(gridDecoration)
         val layoutManager = GridLayoutManager(context, 2)
@@ -186,6 +189,7 @@ class MainDishFragment : Fragment() {
 
     private fun setLinearLayoutManager() = with(binding) {
         foodAdapter.viewTypeChange(FoodItemViewType.VerticalItem)
+        binding.rvMainDish.removeAllItemDecorations()
         binding.rvMainDish.removeItemDecoration(gridDecoration)
         binding.rvMainDish.addItemDecoration(linearDecoration)
         rvMainDish.layoutManager = LinearLayoutManager(context)

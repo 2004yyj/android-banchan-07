@@ -22,7 +22,7 @@ import com.woowahan.ordering.ui.fragment.detail.DetailFragment.Companion.HASH
 import com.woowahan.ordering.ui.fragment.detail.DetailFragment.Companion.TITLE
 import com.woowahan.ordering.ui.viewmodel.HistoryViewModel
 import com.woowahan.ordering.util.dp
-import com.woowahan.ordering.util.replaceWithPopBackstack
+import com.woowahan.ordering.util.replace
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
@@ -97,7 +97,7 @@ class HistoryFragment : Fragment() {
     }
 
     private fun replaceToDetail(title: String, hash: String) {
-        parentFragmentManager.replaceWithPopBackstack(
+        parentFragmentManager.replace(
             DetailFragment::class.java,
             (requireView().parent as View).id,
             DetailFragment.TAG,

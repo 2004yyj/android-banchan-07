@@ -22,7 +22,7 @@ class CountAndFilterAdapter(
 
     fun setCount(count: Int) {
         this.count = count
-        notifyDataSetChanged()
+        notifyItemChanged(0)
     }
 
     inner class CountAndFilterViewHolder(

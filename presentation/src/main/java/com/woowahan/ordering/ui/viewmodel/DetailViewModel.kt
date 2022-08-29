@@ -13,10 +13,7 @@ import com.woowahan.ordering.domain.usecase.history.InsertHistoryUseCase
 import com.woowahan.ordering.ui.uistate.DetailUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -35,6 +32,10 @@ class DetailViewModel @Inject constructor(
 
     private var _count = MutableStateFlow(1)
     val count = _count.asStateFlow()
+
+    fun init() {
+        _count.value = 1
+    }
 
     fun increaseCount() {
         _count.value = _count.value + 1
@@ -86,6 +87,9 @@ class DetailViewModel @Inject constructor(
                 when (it) {
                     is Result.Success -> {
                         _uiState.emit(DetailUiState.Success)
+                        _foodDetail.update { foodDetail ->
+                            foodDetail?.copy(isCarted = true)
+                        }
                     }
                     is Result.Failure -> {
                         when (it.cause) {

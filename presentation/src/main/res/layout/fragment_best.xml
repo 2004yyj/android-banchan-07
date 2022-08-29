@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.woowahan.ordering.ui.widget.OrientationAwareRecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_best"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

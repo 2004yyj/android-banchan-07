@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
+
         <variable
             name="count"
             type="Integer" />
@@ -21,24 +23,25 @@
             android:layout_marginHorizontal="10dp"
             android:background="@drawable/bg_toolbar_menu_button_ripple"
             android:src="@drawable/ic_cart_disabled"
+            app:tint="@color/tint_opposite"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:layout_width="16dp"
             android:layout_height="16dp"
-            android:gravity="center"
-            android:textSize="8sp"
-            android:padding="2dp"
-            android:text='@{count &lt; 10 ? Integer.toString(count) : "10+"}'
-            android:visibility="@{count > 0 ? View.VISIBLE : View.GONE, default=gone}"
-            android:background="@drawable/bg_toolbar_cart_menu_count"
-            android:textColor="@color/white"
-            android:fontFamily="@font/outfit"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="4dp"
+            android:background="@drawable/bg_toolbar_cart_menu_count"
+            android:fontFamily="@font/outfit"
+            android:gravity="center"
+            android:padding="2dp"
+            android:text='@{count &lt; 10 ? Integer.toString(count) : "10+"}'
+            android:textColor="@color/badge_count"
+            android:textSize="8sp"
+            android:visibility="@{count > 0 ? View.VISIBLE : View.GONE, default=gone}"
             app:layout_constraintEnd_toEndOf="@+id/ibt_cart"
             app:layout_constraintTop_toTopOf="parent" />
 

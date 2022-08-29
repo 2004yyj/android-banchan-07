@@ -23,10 +23,11 @@ import com.woowahan.ordering.ui.adapter.home.HeaderAdapter
 import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader
 import com.woowahan.ordering.ui.decorator.ItemSpacingDecoratorWithHeader.Companion.GRID
 import com.woowahan.ordering.ui.fragment.home.other.kind.OtherKind
+import com.woowahan.ordering.ui.listener.setOnThrottleClickListener
 import com.woowahan.ordering.ui.uistate.ListUiState
 import com.woowahan.ordering.ui.viewmodel.OtherDishViewModel
 import com.woowahan.ordering.util.dp
-import com.woowahan.ordering.util.showToast
+import com.woowahan.ordering.util.showSnackBar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -37,17 +38,35 @@ class OtherDishFragment : Fragment() {
     private var _binding: FragmentOtherDishBinding? = null
     private val binding get() = requireNotNull(_binding)
     private val viewModel by viewModels<OtherDishViewModel>()
+    private val kind by lazy { requireArguments().get(OTHER_KIND) as OtherKind }
+
+    private val headerAdapter by lazy {
+        HeaderAdapter(
+            title = when (kind) {
+                OtherKind.Soup -> getString(R.string.main_header_soup)
+                OtherKind.Side -> getString(R.string.main_header_side)
+            }
+        )
+    }
 
     private val countAndFilterAdapter by lazy {
         CountAndFilterAdapter(
             onItemSelected = {
                 viewModel.setSortType(it)
-                initData()
             }
         )
     }
-    private lateinit var foodAdapter: FoodAdapter
-    private val kind by lazy { requireArguments().get(OTHER_KIND) as OtherKind }
+
+    private val foodAdapter by lazy {
+        FoodAdapter(
+            onDetailClick = onDetailClick,
+            onCartClick = openBottomSheet
+        )
+    }
+
+    private val concatAdapter by lazy {
+        ConcatAdapter(headerAdapter, countAndFilterAdapter, foodAdapter)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,9 +80,9 @@ class OtherDishFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initData()
+        initRecyclerView()
         initFlow()
         initListener()
-        initRecyclerView()
     }
 
     private fun initData() {
@@ -77,7 +96,7 @@ class OtherDishFragment : Fragment() {
     }
 
     private fun showNoInternetConnection() = with(binding) {
-        requireContext().showToast(getString(R.string.no_internet_message))
+        (requireView().parent as View).showSnackBar()
         layoutNoInternet.root.isVisible = true
         binding.srlOtherDish.isRefreshing = false
         srlOtherDish.isVisible = false
@@ -116,7 +135,7 @@ class OtherDishFragment : Fragment() {
     }
 
     private fun initListener() {
-        binding.layoutNoInternet.btnRetry.setOnClickListener {
+        binding.layoutNoInternet.btnRetry.setOnThrottleClickListener {
             initData()
         }
         binding.srlOtherDish.setOnRefreshListener {
@@ -125,16 +144,6 @@ class OtherDishFragment : Fragment() {
     }
 
     private fun initRecyclerView() = with(binding) {
-        val title = when (kind) {
-            OtherKind.Soup -> getString(R.string.main_header_soup)
-            OtherKind.Side -> getString(R.string.main_header_side)
-        }
-        val headerAdapter = HeaderAdapter(title)
-        foodAdapter = FoodAdapter(
-            onDetailClick = onDetailClick,
-            onCartClick = openBottomSheet
-        )
-        val concatAdapter = ConcatAdapter(headerAdapter, countAndFilterAdapter, foodAdapter)
         val decoration = ItemSpacingDecoratorWithHeader(
             spacing = 18.dp,
             spaceAdapters = listOf(foodAdapter),

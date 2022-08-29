@@ -12,4 +12,8 @@
     <color name="line">#DDDDDD</color>
     <color name="surface">#F8F7F7</color>
     <color name="tint_opposite">@color/black</color>
+    <color name="badge_count">@color/white</color>
+    <color name="toolbar_background">@color/primary_main</color>
+    <color name="header_background">@color/primary_surface</color>
+    <color name="spinner_background">@color/white</color>
 </resources>
