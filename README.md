@@ -29,7 +29,8 @@
 * [AlarmManager](https://developer.android.com/training/scheduling/alarms)
 
 ## 🌁 ERD
-![Untitled](https://user-images.githubusercontent.com/18213322/184303612-3e717127-b3ce-41da-b437-a66cf099b0ec.png)
+<img width="522" alt="스크린샷 2022-08-29 오후 12 50 44" src="https://user-images.githubusercontent.com/18213322/187119443-fc4d2b08-dfff-4fd3-a023-1754b0805081.png">
+
   
 ## 🧑🏼‍💻 팀원
 |<img src="https://github.com/oreocube.png" width="200"/>|<img src="https://github.com/2004yyj.png" width="200"/>
