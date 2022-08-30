@@ -9,9 +9,8 @@ java {
 }
 
 dependencies {
-    project(":constants")
-    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
-
-    implementation ("androidx.paging:paging-common:3.1.1")
-    implementation ("androidx.paging:paging-common-ktx:3.1.1")
+    implementation(project(Project.constants))
+    implementation (Dependencies.Coroutines.core)
+    implementation (Dependencies.Paging.pagingCommon)
+    implementation (Dependencies.Paging.pagingCommonKtx)
 }

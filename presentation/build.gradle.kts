@@ -7,16 +7,15 @@ plugins {
 }
 
 android {
-    compileSdk = 32
+    compileSdk = Config.compileSdk
 
     defaultConfig {
-        applicationId = "com.woowahan.ordering"
-        minSdk = 27
-        targetSdk = 32
-        versionCode = 1
-        versionName = "1.1"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        applicationId = Config.applicationId
+        minSdk = Config.minSdk
+        targetSdk = Config.targetSdk
+        versionCode = Config.versionCode
+        versionName = Config.versionName
+        testInstrumentationRunner = Config.testInstrumentationRunner
     }
 
     buildTypes {
@@ -33,7 +32,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = Config.jvmTarget
     }
     buildFeatures {
         dataBinding = true
@@ -42,63 +41,63 @@ android {
 }
 
 dependencies {
-    project(":data")
-    project(":domain")
-    project(":constants")
+    implementation(project(Project.data))
+    implementation(project(Project.domain))
+    implementation(project(Project.constants))
 
-    implementation ("androidx.core:core-ktx:1.8.0")
-    implementation ("androidx.appcompat:appcompat:1.5.0")
-    implementation ("com.google.android.material:material:1.6.1")
-    implementation ("androidx.constraintlayout:constraintlayout:2.1.4")
-    testImplementation ("junit:junit:4.13.2")
-    testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
-    testImplementation ("com.squareup.okhttp3:mockwebserver:4.10.0")
-    androidTestImplementation ("androidx.test.ext:junit:1.1.3")
-    androidTestImplementation ("androidx.test.espresso:espresso-core:3.4.0")
-    androidTestImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
+    implementation (Dependencies.Androidx.core)
+    implementation (Dependencies.Androidx.appcompat)
+    implementation (Dependencies.Material.material)
+    implementation (Dependencies.Androidx.constraintLayout)
+    testImplementation (Dependencies.Test.junit)
+    testImplementation (Dependencies.Coroutines.test)
+    testImplementation (Dependencies.Network.mockWebServer)
+    androidTestImplementation (Dependencies.Coroutines.test)
+    androidTestImplementation (Dependencies.Androidx.junit)
+    androidTestImplementation (Dependencies.Androidx.espresso)
 
     //Hilt
-    implementation ("com.google.dagger:hilt-android:2.42")
-    kapt ("com.google.dagger:hilt-android-compiler:2.42")
-    kapt ("androidx.hilt:hilt-compiler:1.0.0")
+    implementation (Dependencies.Hilt.hiltAndroid)
+    kapt (Dependencies.Hilt.hiltAndroidCompiler)
+    kapt (Dependencies.Hilt.hiltCompiler)
 
     //Flow
-    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+    implementation (Dependencies.Coroutines.core)
 
     //Coil
-    implementation ("io.coil-kt:coil:2.1.0")
+    implementation (Dependencies.Coil.coil)
 
     //Room
-    implementation ("androidx.room:room-runtime:2.4.3")
-    kapt ("androidx.room:room-compiler:2.4.3")
-    testImplementation ("androidx.room:room-testing:2.4.3")
-    implementation ("androidx.room:room-paging:2.5.0-alpha02")
+    implementation (Dependencies.Database.roomRuntime)
+    kapt (Dependencies.Database.roomCompiler)
+    testImplementation (Dependencies.Database.roomTesting)
+    implementation (Dependencies.Database.roomPaging)
 
     //Retrofit2
-    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation (Dependencies.Network.retrofit)
+    implementation (Dependencies.Network.retrofitGson)
 
-    implementation ("androidx.recyclerview:recyclerview:1.3.0-beta02")
+    implementation (Dependencies.Androidx.recyclerView)
 
     //ktx
-    implementation ("androidx.activity:activity-ktx:1.5.1")
-    implementation ("androidx.fragment:fragment-ktx:1.5.2")
-    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.0-alpha01")
+    implementation (Dependencies.Androidx.activityKtx)
+    implementation (Dependencies.Androidx.fragmentKtx)
+    implementation (Dependencies.Androidx.viewModelKtx)
 
     //Splash Screen
-    implementation ("androidx.core:core-splashscreen:1.0.0")
+    implementation (Dependencies.Androidx.splashScreen)
 
     //WorkManager
-    implementation ("androidx.work:work-runtime-ktx:2.7.1")
+    implementation (Dependencies.Androidx.work)
 
     //Hilt-WorkManager
-    implementation ("androidx.hilt:hilt-work:1.0.0")
+    implementation (Dependencies.Androidx.workHilt)
 
     //SwipeRefreshLayout
-    implementation ("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+    implementation (Dependencies.Androidx.swipeRefreshLayout)
 
     //Paging3
-    implementation ("androidx.paging:paging-runtime:3.1.1")
-    implementation ("androidx.paging:paging-runtime-ktx:3.1.1")
+    implementation (Dependencies.Paging.paging)
+    implementation (Dependencies.Paging.pagingKtx)
 
 }

@@ -6,13 +6,12 @@ plugins {
 }
 
 android {
-    compileSdk = 32
+    compileSdk = Config.compileSdk
 
     defaultConfig {
-        minSdk = 27
-        targetSdk = 32
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        minSdk = Config.minSdk
+        targetSdk = Config.targetSdk
+        testInstrumentationRunner = Config.testInstrumentationRunner
     }
 
     buildTypes {
@@ -29,29 +28,29 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = Config.jvmTarget
     }
 }
 
 dependencies {
-    project(":domain")
-    project(":constants")
+    implementation(project(Project.domain))
+    implementation(project(Project.constants))
 
     //Hilt
-    implementation ("com.google.dagger:hilt-android:2.42")
-    kapt ("com.google.dagger:hilt-android-compiler:2.42")
+    implementation (Dependencies.Hilt.hiltAndroid)
+    kapt (Dependencies.Hilt.hiltAndroidCompiler)
 
     //Flow
-    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+    implementation (Dependencies.Coroutines.core)
 
     //Retrofit2
-    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation (Dependencies.Network.retrofit)
+    implementation (Dependencies.Network.retrofitGson)
 
     //Room
-    implementation ("androidx.room:room-runtime:2.4.3")
-    implementation ("androidx.room:room-ktx:2.4.3")
-    kapt ("androidx.room:room-compiler:2.4.3")
-    testImplementation ("androidx.room:room-testing:2.4.3")
-    implementation ("androidx.room:room-paging:2.4.3")
+    implementation (Dependencies.Database.roomRuntime)
+    implementation (Dependencies.Database.roomKtx)
+    kapt (Dependencies.Database.roomCompiler)
+    testImplementation (Dependencies.Database.roomTesting)
+    implementation (Dependencies.Database.roomPaging)
 }
