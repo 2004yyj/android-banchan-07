@@ -13,7 +13,7 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "Ordering"
-include ':presentation'
-include ':data'
-include ':domain'
-include ':constants'
+include (":presentation")
+include (":data")
+include (":domain")
+include (":constants")
